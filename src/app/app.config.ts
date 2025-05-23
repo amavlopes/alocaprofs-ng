@@ -6,21 +6,22 @@ import { routes } from './app.routes'
 
 import { providePrimeNG } from 'primeng/config'
 import Aura from '@primeng/themes/aura'
+import { AlocaProfs } from './themes/alocaprofs.theme'
 
 export const appConfig: ApplicationConfig = {
-    providers: [
-        provideZoneChangeDetection({
-            eventCoalescing: true,
-        }),
-        provideRouter(routes),
-        provideAnimationsAsync(),
-        providePrimeNG({
-            theme: {
-                preset: Aura,
-                options: {
-                    darkModeSelector: false,
-                },
-            },
-        }),
-    ],
+  providers: [
+    provideZoneChangeDetection({
+      eventCoalescing: true,
+    }),
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: AlocaProfs,
+        options: {
+          darkModeSelector: 'dark',
+        },
+      },
+    }),
+  ],
 }
