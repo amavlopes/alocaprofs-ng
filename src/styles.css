@@ -16,7 +16,7 @@
   h4,
   h5,
   h6 {
-    @apply mt-2 font-bold tracking-tight;
+    @apply mt-2 font-semibold tracking-tight;
   }
 
   h1 {
@@ -41,6 +41,16 @@
 
   h6 {
     @apply tracking-normal;
+  }
+}
+
+@layer components {
+  .container {
+    @apply container mx-auto mt-20 max-w-3xl! px-5;
+
+    @variant md {
+      @apply px-2.5;
+    }
   }
 }
 
