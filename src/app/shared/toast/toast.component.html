@@ -1,0 +1,13 @@
+<p-toast position="bottom-center">
+  <ng-template let-message #message>
+    <div class="toast_container">
+      <div class="toast_titulo_container">
+        <i class="pi pi-check" style="font-size: 0.875rem"></i>
+        <h5 class="toast_titulo">
+          {{ message.summary }}
+        </h5>
+      </div>
+      <small class="toast_detalhes">{{ message.detail }}</small>
+    </div>
+  </ng-template>
+</p-toast>

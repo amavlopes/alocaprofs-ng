@@ -1,0 +1,17 @@
+@reference "tailwindcss";
+
+.toast_container {
+  @apply flex flex-auto shrink flex-col items-start;
+}
+
+.toast_titulo_container {
+  @apply flex gap-2;
+}
+
+.toast_titulo {
+  @apply mt-0 mb-2 text-sm font-medium text-green-800;
+}
+
+.toast_detalhes {
+  @apply text-sm tracking-wide text-zinc-800;
+}

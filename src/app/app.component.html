@@ -1,14 +1,2 @@
-<p-toast position="bottom-center">
-  <ng-template let-message #message>
-    <div class="flex flex-auto shrink flex-col items-start">
-      <div class="flex gap-2">
-        <i class="pi pi-check" style="font-size: 0.875rem"></i>
-        <h5 class="mt-0 mb-2 text-sm font-medium text-green-800">
-          {{ message.summary }}
-        </h5>
-      </div>
-      <small class="text-sm tracking-wide text-zinc-800">{{ message.detail }}</small>
-    </div>
-  </ng-template>
-</p-toast>
+<pa-toast />
 <router-outlet />
