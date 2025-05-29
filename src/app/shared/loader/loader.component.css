@@ -1,0 +1,21 @@
+@reference "tailwindcss";
+
+.loader {
+  @apply flex h-screen items-center justify-center;
+}
+
+.loader_container {
+  @apply flex flex-col items-center justify-center;
+}
+
+.loader_svg {
+  @apply h-10 w-10 animate-spin text-gray-200;
+}
+
+.loader_titulo {
+  @apply mt-4 text-sm font-bold tracking-tight;
+}
+
+.loader_conteudo {
+  @apply mt-0.5 text-xs font-medium tracking-wide;
+}
