@@ -10,18 +10,11 @@
       <p-fluid>
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
-            <p-iconfield iconPosition="left" class="ml-auto">
-              <p-inputicon><i class="pi pi-search" style="font-size: 0.875rem"></i></p-inputicon>
-              <input
-                #pesquisaPorNome
-                pInputText
-                type="text"
-                placeholder="Pesquisar por nome"
-                pSize="small"
-                class="max-w-full"
-                (input)="pesquisarPorNome($event)"
-              />
-            </p-iconfield>
+            <pa-input-search
+              id="lista_curso_campo_pesquisa"
+              placeholder="Pesquisar por nome"
+              (aoPesquisar)="pesquisarPorNome($event)"
+            />
           </div>
 
           <p-button

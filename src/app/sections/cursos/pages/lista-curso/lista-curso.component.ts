@@ -1,37 +1,20 @@
-import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Router } from '@angular/router'
 
-import {
-  catchError,
-  concatMap,
-  debounceTime,
-  distinctUntilChanged,
-  finalize,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  shareReplay,
-  Subject,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs'
+import { catchError, concatMap, finalize, Observable, of, Subject, takeUntil, tap } from 'rxjs'
 
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { TableModule } from 'primeng/table'
 import { ButtonModule } from 'primeng/button'
 import { ConfirmationService } from 'primeng/api'
-import { IconFieldModule } from 'primeng/iconfield'
-import { InputIconModule } from 'primeng/inputicon'
-import { InputTextModule } from 'primeng/inputtext'
 import { FluidModule } from 'primeng/fluid'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
 import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component'
+import { InputSearchComponent } from '../../../../shared/input-search/input-search.component'
 
 @Component({
   selector: 'pa-lista-curso',
@@ -41,9 +24,7 @@ import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confir
     TableModule,
     ButtonModule,
     ConfirmDialogComponent,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
+    InputSearchComponent,
     LoaderComponent,
     FluidModule,
   ],
@@ -66,11 +47,8 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   pesquisa$ = new Subject<string>()
   indicePrimeiroRegistro = 0
   registrosPorPagina = 10
-  @ViewChild('pesquisaPorNome', { static: false }) pesquisaPorNome!: ElementRef
 
   ngOnInit() {
-    this.observarPesquisaPorNome()
-
     this.carregarCursos()
   }
 
@@ -79,43 +57,30 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
     this.destroy$.complete()
   }
 
-  observarPesquisaPorNome(): void {
-    this.pesquisa$
-      .pipe(
-        debounceTime(400),
-        distinctUntilChanged(),
-        switchMap((nome) => this.obterCursosHttp$(nome)),
-        tap(() => {
-          if (this.indicePrimeiroRegistro !== 0) this.indicePrimeiroRegistro = 0
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((cursos: CursoI[]) => {
-        this.cursos = cursos
-      })
-  }
-
-  carregarCursos(): void {
-    this.obterCursosHttp$().subscribe((cursos: CursoI[]) => {
-      this.cursos = cursos
-    })
-  }
-
-  obterCursosHttp$(nome: string = ''): Observable<CursoI[]> {
-    return this.servicoCurso.obterCursos(nome).pipe(
+  obterCursosHttp$(termo: string = ''): Observable<CursoI[]> {
+    return this.servicoCurso.obterCursos(termo).pipe(
       finalize(() => (this.loading = false)),
       catchError((e) => {
         this.mensagemErro = e.message
         this.mostrarDialog = true
 
         return of([])
-      })
+      }),
+      tap(() => {
+        if (this.indicePrimeiroRegistro !== 0) this.indicePrimeiroRegistro = 0
+      }),
+      takeUntil(this.destroy$)
     )
   }
 
-  pesquisarPorNome(evento: Event): void {
-    const termo = (evento.target as HTMLInputElement).value?.trim()
-    this.pesquisa$.next(termo)
+  carregarCursos(termo: string = ''): void {
+    this.obterCursosHttp$(termo).subscribe((cursos: CursoI[]) => {
+      this.cursos = cursos
+    })
+  }
+
+  pesquisarPorNome(termo: string): void {
+    this.carregarCursos(termo)
   }
 
   adicionarCurso(): void {

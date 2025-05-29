@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+.input_pesquisa {
+  @apply ml-auto;
+}
+
+.input_pesquisa_icon {
+  font-size: 0.875rem;
+}
