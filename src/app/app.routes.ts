@@ -3,6 +3,11 @@ import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagin
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/cursos',
+    pathMatch: 'full',
+  },
+  {
     path: 'cursos',
     children: [
       {

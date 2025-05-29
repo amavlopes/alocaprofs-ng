@@ -1,5 +1,1 @@
 @reference "tailwindcss";
-
-.pa_main {
-  @apply mt-10 mb-4;
-}

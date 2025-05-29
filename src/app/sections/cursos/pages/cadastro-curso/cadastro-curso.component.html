@@ -1,20 +1,22 @@
-<div id="cadastro_curso_container">
-  <pa-breadcrumb [items]="items" />
+<div class="pa_pagina_main">
+  <div class="pa_container">
+    <pa-breadcrumb id="cadastro_curso_breadcrumb" [items]="items" />
 
-  <h3>Cadastrar curso</h3>
+    <h3>Cadastrar curso</h3>
 
-  <div class="card mt-8">
-    <p class="mb-8">
-      Para cadastrar um curso, preencha as informações abaixo. <br />
-      Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
-    </p>
+    <div class="card mt-8">
+      <p class="mb-8">
+        Para cadastrar um curso, preencha as informações abaixo. <br />
+        Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
+      </p>
 
-    <pa-formulario-curso
-      id="cadastro_curso"
-      [loading]="salvando"
-      (evtSalvar)="observarEvtSalvar($event)"
-      (evtLimpar)="observarEvtLimpar()"
-    />
+      <pa-formulario-curso
+        id="cadastro_curso_formulario"
+        [loading]="salvando"
+        (evtSalvar)="observarEvtSalvar($event)"
+        (evtLimpar)="observarEvtLimpar()"
+      />
+    </div>
   </div>
 </div>
 

@@ -1,41 +1,48 @@
 <ng-template #carregando>
-  <pa-loader titulo="Carregando página" conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto." />
+  <pa-loader
+    id="lista_curso_loader"
+    titulo="Carregando página"
+    conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto."
+  />
 </ng-template>
 
 <ng-container *ngIf="!loading; else carregando">
-  <div id="lista_curso_container">
-    <pa-breadcrumb [items]="items" />
+  <div class="pa_pagina_main">
+    <div class="pa_container">
+      <pa-breadcrumb id="lista_curso_breadcrumb" [items]="items" />
 
-    <h3>Cursos</h3>
+      <h3>Cursos</h3>
 
-    <pa-filtro-tabela-container>
-      <div>
-        <pa-input-search
-          id="lista_curso_campo_pesquisa"
-          placeholder="Pesquisar por nome"
-          (aoPesquisar)="pesquisarPorNome($event)"
+      <pa-filtro-tabela-container>
+        <div>
+          <pa-input-search
+            id="lista_curso_pesquisa"
+            placeholder="Pesquisar por nome"
+            (aoPesquisar)="pesquisarPorNome($event)"
+          />
+        </div>
+
+        <p-button
+          id="lista_curso_adicionar"
+          class="justify-self-end"
+          label="Adicionar Curso"
+          icon="pi pi-plus"
+          [fluid]="false"
+          size="small"
+          (click)="adicionarCurso()"
         />
-      </div>
+      </pa-filtro-tabela-container>
 
-      <p-button
-        class="justify-self-end"
-        label="Adicionar Curso"
-        icon="pi pi-plus"
-        [fluid]="false"
-        size="small"
-        (click)="adicionarCurso()"
+      <pa-tabela
+        id="lista_curso_tabela"
+        [items]="cursos"
+        [colunas]="colunas"
+        [(indiceRegistro)]="indice"
+        [registrosPorPagina]="registros"
+        (aoClicarEmEditar)="editarCurso($event)"
+        (aoClicarEmExcluir)="confirmarExclusao($event)"
       />
-    </pa-filtro-tabela-container>
-
-    <pa-tabela
-      id="lista_curso_tabela"
-      [items]="cursos"
-      [colunas]="colunas"
-      [(indiceRegistro)]="indice"
-      [registrosPorPagina]="registros"
-      (aoClicarEmEditar)="editarCurso($event)"
-      (aoClicarEmExcluir)="confirmarExclusao($event)"
-    />
+    </div>
   </div>
 
   <pa-dialog

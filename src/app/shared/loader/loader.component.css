@@ -1,7 +1,7 @@
 @reference "../../../styles.css";
 
 .loader {
-  @apply pa-altura-100vh flex items-center justify-center;
+  @apply pa-w-h-full-center;
 }
 
 .loader_container {
