@@ -22,7 +22,6 @@ import {
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { TableModule } from 'primeng/table'
 import { ButtonModule } from 'primeng/button'
-import { ConfirmDialogModule } from 'primeng/confirmdialog'
 import { ConfirmationService } from 'primeng/api'
 import { IconFieldModule } from 'primeng/iconfield'
 import { InputIconModule } from 'primeng/inputicon'
@@ -32,7 +31,7 @@ import { FluidModule } from 'primeng/fluid'
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
-import { EventListenerObject } from 'rxjs/internal/observable/fromEvent'
+import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component'
 
 @Component({
   selector: 'pa-lista-curso',
@@ -41,7 +40,7 @@ import { EventListenerObject } from 'rxjs/internal/observable/fromEvent'
     DialogComponent,
     TableModule,
     ButtonModule,
-    ConfirmDialogModule,
+    ConfirmDialogComponent,
     IconFieldModule,
     InputIconModule,
     InputTextModule,
