@@ -7,7 +7,7 @@ import { catchError, debounceTime, EMPTY, filter, finalize, fromEvent, Subject, 
 
 import { Button, ButtonModule } from 'primeng/button'
 import { InputTextModule } from 'primeng/inputtext'
-import { MessageModule } from 'primeng/message'
+import { MessageService } from 'primeng/api'
 import { TextareaModule } from 'primeng/textarea'
 
 import { CursoService } from '../../services/curso.service'
@@ -24,7 +24,6 @@ import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validaca
     InputTextModule,
     TextareaModule,
     ButtonModule,
-    MessageModule,
     DialogComponent,
     FormularioBlocoComponent,
     MensagemValidacaoComponent,
@@ -33,6 +32,7 @@ import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validaca
   styleUrl: './edicao-curso.component.css',
 })
 export class EdicaoCursoComponent {
+  private servicoMensagem: MessageService = inject(MessageService)
   private construtorFormulario = inject(FormBuilder)
   private roteador = inject(Router)
   private rotaAtiva = inject(ActivatedRoute)
@@ -144,7 +144,15 @@ export class EdicaoCursoComponent {
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.roteador.navigate(['cursos']))
+      .subscribe((curso: CursoI) => {
+        this.servicoMensagem.add({
+          severity: 'success',
+          summary: `Curso atualizado com sucesso`,
+          detail: curso.nome,
+        })
+
+        this.roteador.navigate(['cursos'])
+      })
   }
 
   observarEvtLimpar(): void {

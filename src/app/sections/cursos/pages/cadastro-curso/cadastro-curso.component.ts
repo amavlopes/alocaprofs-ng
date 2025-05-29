@@ -8,12 +8,14 @@ import { catchError, debounceTime, EMPTY, filter, finalize, fromEvent, Subject, 
 import { InputTextModule } from 'primeng/inputtext'
 import { TextareaModule } from 'primeng/textarea'
 import { Button, ButtonModule } from 'primeng/button'
-import { MessageModule } from 'primeng/message'
+import { ToastModule } from 'primeng/toast'
 
 import { CursoService } from '../../services/curso.service'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { FormularioBlocoComponent } from '../../../../shared/formulario-bloco/formulario-bloco.component'
 import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validacao/mensagem-validacao.component'
+import { CursoI } from '../../interfaces/curso.interface'
+import { MessageService } from 'primeng/api'
 
 @Component({
   selector: 'pa-cadastro-curso',
@@ -23,8 +25,8 @@ import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validaca
     InputTextModule,
     TextareaModule,
     ButtonModule,
-    MessageModule,
     DialogComponent,
+    ToastModule,
     FormularioBlocoComponent,
     MensagemValidacaoComponent,
   ],
@@ -32,6 +34,7 @@ import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validaca
   styleUrl: './cadastro-curso.component.css',
 })
 export class CadastroCursoComponent implements OnInit, OnDestroy {
+  private servicoMensagem: MessageService = inject(MessageService)
   private construtorFormulario = inject(FormBuilder)
   private roteador = inject(Router)
   private servicoCurso = inject(CursoService)
@@ -109,7 +112,15 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.roteador.navigate(['cursos']))
+      .subscribe((curso: CursoI) => {
+        this.servicoMensagem.add({
+          severity: 'success',
+          summary: `Curso cadastrado com sucesso`,
+          detail: curso.nome,
+        })
+
+        this.roteador.navigate(['cursos'])
+      })
   }
 
   observarEvtLimpar(): void {

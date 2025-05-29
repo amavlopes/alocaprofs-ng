@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { Router } from '@angular/router'
 
 import {
   catchError,
@@ -17,7 +18,7 @@ import {
   tap,
 } from 'rxjs'
 
-import { DialogModule } from 'primeng/dialog'
+import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { TableModule } from 'primeng/table'
 import { ButtonModule } from 'primeng/button'
 import { ConfirmDialogModule } from 'primeng/confirmdialog'
@@ -28,13 +29,12 @@ import { InputTextModule } from 'primeng/inputtext'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
-import { Router } from '@angular/router'
 
 @Component({
   selector: 'pa-lista-curso',
   imports: [
     CommonModule,
-    DialogModule,
+    DialogComponent,
     TableModule,
     ButtonModule,
     ConfirmDialogModule,
