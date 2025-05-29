@@ -1,1 +1,8 @@
 @reference "tailwindcss";
+.header {
+  @apply border-b-1 border-slate-200 bg-white;
+}
+
+.header_container {
+  @apply flex items-center justify-between;
+}

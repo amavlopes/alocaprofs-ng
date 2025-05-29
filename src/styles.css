@@ -2,7 +2,6 @@
 
 @import 'tailwindcss';
 @import 'primeicons/primeicons.css';
-
 @theme inline {
   --font-inter: 'Inter', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-sans: var(--font-inter);
@@ -15,10 +14,6 @@
 }
 
 @layer base {
-  html {
-    @apply bg-slate-50 font-sans;
-  }
-
   h1,
   h2,
   h3,
@@ -29,11 +24,19 @@
   }
 
   h1 {
-    @apply text-4xl;
+    @apply text-3xl;
+
+    @variant md {
+      @apply text-4xl;
+    }
   }
 
   h2 {
-    @apply text-3xl;
+    @apply text-2xl;
+
+    @variant md {
+      @apply text-3xl;
+    }
   }
 
   h3 {
@@ -56,30 +59,40 @@
   label {
     @apply text-sm;
   }
+}
 
-  .container {
-    @apply container mx-auto max-w-3xl! px-5;
+@layer components {
+  /* Menu */
 
-    @variant md {
-      @apply px-2.5;
+  .p-menubar {
+    @apply border-0!;
+
+    @variant max-lg {
+      @apply gap-0!;
     }
+  }
+
+  /* Card */
+  .card {
+    @apply rounded-lg border-1 border-slate-200 bg-white p-6;
+  }
+
+  /* Toast */
+  .p-toast {
+    max-width: 92.5% !important;
+  }
+
+  .p-datatable-scrollable td.p-datatable-frozen-column {
+    @apply z-10!;
   }
 }
 
-/* Menu */
-
-.p-menubar {
-  @apply border-0!;
+html {
+  @apply bg-slate-50 font-sans;
 }
 
-/* Card */
-.card {
-  @apply rounded-lg border-1 border-slate-200 bg-white px-5 py-6;
-}
-
-/* Toast */
-.p-toast {
-  max-width: 95% !important;
+.pa_container {
+  @apply mx-auto w-3xl px-4 max-md:w-auto md:px-0;
 }
 
 /* Formulario */

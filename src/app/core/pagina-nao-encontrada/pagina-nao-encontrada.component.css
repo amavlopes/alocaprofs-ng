@@ -9,17 +9,38 @@
 }
 
 .not_found_card {
-  @apply flex flex-col items-center gap-8 p-10!;
+  @apply flex flex-col items-center gap-4 p-10!;
+
+  @variant md {
+    @apply gap-6;
+  }
+  @variant lg {
+    @apply gap-8;
+  }
 }
 
 .not_found_titulo {
-  @apply text-8xl font-extrabold tracking-wider;
+  @apply text-4xl font-extrabold tracking-wider;
+
+  @variant md {
+    @apply text-6xl;
+  }
+  @variant lg {
+    @apply text-8xl;
+  }
 }
 
 .not_found_subtitulo {
-  @apply border-t border-gray-200 pt-8 text-center text-4xl font-bold text-slate-700;
+  @apply border-t border-gray-200 pt-8 text-center text-xl font-bold text-slate-700;
+
+  @variant md {
+    @apply text-2xl;
+  }
+  @variant lg {
+    @apply text-4xl;
+  }
 }
 
 .not_found_botao {
-  @apply font-bold uppercase;
+  @apply bg-pink-500 font-medium uppercase;
 }

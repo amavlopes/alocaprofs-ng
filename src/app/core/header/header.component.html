@@ -1,8 +1,9 @@
-<div class="card py-0!">
-  <div class="container">
-    <div class="flex items-center justify-between">
+<div class="header">
+  <div class="pa_container">
+    <div class="header_container">
       <pa-logo />
       <p-menubar class="text-sm" [model]="items">
+        <ng-template #start></ng-template>
         <ng-template #item let-item>
           <ng-container *ngIf="item.route; else urlRef">
             <a [routerLink]="item.route" class="p-menubar-item-link">

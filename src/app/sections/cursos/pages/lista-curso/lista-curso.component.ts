@@ -50,7 +50,7 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
     {
       campo: 'id',
       cabecalho: 'Código',
-      largura: '6.5rem',
+      largura: '7rem',
     },
     {
       campo: 'nome',

@@ -5,7 +5,7 @@
 }
 
 .loader_container {
-  @apply flex flex-col items-center justify-center;
+  @apply flex flex-col items-center justify-center text-center;
 }
 
 .loader_svg {
@@ -13,9 +13,9 @@
 }
 
 .loader_titulo {
-  @apply mt-4 text-sm font-bold tracking-tight;
+  @apply mt-4 text-sm;
 }
 
 .loader_conteudo {
-  @apply mt-0.5 text-xs font-medium tracking-wide;
+  @apply mt-1 text-xs font-medium tracking-wide text-slate-800;
 }
