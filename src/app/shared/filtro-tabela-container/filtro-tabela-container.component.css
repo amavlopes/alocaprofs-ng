@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.filtro_container {
+  @apply grid gap-4 sm:grid-cols-2;
+}
