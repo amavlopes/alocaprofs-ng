@@ -1,17 +1,18 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Router } from '@angular/router'
 
 import {
   catchError,
+  concatMap,
   debounceTime,
   distinctUntilChanged,
   finalize,
-  fromEvent,
   map,
+  mergeMap,
   Observable,
   of,
-  startWith,
+  shareReplay,
   Subject,
   switchMap,
   takeUntil,
@@ -26,9 +27,12 @@ import { ConfirmationService } from 'primeng/api'
 import { IconFieldModule } from 'primeng/iconfield'
 import { InputIconModule } from 'primeng/inputicon'
 import { InputTextModule } from 'primeng/inputtext'
+import { FluidModule } from 'primeng/fluid'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
+import { LoaderComponent } from '../../../../shared/loader/loader.component'
+import { EventListenerObject } from 'rxjs/internal/observable/fromEvent'
 
 @Component({
   selector: 'pa-lista-curso',
@@ -41,12 +45,14 @@ import { CursoI } from '../../interfaces/curso.interface'
     IconFieldModule,
     InputIconModule,
     InputTextModule,
+    LoaderComponent,
+    FluidModule,
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-curso.component.html',
   styleUrl: './lista-curso.component.css',
 })
-export class ListaCursoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ListaCursoComponent implements OnDestroy, OnInit {
   private roteador = inject(Router)
   private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
   private servicoCurso = inject(CursoService)
@@ -56,15 +62,17 @@ export class ListaCursoComponent implements OnInit, AfterViewInit, OnDestroy {
   mostrarDialog = false
   tituloErro = 'Erro ao buscar curso'
   mensagemErro = ''
+  cursos: CursoI[] = []
   cursos$!: Observable<CursoI[]>
-  first = 0
-  rows = 10
-  @ViewChild('pesquisaPorNome') pesquisaPorNome!: ElementRef
+  pesquisa$ = new Subject<string>()
+  indicePrimeiroRegistro = 0
+  registrosPorPagina = 10
+  @ViewChild('pesquisaPorNome', { static: false }) pesquisaPorNome!: ElementRef
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.observarPesquisaPorNome()
 
-  ngAfterViewInit(): void {
-    this.cursos$ = this.observarEvtPesquisaPorNome()
+    this.carregarCursos()
   }
 
   ngOnDestroy(): void {
@@ -72,21 +80,29 @@ export class ListaCursoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  observarEvtPesquisaPorNome(): Observable<CursoI[]> {
-    return fromEvent<any>(this.pesquisaPorNome.nativeElement, 'keyup').pipe(
-      takeUntil(this.destroy$),
-      map((evento) => evento.target.value),
-      startWith(''),
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((nome) => this.carregarCursos(nome)),
-      tap(() => {
-        if (this.first !== 0) this.first = 0
+  observarPesquisaPorNome(): void {
+    this.pesquisa$
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((nome) => this.obterCursosHttp$(nome)),
+        tap(() => {
+          if (this.indicePrimeiroRegistro !== 0) this.indicePrimeiroRegistro = 0
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((cursos: CursoI[]) => {
+        this.cursos = cursos
       })
-    )
   }
 
-  carregarCursos(nome: string = ''): Observable<CursoI[]> {
+  carregarCursos(): void {
+    this.obterCursosHttp$().subscribe((cursos: CursoI[]) => {
+      this.cursos = cursos
+    })
+  }
+
+  obterCursosHttp$(nome: string = ''): Observable<CursoI[]> {
     return this.servicoCurso.obterCursos(nome).pipe(
       finalize(() => (this.loading = false)),
       catchError((e) => {
@@ -96,6 +112,11 @@ export class ListaCursoComponent implements OnInit, AfterViewInit, OnDestroy {
         return of([])
       })
     )
+  }
+
+  pesquisarPorNome(evento: Event): void {
+    const termo = (evento.target as HTMLInputElement).value?.trim()
+    this.pesquisa$.next(termo)
   }
 
   adicionarCurso(): void {
@@ -125,7 +146,6 @@ export class ListaCursoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.servicoCurso
       .excluirCursoPorId(id)
       .pipe(
-        takeUntil(this.destroy$),
         finalize(() => (this.loading = false)),
         catchError((e) => {
           this.tituloErro = 'Erro ao excluir curso'
@@ -135,15 +155,18 @@ export class ListaCursoComponent implements OnInit, AfterViewInit, OnDestroy {
           return []
         }),
         tap(() => {
-          this.cursos$ = this.carregarCursos()
-          this.first = 0
-        })
+          if (this.indicePrimeiroRegistro !== 0) this.indicePrimeiroRegistro = 0
+        }),
+        concatMap(() => this.obterCursosHttp$()),
+        takeUntil(this.destroy$)
       )
-      .subscribe()
+      .subscribe((cursos: CursoI[]) => {
+        this.cursos = cursos
+      })
   }
 
   aoMudarDePagina(event: any) {
-    this.first = event.first
-    this.rows = event.rows
+    this.indicePrimeiroRegistro = event.first
+    this.registrosPorPagina = event.rows
   }
 }
