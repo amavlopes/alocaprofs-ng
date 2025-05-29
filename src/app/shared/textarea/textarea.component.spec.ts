@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormularioBlocoComponent } from './formulario-bloco.component';
+import { TextareaComponent } from './textarea.component';
 
-describe('FormularioBlocoComponent', () => {
-  let component: FormularioBlocoComponent;
-  let fixture: ComponentFixture<FormularioBlocoComponent>;
+describe('TextareaComponent', () => {
+  let component: TextareaComponent;
+  let fixture: ComponentFixture<TextareaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormularioBlocoComponent]
+      imports: [TextareaComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FormularioBlocoComponent);
+    fixture = TestBed.createComponent(TextareaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,6 +9,6 @@ import { Component, Input } from '@angular/core'
 })
 export class MensagemValidacaoComponent {
   @Input({ required: true }) id!: string
-  @Input({ required: true }) mensagemValidacao!: string
-  @Input() tipoMensagem: 'normal' | 'erro' | 'sucesso' | 'info' = 'normal'
+  @Input({ required: true }) mensagem!: string
+  @Input() tipo: 'normal' | 'erro' | 'sucesso' | 'info' = 'normal'
 }

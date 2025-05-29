@@ -6,28 +6,17 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { catchError, debounceTime, EMPTY, filter, finalize, fromEvent, Subject, switchMap, takeUntil, tap } from 'rxjs'
 
 import { Button, ButtonModule } from 'primeng/button'
-import { InputTextModule } from 'primeng/inputtext'
 import { MessageService } from 'primeng/api'
-import { TextareaModule } from 'primeng/textarea'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
-import { FormularioBlocoComponent } from '../../../../shared/formulario-bloco/formulario-bloco.component'
-import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validacao/mensagem-validacao.component'
+import { TextareaComponent } from '../../../../shared/textarea/textarea.component'
+import { InputTextComponent } from '../../../../shared/input-text/input-text.component'
 
 @Component({
   selector: 'pa-edicao-curso',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    TextareaModule,
-    ButtonModule,
-    DialogComponent,
-    FormularioBlocoComponent,
-    MensagemValidacaoComponent,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, InputTextComponent, TextareaComponent, ButtonModule, DialogComponent],
   templateUrl: './edicao-curso.component.html',
   styleUrl: './edicao-curso.component.css',
 })

@@ -5,30 +5,26 @@ import { Router } from '@angular/router'
 
 import { catchError, debounceTime, EMPTY, filter, finalize, fromEvent, Subject, switchMap, takeUntil, tap } from 'rxjs'
 
-import { InputTextModule } from 'primeng/inputtext'
-import { TextareaModule } from 'primeng/textarea'
 import { Button, ButtonModule } from 'primeng/button'
 import { ToastModule } from 'primeng/toast'
 
 import { CursoService } from '../../services/curso.service'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
-import { FormularioBlocoComponent } from '../../../../shared/formulario-bloco/formulario-bloco.component'
-import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validacao/mensagem-validacao.component'
 import { CursoI } from '../../interfaces/curso.interface'
 import { MessageService } from 'primeng/api'
+import { InputTextComponent } from '../../../../shared/input-text/input-text.component'
+import { TextareaComponent } from '../../../../shared/textarea/textarea.component'
 
 @Component({
   selector: 'pa-cadastro-curso',
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    InputTextModule,
-    TextareaModule,
+    InputTextComponent,
+    TextareaComponent,
     ButtonModule,
     DialogComponent,
     ToastModule,
-    FormularioBlocoComponent,
-    MensagemValidacaoComponent,
   ],
   templateUrl: './cadastro-curso.component.html',
   styleUrl: './cadastro-curso.component.css',
@@ -58,20 +54,6 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
       updateOn: 'blur',
     }
   )
-  validacoes = [
-    {
-      tipo: 'required',
-      mensagem: 'O campo nome é obrigatório',
-    },
-    {
-      tipo: 'minlength',
-      mensagem: `O campo nome deve ter no mínimo ${this.minLength} caracteres`,
-    },
-    {
-      tipo: 'maxlength',
-      mensagem: `O campo nome deve ter no máximo ${this.maxLength} caracteres`,
-    },
-  ]
 
   get nome(): FormControl {
     return this.formulario.get('nome') as FormControl

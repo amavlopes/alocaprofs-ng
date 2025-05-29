@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Router } from '@angular/router'
 
@@ -46,7 +46,7 @@ import { CursoI } from '../../interfaces/curso.interface'
   templateUrl: './lista-curso.component.html',
   styleUrl: './lista-curso.component.css',
 })
-export class ListaCursoComponent implements AfterViewInit, OnDestroy {
+export class ListaCursoComponent implements OnInit, AfterViewInit, OnDestroy {
   private roteador = inject(Router)
   private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
   private servicoCurso = inject(CursoService)
@@ -61,6 +61,8 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
   rows = 10
   @ViewChild('pesquisaPorNome') pesquisaPorNome!: ElementRef
 
+  ngOnInit(): void {}
+
   ngAfterViewInit(): void {
     this.cursos$ = this.observarEvtPesquisaPorNome()
   }
@@ -72,11 +74,15 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
 
   observarEvtPesquisaPorNome(): Observable<CursoI[]> {
     return fromEvent<any>(this.pesquisaPorNome.nativeElement, 'keyup').pipe(
+      takeUntil(this.destroy$),
       map((evento) => evento.target.value),
       startWith(''),
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((nome) => this.carregarCursos(nome))
+      switchMap((nome) => this.carregarCursos(nome)),
+      tap(() => {
+        if (this.first !== 0) this.first = 0
+      })
     )
   }
 
@@ -119,6 +125,7 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
     this.servicoCurso
       .excluirCursoPorId(id)
       .pipe(
+        takeUntil(this.destroy$),
         finalize(() => (this.loading = false)),
         catchError((e) => {
           this.tituloErro = 'Erro ao excluir curso'
@@ -130,8 +137,7 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
         tap(() => {
           this.cursos$ = this.carregarCursos()
           this.first = 0
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe()
   }

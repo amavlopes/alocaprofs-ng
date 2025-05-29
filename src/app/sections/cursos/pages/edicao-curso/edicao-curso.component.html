@@ -8,43 +8,17 @@
 
   <form id="edicao_curso_formulario" class="formulario" [formGroup]="formulario">
     <input type="hidden" formControlName="id" />
-    <pa-formulario-bloco>
-      <label for="edicao_curso_campo_nome">Nome<span class="campo_obrigatorio">*</span></label>
-      <input
-        pInputText
-        pSize="small"
-        id="edicao_curso_campo_nome"
-        class="campo_formulario"
-        type="text"
-        formControlName="nome"
-        autocomplete="off"
-      />
 
-      <ng-container *ngFor="let validacao of validacoes">
-        <pa-mensagem-validacao
-          *ngIf="nome.touched && nome.errors?.[validacao.tipo]"
-          id="edicao_curso_validacao_{{ validacao.tipo }}"
-          tipoMensagem="erro"
-          [mensagemValidacao]="validacao.mensagem"
-        >
-        </pa-mensagem-validacao>
-      </ng-container>
-    </pa-formulario-bloco>
+    <pa-input-text
+      id="edicao_curso_nome"
+      label="Nome"
+      formControlName="nome"
+      [obrigatorio]="true"
+      [minLength]="minLength"
+      [maxLength]="maxLength"
+    ></pa-input-text>
 
-    <pa-formulario-bloco>
-      <label for="edicao_curso_campo_descricao">Descrição</label>
-
-      <textarea
-        pTextarea
-        pSize="small"
-        id="edicao_curso_campo_descricao"
-        class="campo_formulario"
-        rows="4"
-        formControlName="descricao"
-        autocomplete="off"
-        [autoResize]="true"
-      ></textarea>
-    </pa-formulario-bloco>
+    <pa-textarea id="edicao_curso_descricao" label="Descrição" formControlName="descricao" />
 
     <div class="formulario_rodape">
       <p-button

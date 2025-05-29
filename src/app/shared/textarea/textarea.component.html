@@ -1,0 +1,43 @@
+<div class="input_container">
+  <label [attr.for]="id"
+    >{{ label }}
+    <span *ngIf="obrigatorio" class="campo_obrigatorio">*</span>
+  </label>
+
+  <textarea
+    pTextarea
+    pSize="small"
+    class="campo_formulario"
+    autocomplete="off"
+    [id]="id"
+    [rows]="rows"
+    [attr.placeholder]="placeholder"
+    [disabled]="estaDesabilitado"
+    [(ngModel)]="valor"
+    [autoResize]="autoResize"
+    (blur)="onTouched()"
+  ></textarea>
+
+  <ng-container *ngIf="controle">
+    <pa-mensagem-validacao
+      *ngIf="controle.touched && controle.errors?.['required']"
+      id="required"
+      tipo="erro"
+      mensagem="O campo {{ label.toLocaleLowerCase() }} é obrigatório"
+    />
+
+    <pa-mensagem-validacao
+      *ngIf="controle.touched && controle.errors?.['minlength']"
+      id="minlength"
+      tipo="erro"
+      mensagem="O campo {{ label.toLocaleLowerCase() }} deve ter no mínimo {{ minLength }} caracteres"
+    />
+
+    <pa-mensagem-validacao
+      *ngIf="controle.touched && controle.errors?.['maxlength']"
+      id="maxlength"
+      tipo="erro"
+      mensagem="O campo {{ label.toLocaleLowerCase() }} deve ter no máximo {{ maxLength }} caracteres"
+    />
+  </ng-container>
+</div>

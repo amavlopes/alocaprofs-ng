@@ -7,43 +7,16 @@
   </p>
 
   <form id="cadastro_curso_formulario" class="formulario" [formGroup]="formulario">
-    <pa-formulario-bloco>
-      <label for="cadastro_curso_campo_nome">Nome<span class="campo_obrigatorio">*</span></label>
-      <input
-        pInputText
-        pSize="small"
-        id="cadastro_curso_campo_nome"
-        class="campo_formulario"
-        type="text"
-        formControlName="nome"
-        autocomplete="off"
-      />
+    <pa-input-text
+      id="cadastro_curso_nome"
+      label="Nome"
+      formControlName="nome"
+      [obrigatorio]="true"
+      [minLength]="minLength"
+      [maxLength]="maxLength"
+    ></pa-input-text>
 
-      <ng-container *ngFor="let validacao of validacoes">
-        <pa-mensagem-validacao
-          *ngIf="nome.touched && nome.errors?.[validacao.tipo]"
-          id="cadastro_curso_validacao_{{ validacao.tipo }}"
-          tipoMensagem="erro"
-          [mensagemValidacao]="validacao.mensagem"
-        >
-        </pa-mensagem-validacao>
-      </ng-container>
-    </pa-formulario-bloco>
-
-    <pa-formulario-bloco>
-      <label for="cadastro_curso_campo_descricao">Descrição</label>
-
-      <textarea
-        pTextarea
-        pSize="small"
-        id="cadastro_curso_campo_descricao"
-        class="campo_formulario"
-        rows="4"
-        formControlName="descricao"
-        autocomplete="off"
-        [autoResize]="true"
-      ></textarea>
-    </pa-formulario-bloco>
+    <pa-textarea id="cadastro_curso_descricao" label="Descrição" formControlName="descricao" />
 
     <div class="formulario_rodape">
       <p-button

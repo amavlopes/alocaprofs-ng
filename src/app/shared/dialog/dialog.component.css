@@ -1,11 +1,9 @@
 @reference "tailwindcss";
 
-.dialog {
-  &_titulo {
-    @apply mt-0 text-zinc-800;
-  }
+.dialog_titulo {
+  @apply mt-0! text-zinc-800;
+}
 
-  &__mensagem {
-    @apply mb-2;
-  }
+.dialog__mensagem {
+  @apply mb-2;
 }
