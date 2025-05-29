@@ -13,6 +13,8 @@ import {
   startWith,
   Subject,
   switchMap,
+  takeUntil,
+  tap,
 } from 'rxjs'
 
 import { DialogModule } from 'primeng/dialog'
@@ -46,6 +48,7 @@ import { Router } from '@angular/router'
 })
 export class ListaCursoComponent implements AfterViewInit, OnDestroy {
   private roteador = inject(Router)
+  private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
   private servicoCurso = inject(CursoService)
   private destroy$ = new Subject<void>()
 
@@ -54,7 +57,8 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
   tituloErro = 'Erro ao buscar curso'
   mensagemErro = ''
   cursos$!: Observable<CursoI[]>
-
+  first = 0
+  rows = 10
   @ViewChild('pesquisaPorNome') pesquisaPorNome!: ElementRef
 
   ngAfterViewInit(): void {
@@ -90,5 +94,46 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
 
   adicionarCurso(): void {
     this.roteador.navigate(['cursos/cadastro'])
+  }
+
+  confirmarExclusao(event: Event, curso: CursoI) {
+    this.servicoConfirmacao.confirm({
+      closable: true,
+      closeOnEscape: true,
+      header: 'Excluir curso?',
+      message: `Tem certeza que deseja excluir o curso de ${curso.nome}?`,
+      accept: () => {
+        this.excluirCurso(curso.id)
+      },
+      reject: () => {},
+    })
+  }
+
+  excluirCurso(id: number): void {
+    this.loading = true
+
+    this.servicoCurso
+      .excluir(id)
+      .pipe(
+        finalize(() => (this.loading = false)),
+        catchError((e) => {
+          this.tituloErro = 'Erro ao excluir curso'
+          this.mensagemErro = e.message
+          this.mostrarDialog = true
+
+          return []
+        }),
+        tap(() => {
+          this.cursos$ = this.carregarCursos()
+          this.first = 0
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe()
+  }
+
+  aoMudarDePagina(event: any) {
+    this.first = event.first
+    this.rows = event.rows
   }
 }

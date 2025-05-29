@@ -3,14 +3,16 @@
 
   <div class="card pt-2">
     <p-table
+      class="text-sm"
       [value]="(cursos$ | async)!"
       [scrollable]="true"
       [paginator]="true"
-      [rows]="10"
+      [rows]="rows"
+      [first]="first"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="{first} a {last} de {totalRecords} resultado(s)"
       [tableStyle]="{ 'min-width': '640px' }"
-      class="text-sm"
+      (onPage)="aoMudarDePagina($event)"
     >
       <ng-template #caption>
         <div class="mb-2 flex items-center justify-between">
@@ -56,6 +58,7 @@
               [text]="true"
               [rounded]="true"
               severity="primary"
+              (click)="confirmarExclusao($event, curso)"
             ></button>
           </td>
         </tr>
@@ -70,3 +73,16 @@
   </ng-template>
   <p class="mb-2 text-sm">{{ mensagemErro }}.</p>
 </p-dialog>
+
+<p-confirmdialog [style]="{ width: '20rem' }">
+  <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
+    <div class="flex flex-col p-4">
+      <h5 class="mt-0 text-zinc-800">{{ message.header }}</h5>
+      <p class="mt-4 mb-5 text-sm">{{ message.message }}</p>
+      <div class="flex justify-end gap-2">
+        <p-button label="Sim" (onClick)="onAccept()" size="small" styleClass="w-20"></p-button>
+        <p-button label="Não" [outlined]="true" (onClick)="onReject()" size="small" styleClass="w-20"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-confirmdialog>

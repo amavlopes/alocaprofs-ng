@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core'
 import { catchError, map, Observable, retry, throwError } from 'rxjs'
+
 import { CursoI } from '../interfaces/curso.interface'
 import { CursoResponseI } from '../interfaces/response/curso-response.interface'
 
@@ -36,6 +37,13 @@ export class CursoService {
 
         return cursos
       })
+    )
+  }
+
+  excluir(id: number): Observable<void> {
+    return this.http.delete<Observable<void>>(`${this.url}/${id}`).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      map(() => void 0)
     )
   }
 }
