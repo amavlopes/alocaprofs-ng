@@ -1,46 +1,49 @@
-<div id="cadastro_curso" class="pa-cadastro-container">
+<div id="cadastro_curso" class="cadastro-container">
   <h2>Cadastro de curso</h2>
 
   <p class="my-10">
     Para cadastrar um curso, preencha as informações abaixo. <br />
-    Os campos com * são obrigatórios.
+    Os campos com <span class="obrigatorio">*</span> são obrigatórios.
   </p>
 
-  <form id="cadastro_curso_formulario" class="pa-formulario" [formGroup]="formulario">
-    <div class="pa-formulario-bloco">
-      <label class="pa-obrigatorio" for="cadastro_curso_nome">Nome</label>
+  <form id="cadastro_curso_formulario" class="formulario" [formGroup]="formulario">
+    <div class="formulario-bloco">
+      <label for="cadastro_curso_nome">Nome<span class="obrigatorio">*</span></label>
+
       <input
         pInputText
         id="cadastro_curso_nome"
-        class="pa-input-texto peer"
+        class="campo-texto"
         type="text"
         formControlName="nome"
         autocomplete="off"
       />
 
-      @if (nome.dirty) {
-        <div class="pa-mensagem-container">
-          @if (nome.errors?.['required']) {
-            <small id="cadastro_curso_validacao" class="pa-mensagem-erro">O campo nome é obrigatório</small>
-          }
+      <small
+        *ngIf="nome.dirty && nome.errors?.['required']"
+        id="cadastro_curso_validacao"
+        class="mensagem erro"
+        >O campo nome é obrigatório</small
+      >
 
-          @if (nome.errors?.['minlength']) {
-            <small id="cadastro_curso_validacao_min" class="pa-mensagem-erro"
-              >O campo nome deve ter no mínimo {{ minLength }} caracteres</small
-            >
-          }
+      <small
+        *ngIf="nome.dirty && nome.errors?.['minlength']"
+        id="cadastro_curso_validacao_min"
+        class="mensagem erro"
+        >O campo nome deve ter no mínimo {{ minLength }} caracteres</small
+      >
 
-          @if (nome.errors?.['maxlength']) {
-            <small id="cadastro_curso_validacao_max" class="pa-mensagem-erro"
-              >O campo nome deve ter no máximo {{ maxLength }} caracteres</small
-            >
-          }
-        </div>
-      }
+      <small
+        *ngIf="nome.dirty && nome.errors?.['maxlength']"
+        id="cadastro_curso_validacao_max"
+        class="mensagem erro"
+        >O campo nome deve ter no máximo {{ maxLength }} caracteres</small
+      >
     </div>
 
-    <div class="pa-formulario-bloco">
+    <div class="formulario-bloco">
       <label for="cadastro_curso_descricao">Descrição</label>
+
       <textarea
         pTextarea
         id="cadastro_curso_descricao"
@@ -51,7 +54,7 @@
       ></textarea>
     </div>
 
-    <div class="pa-formulario-rodape">
+    <div class="formulario-rodape">
       <p-button
         #botaoSalvar
         id="cadastro_curso_botao_salvar"

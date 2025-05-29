@@ -1,8 +1,8 @@
 @reference "tailwindcss";
 
 @layer components {
-  .pa-cadastro-container {
-    @apply mx-auto mt-10 w-full px-6;
+  .cadastro-container {
+    @apply mx-auto mt-10 px-6;
 
     @variant md {
       @apply mt-20;
@@ -13,19 +13,21 @@
     }
   }
 
-  .pa-formulario {
+  .formulario {
     @apply flex flex-col gap-5;
   }
 
-  .pa-formulario-bloco {
+  .formulario-bloco {
     @apply flex flex-col gap-0.5;
 
     label {
       @apply block font-semibold;
     }
   }
-
-  .pa-input-texto {
+  .obrigatorio {
+    @apply text-red-500;
+  }
+  .campo-texto {
     @variant focus {
       @variant [.ng-invalid] {
         @variant [.ng-dirty] {
@@ -34,10 +36,10 @@
       }
     }
 
-    :focus-visible {
+    @variant focus-visible {
       @variant [.ng-invalid] {
         @variant [.ng-dirty] {
-          @apply border-red-400 outline-0!;
+          @apply outline-0!;
         }
       }
     }
@@ -51,17 +53,15 @@
     }
   }
 
-  .pa-mensagem-erro {
-    @apply font-medium text-red-600;
-  }
+  .mensagem {
+    @apply font-medium;
 
-  .pa-formulario-rodape {
-    @apply mt-2 flex items-center justify-end gap-4;
-  }
-
-  .pa-obrigatorio {
-    @variant after {
-      @apply ml-0.5 text-red-500 content-['*'];
+    &.erro {
+      @apply text-red-600;
     }
+  }
+
+  .formulario-rodape {
+    @apply mt-2 flex items-center justify-end gap-4;
   }
 }

@@ -1,12 +1,14 @@
-import { Component, OnInit, viewChild, OnDestroy } from '@angular/core'
+import { Component, OnInit, viewChild, OnDestroy, inject } from '@angular/core'
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { CommonModule } from '@angular/common'
-
-import { debounceTime, fromEvent, Observable, of, Subscription, switchMap } from 'rxjs'
+import { catchError, debounceTime, EMPTY, fromEvent, Subscription, switchMap } from 'rxjs'
 
 import { InputTextModule } from 'primeng/inputtext'
 import { TextareaModule } from 'primeng/textarea'
 import { Button, ButtonModule } from 'primeng/button'
+
+import { CursoI } from '../../interfaces/response/curso.interface'
+import { CursoService } from '../../services/curso.service'
 
 @Component({
   selector: 'pa-cadastro-curso',
@@ -15,24 +17,24 @@ import { Button, ButtonModule } from 'primeng/button'
   styleUrl: './cadastro-curso.component.css',
 })
 export class CadastroCursoComponent implements OnInit, OnDestroy {
+  private construtorFormulario = inject(FormBuilder)
+  private servicoCurso = inject(CursoService)
+
   minLength = 6
   maxLength = 100
-  formulario: FormGroup
   inscricao: Subscription = new Subscription()
   botaoSalvar = viewChild<Button>('botaoSalvar')
   botaoLimpar = viewChild<Button>('botaoLimpar')
 
-  constructor(private construtorFormulario: FormBuilder) {
-    this.formulario = this.construtorFormulario.group(
-      {
-        nome: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
-        descricao: [''],
-      },
-      {
-        updateOn: 'blur',
-      }
-    )
-  }
+  formulario: FormGroup = this.construtorFormulario.group(
+    {
+      nome: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
+      descricao: [''],
+    },
+    {
+      updateOn: 'blur',
+    }
+  )
 
   get nome(): FormControl {
     return this.formulario.get('nome') as FormControl
@@ -55,26 +57,27 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
     this.inscricao.add(
       fromEvent(this.botaoSalvar()?.el.nativeElement, 'click')
         .pipe(
-          debounceTime(150),
-          switchMap(() => this.cadastrarCurso())
+          debounceTime(300),
+          switchMap(() =>
+            this.servicoCurso.criar({ nome: this.nome.value }).pipe(
+              catchError((e) => {
+                // TO DO: Abrir modal com mensagem de erro
+                return EMPTY
+              })
+            )
+          )
         )
-        .subscribe(() => {})
+        .subscribe((curso: CursoI) => {
+          // TO DO: Redirecionar para lista de cursos e abrir toast de sucesso
+        })
     )
   }
 
   tratarEventoLimpar(): void {
     this.inscricao.add(
       fromEvent(this.botaoLimpar()?.el.nativeElement, 'click')
-        .pipe(debounceTime(150))
-        .subscribe(() => this.limparFormulario())
+        .pipe(debounceTime(100))
+        .subscribe(() => this.formulario.reset())
     )
-  }
-
-  cadastrarCurso(): Observable<unknown> {
-    return of('RETORNO API')
-  }
-
-  limparFormulario(): void {
-    this.formulario.reset()
   }
 }
