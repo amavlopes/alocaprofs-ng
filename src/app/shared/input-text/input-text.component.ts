@@ -1,35 +1,20 @@
 import { CommonModule } from '@angular/common'
-import { AfterViewInit, Component, forwardRef, inject, Injector, Input, OnInit } from '@angular/core'
-import {
-  ControlValueAccessor,
-  FormControl,
-  FormControlName,
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-} from '@angular/forms'
+import { Component, Input, OnInit, Optional, Self } from '@angular/core'
+import { AbstractControl, ControlValueAccessor, FormsModule, NgControl } from '@angular/forms'
 
 import { InputTextModule } from 'primeng/inputtext'
 import { MensagemValidacaoComponent } from '../mensagem-validacao/mensagem-validacao.component'
 
 @Component({
   selector: 'pa-input-text',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, InputTextModule, MensagemValidacaoComponent],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputTextComponent),
-      multi: true,
-    },
-  ],
+  imports: [CommonModule, FormsModule, InputTextModule, MensagemValidacaoComponent],
   templateUrl: './input-text.component.html',
   styleUrl: './input-text.component.css',
 })
 export class InputTextComponent implements ControlValueAccessor, OnInit {
-  private injetor = inject(Injector)
   private _valor: any
 
-  controle!: FormControl
+  controle!: AbstractControl
   estaDesabilitado: boolean = false
   onChange: any = () => {}
   onTouched: any = () => {}
@@ -40,6 +25,10 @@ export class InputTextComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = ''
   @Input() minLength: number = 2
   @Input() maxLength: number = 100
+
+  constructor(@Optional() @Self() public ngControl: NgControl) {
+    if (ngControl != null) ngControl.valueAccessor = this
+  }
 
   get valor() {
     return this._valor
@@ -53,8 +42,7 @@ export class InputTextComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit(): void {
-    const formControlName = this.injetor.get(FormControlName)
-    if (formControlName) this.controle = formControlName.control
+    if (this.ngControl && this.ngControl.control) this.controle = this.ngControl.control
   }
 
   writeValue(v: any): void {

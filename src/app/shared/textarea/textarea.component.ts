@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
-import { Component, forwardRef, inject, Injector, Input, OnInit } from '@angular/core'
-import { ControlValueAccessor, FormControl, FormControlName, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'
+import { Component, Input, OnInit, Optional, Self } from '@angular/core'
+import { AbstractControl, ControlValueAccessor, FormsModule, NgControl } from '@angular/forms'
 
 import { TextareaModule } from 'primeng/textarea'
 import { MensagemValidacaoComponent } from '../mensagem-validacao/mensagem-validacao.component'
@@ -8,21 +8,13 @@ import { MensagemValidacaoComponent } from '../mensagem-validacao/mensagem-valid
 @Component({
   selector: 'pa-textarea',
   imports: [CommonModule, FormsModule, TextareaModule, MensagemValidacaoComponent],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextareaComponent),
-      multi: true,
-    },
-  ],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.css',
 })
 export class TextareaComponent implements OnInit, ControlValueAccessor {
-  private injetor = inject(Injector)
   private _valor: any
 
-  controle!: FormControl
+  controle!: AbstractControl
   estaDesabilitado: boolean = false
   onChanged: any = () => {}
   onTouched: any = () => {}
@@ -36,6 +28,10 @@ export class TextareaComponent implements OnInit, ControlValueAccessor {
   @Input() minLength: number = 2
   @Input() maxLength: number = 100
 
+  constructor(@Optional() @Self() public ngControl: NgControl) {
+    if (ngControl != null) ngControl.valueAccessor = this
+  }
+
   get valor() {
     return this._valor
   }
@@ -48,8 +44,7 @@ export class TextareaComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit(): void {
-    const formControlName = this.injetor.get(FormControlName)
-    if (formControlName) this.controle = formControlName.control
+    if (this.ngControl && this.ngControl.control) this.controle = this.ngControl.control
   }
 
   writeValue(v: any): void {
