@@ -2,6 +2,7 @@
 
 @import 'tailwindcss';
 @import 'primeicons/primeicons.css';
+
 @theme inline {
   --font-inter: 'Inter', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-fredericka: 'Fredericka the Great', serif;
@@ -9,93 +10,95 @@
   --font-sans: var(--font-inter);
 }
 
-@layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply mt-2 font-bold tracking-tight text-slate-900;
-  }
-
-  h1 {
-    @apply text-4xl;
-  }
-
-  h2 {
-    @apply text-3xl;
-  }
-
-  h3 {
-    @apply text-2xl;
-  }
-
-  h4 {
-    @apply text-xl;
-  }
-
-  h5 {
-    @apply text-lg tracking-normal;
-  }
-
-  h6 {
-    @apply tracking-normal;
-  }
-
-  p,
-  label {
-    @apply text-sm;
-  }
-}
-
-@layer components {
-  .container {
-    @apply container mx-auto mt-10 max-w-3xl! px-5;
-
-    @variant md {
-      @apply px-2.5;
-    }
-  }
-
-  .ng-invalid.ng-touched .p-inputtext {
-    @apply border-red-400!;
-
-    &:focus {
-      @apply border-red-400!;
-    }
-
-    &:focus-visible {
-      @apply outline-0!;
-    }
-  }
-
-  /* Card */
-  .card {
-    @apply rounded-lg border-1 border-slate-200 bg-white px-5 py-6;
-  }
-
-  /* Formulario */
-  .formulario {
-    @apply flex flex-col gap-5;
-  }
-  .formulario_rodape {
-    @apply mt-2 flex items-center justify-end gap-4;
-  }
-
-  .input_container {
-    @apply flex flex-col gap-0.5;
-
-    label {
-      @apply block font-medium;
-    }
-  }
-
-  .campo_obrigatorio {
-    @apply text-red-400;
-  }
-}
-
 html {
   @apply bg-zinc-50 font-sans;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply mt-2 font-bold tracking-tight text-slate-900;
+}
+
+h1 {
+  @apply text-4xl;
+}
+
+h2 {
+  @apply text-3xl;
+}
+
+h3 {
+  @apply text-2xl;
+}
+
+h4 {
+  @apply text-xl;
+}
+
+h5 {
+  @apply text-lg tracking-normal;
+}
+
+h6 {
+  @apply tracking-normal;
+}
+
+p,
+label {
+  @apply text-sm;
+}
+
+.container {
+  @apply container mx-auto mt-10 max-w-3xl! px-5;
+
+  @variant md {
+    @apply px-2.5;
+  }
+}
+
+/* Card */
+.card {
+  @apply rounded-lg border-1 border-slate-200 bg-white px-5 py-6;
+}
+
+/* Toast */
+.p-toast {
+  max-width: 95% !important;
+}
+
+/* Formulario */
+.formulario {
+  @apply flex flex-col gap-5;
+}
+
+.formulario_rodape {
+  @apply mt-2 flex items-center justify-end gap-4;
+}
+
+.input_container {
+  @apply flex flex-col gap-0.5;
+
+  label {
+    @apply block font-medium;
+  }
+}
+
+.campo_obrigatorio {
+  @apply text-red-400;
+}
+
+.ng-invalid.ng-touched .p-inputtext {
+  @apply border-red-400!;
+
+  &:focus {
+    @apply border-red-400!;
+  }
+
+  &:focus-visible {
+    @apply outline-0!;
+  }
 }
