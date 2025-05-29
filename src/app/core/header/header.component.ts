@@ -5,9 +5,11 @@ import { RouterModule } from '@angular/router'
 import { MenuItem } from 'primeng/api'
 import { MenubarModule } from 'primeng/menubar'
 
+import { LogoComponent } from '../logo/logo.component'
+
 @Component({
   selector: 'pa-header',
-  imports: [CommonModule, RouterModule, MenubarModule],
+  imports: [CommonModule, RouterModule, LogoComponent, MenubarModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

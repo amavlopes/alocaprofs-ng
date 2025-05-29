@@ -1,0 +1,10 @@
+@reference "tailwindcss";
+
+.logo_texto {
+  @apply mt-0! text-xl font-extrabold text-slate-900 uppercase;
+  font-weight: 900;
+}
+
+.logo_destaque {
+  @apply text-pink-600;
+}
