@@ -4,8 +4,7 @@
 @import 'primeicons/primeicons.css';
 
 @theme inline {
-  --font-inter:
-    'Inter', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-inter: 'Inter', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-fredericka: 'Fredericka the Great', serif;
 
   --font-sans: var(--font-inter);
@@ -44,12 +43,8 @@
   h6 {
     @apply tracking-normal;
   }
-
-  small {
-    @apply text-sm;
-  }
 }
 
 html {
-  @apply bg-slate-50 font-sans text-sm;
+  @apply bg-slate-50 font-sans;
 }

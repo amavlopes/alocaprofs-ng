@@ -1,15 +1,11 @@
 @reference "tailwindcss";
 
 @layer components {
-  .cadastro-container {
-    @apply mx-auto mt-10 px-6;
+  .container {
+    @apply container mx-auto mt-20 max-w-3xl! px-5;
 
     @variant md {
-      @apply mt-20;
-    }
-
-    @variant sm {
-      @apply w-lg px-0;
+      @apply px-2.5;
     }
   }
 
@@ -17,51 +13,41 @@
     @apply flex flex-col gap-5;
   }
 
-  .formulario-bloco {
-    @apply flex flex-col gap-0.5;
+  .formulario_bloco {
+    @apply flex flex-col gap-1;
 
     label {
-      @apply block font-semibold;
+      @apply block font-medium;
     }
   }
-  .obrigatorio {
-    @apply text-red-500;
+
+  .formulario_rodape {
+    @apply mt-2 flex items-center justify-end gap-4;
   }
-  .campo-texto {
-    @variant focus {
-      @variant [.ng-invalid] {
-        @variant [.ng-dirty] {
-          @apply border-red-400!;
-        }
-      }
-    }
 
-    @variant focus-visible {
-      @variant [.ng-invalid] {
-        @variant [.ng-dirty] {
-          @apply outline-0!;
-        }
-      }
-    }
-
-    @variant hover {
-      @variant [.ng-invalid] {
-        @variant [.ng-dirty] {
-          @apply border-red-400!;
-        }
-      }
-    }
+  .campo_obrigatorio {
+    @apply text-red-400;
   }
 
   .mensagem {
-    @apply font-medium;
+    @apply text-sm tracking-wide;
 
-    &.erro {
+    &.mensagem_erro {
       @apply text-red-600;
     }
   }
 
-  .formulario-rodape {
-    @apply mt-2 flex items-center justify-end gap-4;
+  .campo_formulario {
+    &.ng-invalid.ng-touched {
+      @apply border-red-400!;
+
+      &:focus {
+        @apply border-red-400!;
+      }
+
+      &:focus-visible {
+        @apply outline-0!;
+      }
+    }
   }
 }

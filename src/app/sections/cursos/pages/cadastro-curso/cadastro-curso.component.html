@@ -1,52 +1,52 @@
-<div id="cadastro_curso" class="cadastro-container">
+<div id="cadastro_curso_container" class="container">
   <h2>Cadastro de curso</h2>
 
   <p class="my-10">
     Para cadastrar um curso, preencha as informações abaixo. <br />
-    Os campos com <span class="obrigatorio">*</span> são obrigatórios.
+    Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
   </p>
 
   <form id="cadastro_curso_formulario" class="formulario" [formGroup]="formulario">
-    <div class="formulario-bloco">
-      <label for="cadastro_curso_nome">Nome<span class="obrigatorio">*</span></label>
-
+    <div class="formulario_bloco">
+      <label for="cadastro_curso_campo_nome">Nome<span class="campo_obrigatorio">*</span></label>
       <input
         pInputText
-        id="cadastro_curso_nome"
-        class="campo-texto"
+        id="cadastro_curso_campo_nome"
+        class="campo_formulario"
         type="text"
         formControlName="nome"
         autocomplete="off"
       />
 
       <small
-        *ngIf="nome.dirty && nome.errors?.['required']"
-        id="cadastro_curso_validacao"
-        class="mensagem erro"
+        *ngIf="nome.touched && nome.errors?.['required']"
+        id="cadastro_curso_validacao_required"
+        class="mensagem mensagem_erro"
         >O campo nome é obrigatório</small
       >
 
       <small
-        *ngIf="nome.dirty && nome.errors?.['minlength']"
-        id="cadastro_curso_validacao_min"
-        class="mensagem erro"
+        *ngIf="nome.touched && nome.errors?.['minlength']"
+        id="cadastro_curso_validacao_minlength"
+        class="mensagem mensagem_erro"
         >O campo nome deve ter no mínimo {{ minLength }} caracteres</small
       >
 
       <small
-        *ngIf="nome.dirty && nome.errors?.['maxlength']"
-        id="cadastro_curso_validacao_max"
-        class="mensagem erro"
+        *ngIf="nome.touched && nome.errors?.['maxlength']"
+        id="cadastro_curso_validacao_maxlength"
+        class="mensagem mensagem_erro"
         >O campo nome deve ter no máximo {{ maxLength }} caracteres</small
       >
     </div>
 
-    <div class="formulario-bloco">
-      <label for="cadastro_curso_descricao">Descrição</label>
+    <div class="formulario_bloco">
+      <label for="cadastro_curso_campo_descricao">Descrição</label>
 
       <textarea
         pTextarea
-        id="cadastro_curso_descricao"
+        id="cadastro_curso_campo_descricao"
+        class="campo_formulario"
         rows="4"
         formControlName="descricao"
         autocomplete="off"
@@ -54,15 +54,26 @@
       ></textarea>
     </div>
 
-    <div class="formulario-rodape">
+    <div class="formulario_rodape">
       <p-button
         #botaoSalvar
         id="cadastro_curso_botao_salvar"
         label="Salvar"
         type="submit"
-        [disabled]="formulario.invalid"
+        icon="pi pi-check"
+        size="small"
+        aria-label="Salvar curso"
+        [loading]="loading"
       />
-      <p-button #botaoLimpar id="cadastro_curso_botao_limpar" label="Limpar" severity="secondary" />
+      <p-button
+        #botaoLimpar
+        id="cadastro_curso_botao_limpar"
+        label="Limpar"
+        icon="pi pi-times"
+        severity="secondary"
+        size="small"
+        aria-label="Limpar dados"
+      />
     </div>
   </form>
 </div>

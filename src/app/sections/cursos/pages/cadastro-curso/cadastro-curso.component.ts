@@ -1,11 +1,24 @@
 import { Component, OnInit, viewChild, OnDestroy, inject } from '@angular/core'
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { CommonModule } from '@angular/common'
-import { catchError, debounceTime, EMPTY, fromEvent, Subscription, switchMap } from 'rxjs'
+import {
+  catchError,
+  debounceTime,
+  EMPTY,
+  filter,
+  finalize,
+  fromEvent,
+  Subject,
+  Subscription,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs'
 
 import { InputTextModule } from 'primeng/inputtext'
 import { TextareaModule } from 'primeng/textarea'
 import { Button, ButtonModule } from 'primeng/button'
+import { MessageModule } from 'primeng/message'
 
 import { CursoI } from '../../interfaces/response/curso.interface'
 import { CursoService } from '../../services/curso.service'
@@ -19,13 +32,15 @@ import { CursoService } from '../../services/curso.service'
 export class CadastroCursoComponent implements OnInit, OnDestroy {
   private construtorFormulario = inject(FormBuilder)
   private servicoCurso = inject(CursoService)
+  private destroy$ = new Subject<void>()
 
+  loading = false
+  salvando = false
   minLength = 6
-  maxLength = 100
-  inscricao: Subscription = new Subscription()
+  maxLength = 120
+  inscricoes: Subscription = new Subscription()
   botaoSalvar = viewChild<Button>('botaoSalvar')
   botaoLimpar = viewChild<Button>('botaoLimpar')
-
   formulario: FormGroup = this.construtorFormulario.group(
     {
       nome: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
@@ -50,34 +65,43 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.inscricao.unsubscribe()
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
   tratarEventoSalvar(): void {
-    this.inscricao.add(
-      fromEvent(this.botaoSalvar()?.el.nativeElement, 'click')
-        .pipe(
-          debounceTime(300),
-          switchMap(() =>
-            this.servicoCurso.criar({ nome: this.nome.value }).pipe(
-              catchError((e) => {
-                // TO DO: Abrir modal com mensagem de erro
-                return EMPTY
-              })
-            )
+    fromEvent(this.botaoSalvar()?.el.nativeElement, 'click')
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        tap(() => {
+          this.formulario.markAllAsTouched()
+        }),
+        filter(() => this.formulario.valid),
+        switchMap(() => {
+          this.loading = true
+
+          return this.servicoCurso.criar({ nome: this.nome.value }).pipe(
+            finalize(() => (this.loading = false)),
+            catchError((e) => {
+              // TO DO: Abrir modal com mensagem de erro
+              return EMPTY
+            })
           )
-        )
-        .subscribe((curso: CursoI) => {
-          // TO DO: Redirecionar para lista de cursos e abrir toast de sucesso
         })
-    )
+      )
+      .subscribe((curso: CursoI) => {
+        // TO DO: Redirecionar para lista de cursos e abrir toast de sucesso
+      })
   }
 
   tratarEventoLimpar(): void {
-    this.inscricao.add(
-      fromEvent(this.botaoLimpar()?.el.nativeElement, 'click')
-        .pipe(debounceTime(100))
-        .subscribe(() => this.formulario.reset())
-    )
+    fromEvent(this.botaoLimpar()?.el.nativeElement, 'click')
+      .pipe(takeUntil(this.destroy$), debounceTime(100))
+      .subscribe(() => this.limparFormulario())
+  }
+
+  limparFormulario(): void {
+    this.formulario.reset()
   }
 }
