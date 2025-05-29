@@ -1,52 +1,28 @@
-<div id="edicao_curso_container" class="container">
-  <h3>Informações do Curso</h3>
+<ng-template #carregando>
+  <pa-loader titulo="Carregando página" conteudo="Essa operação pode levar até 1 minuto." />
+</ng-template>
+<ng-container *ngIf="curso$ | async as curso; else carregando">
+  <div id="edicao_curso_container" class="container">
+    <h3>Informações do Curso</h3>
 
-  <p class="my-10">
-    Atualize os dados do curso preenchendo as informações abaixo. <br />
-    Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
-  </p>
+    <p class="my-10">
+      Atualize os dados do curso preenchendo as informações abaixo. <br />
+      Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
+    </p>
 
-  <form id="edicao_curso_formulario" class="formulario" [formGroup]="formulario">
-    <input type="hidden" formControlName="id" />
+    <pa-formulario-curso
+      id="edicao_curso"
+      [loading]="operacaoPendente"
+      [curso]="curso"
+      (evtSalvar)="observarEvtSalvar($event)"
+      (evtLimpar)="observarEvtLimpar()"
+    />
+  </div>
 
-    <pa-input-text
-      id="edicao_curso_nome"
-      label="Nome"
-      formControlName="nome"
-      [obrigatorio]="true"
-      [minLength]="minLength"
-      [maxLength]="maxLength"
-    ></pa-input-text>
-
-    <pa-textarea id="edicao_curso_descricao" label="Descrição" formControlName="descricao" />
-
-    <div class="formulario_rodape">
-      <p-button
-        #botaoSalvar
-        id="edicao_curso_botao_salvar"
-        label="Salvar"
-        type="submit"
-        icon="pi pi-check"
-        size="small"
-        aria-label="Salvar curso"
-        [loading]="salvandoCurso"
-      />
-      <p-button
-        #botaoLimpar
-        id="edicao_curso_botao_limpar"
-        label="Limpar"
-        icon="pi pi-times"
-        severity="secondary"
-        size="small"
-        aria-label="Limpar dados"
-      />
-    </div>
-  </form>
-</div>
-
-<pa-dialog
-  id="edicao_curso_dialog_erro"
-  [mostrarDialog]="mostrarDialog"
-  [tituloErro]="tituloErro"
-  [mensagemErro]="mensagemErro"
-></pa-dialog>
+  <pa-dialog
+    id="edicao_curso_dialog_erro"
+    [mostrarDialog]="mostrarDialog"
+    [tituloErro]="tituloErro"
+    [mensagemErro]="mensagemErro"
+  ></pa-dialog>
+</ng-container>

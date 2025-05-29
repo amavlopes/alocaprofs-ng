@@ -2,7 +2,6 @@
 
 @import 'tailwindcss';
 @import 'primeicons/primeicons.css';
-
 @theme inline {
   --font-inter: 'Inter', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-fredericka: 'Fredericka the Great', serif;
@@ -73,7 +72,7 @@
 
   /* Card */
   .card {
-    @apply my-10 rounded-lg border-1 border-slate-200 bg-white px-5 py-6;
+    @apply rounded-lg border-1 border-slate-200 bg-white px-5 py-6;
   }
 
   /* Formulario */

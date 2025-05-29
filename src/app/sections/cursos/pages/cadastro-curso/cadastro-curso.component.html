@@ -6,40 +6,12 @@
     Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
   </p>
 
-  <form id="cadastro_curso_formulario" class="formulario" [formGroup]="formulario">
-    <pa-input-text
-      id="cadastro_curso_nome"
-      label="Nome"
-      formControlName="nome"
-      [obrigatorio]="true"
-      [minLength]="minLength"
-      [maxLength]="maxLength"
-    ></pa-input-text>
-
-    <pa-textarea id="cadastro_curso_descricao" label="Descrição" formControlName="descricao" />
-
-    <div class="formulario_rodape">
-      <p-button
-        #botaoSalvar
-        id="cadastro_curso_botao_salvar"
-        label="Salvar"
-        type="submit"
-        icon="pi pi-check"
-        size="small"
-        aria-label="Salvar curso"
-        [loading]="loading"
-      />
-      <p-button
-        #botaoLimpar
-        id="cadastro_curso_botao_limpar"
-        label="Limpar"
-        icon="pi pi-times"
-        severity="secondary"
-        size="small"
-        aria-label="Limpar dados"
-      />
-    </div>
-  </form>
+  <pa-formulario-curso
+    id="cadastro_curso"
+    [loading]="salvandoCurso"
+    (evtSalvar)="observarEvtSalvar($event)"
+    (evtLimpar)="observarEvtLimpar()"
+  />
 </div>
 
 <pa-dialog

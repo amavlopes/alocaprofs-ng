@@ -30,6 +30,10 @@ export class InputTextComponent implements ControlValueAccessor, OnInit {
     if (ngControl != null) ngControl.valueAccessor = this
   }
 
+  ngOnInit(): void {
+    if (this.ngControl && this.ngControl.control) this.controle = this.ngControl.control
+  }
+
   get valor() {
     return this._valor
   }
@@ -39,10 +43,6 @@ export class InputTextComponent implements ControlValueAccessor, OnInit {
       this._valor = v
       this.onChange(v)
     }
-  }
-
-  ngOnInit(): void {
-    if (this.ngControl && this.ngControl.control) this.controle = this.ngControl.control
   }
 
   writeValue(v: any): void {
