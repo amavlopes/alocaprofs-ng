@@ -1,4 +1,12 @@
 <p-iconfield iconPosition="left" class="input_pesquisa">
   <p-inputicon><i class="pi pi-search"></i></p-inputicon>
-  <input pInputText type="text" pSize="small" [id]="id" [placeholder]="placeholder" (input)="pesquisar($event)" />
+  <input
+    pInputText
+    type="text"
+    pSize="small"
+    [id]="id"
+    [placeholder]="placeholder"
+    (input)="pesquisar($event)"
+    autocomplete="off"
+  />
 </p-iconfield>

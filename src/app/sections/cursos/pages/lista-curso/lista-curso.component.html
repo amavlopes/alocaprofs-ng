@@ -29,53 +29,15 @@
       </p-fluid>
     </div>
 
-    <div class="card my-2">
-      <p-table
-        class="text-sm"
-        [value]="cursos"
-        [scrollable]="true"
-        [paginator]="true"
-        [rows]="registrosPorPagina"
-        [first]="indicePrimeiroRegistro"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="{first} a {last} de {totalRecords} resultado(s)"
-        [tableStyle]="{ 'min-width': '560px' }"
-        (onPage)="aoMudarDePagina($event)"
-      >
-        <ng-template #header>
-          <tr>
-            <th pSortableColumn="id" style="width: 6.5rem">Código<p-sortIcon field="id" /></th>
-            <th pSortableColumn="nome">Nome<p-sortIcon field="nome" /></th>
-            <th style="width: 6.5rem">Ações</th>
-          </tr>
-        </ng-template>
-        <ng-template #body let-curso>
-          <tr>
-            <td>{{ curso.id }}</td>
-            <td>{{ curso.nome }}</td>
-            <td class="flex justify-between">
-              <p-button
-                icon="pi pi-pencil"
-                size="small"
-                [rounded]="true"
-                [outlined]="true"
-                severity="primary"
-                (click)="atualizarCurso(curso)"
-              ></p-button>
-
-              <p-button
-                icon="pi pi-trash"
-                size="small"
-                [rounded]="true"
-                [outlined]="true"
-                severity="primary"
-                (click)="confirmarExclusao(curso)"
-              ></p-button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+    <pa-tabela
+      id="lista_curso_tabela"
+      [items]="cursos"
+      [colunas]="colunas"
+      [(indiceRegistro)]="indice"
+      [registrosPorPagina]="registros"
+      (aoClicarEmEditar)="editarCurso($event)"
+      (aoClicarEmExcluir)="confirmarExclusao($event)"
+    />
   </div>
 
   <pa-dialog

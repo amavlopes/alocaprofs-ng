@@ -13,8 +13,8 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs'
   styleUrl: './input-search.component.css',
 })
 export class InputSearchComponent implements OnInit {
-  private destroy$ = new Subject<void>()
   private pesquisa$ = new Subject<string>()
+  private destroy$ = new Subject<void>()
 
   @Input({ required: true }) id!: string
   @Input() placeholder: string = ''
