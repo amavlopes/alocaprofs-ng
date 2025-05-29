@@ -4,11 +4,12 @@ import { RouterOutlet } from '@angular/router'
 
 import { PrimeNG } from 'primeng/config'
 
-import { ToastComponent } from './shared/toast/toast.component'
+import { ToastComponent } from './core/toast/toast.component'
+import { HeaderComponent } from './core/header/header.component'
 
 @Component({
   selector: 'pa-root',
-  imports: [CommonModule, RouterOutlet, ToastComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, ToastComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

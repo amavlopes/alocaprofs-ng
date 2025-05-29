@@ -11,7 +11,7 @@
 }
 
 html {
-  @apply bg-zinc-50 font-sans;
+  @apply bg-slate-50 font-sans;
 }
 
 h1,
@@ -53,11 +53,17 @@ label {
 }
 
 .container {
-  @apply container mx-auto mt-10 max-w-3xl! px-5;
+  @apply container mx-auto max-w-3xl! px-5;
 
   @variant md {
     @apply px-2.5;
   }
+}
+
+/* Menu */
+
+.p-menubar {
+  @apply border-0!;
 }
 
 /* Card */

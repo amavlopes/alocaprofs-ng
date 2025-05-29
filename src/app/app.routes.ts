@@ -11,13 +11,13 @@ export const routes: Routes = [
       },
       {
         path: 'lista',
-        title: 'Cursos - Todos os Cursos',
+        title: 'AlocaProfs - Cursos',
         loadComponent: () =>
           import('./sections/cursos/pages/lista-curso/lista-curso.component').then((m) => m.ListaCursoComponent),
       },
       {
         path: 'cadastro',
-        title: 'Cursos - Cadastrar Curso',
+        title: 'AlocaProfs - Cadastrar Curso',
         loadComponent: () =>
           import('./sections/cursos/pages/cadastro-curso/cadastro-curso.component').then(
             (m) => m.CadastroCursoComponent
@@ -25,7 +25,7 @@ export const routes: Routes = [
       },
       {
         path: 'edicao/:cursoId',
-        title: 'Cursos - Editar Curso',
+        title: 'AlocaProfs - Editar Curso',
         loadComponent: () =>
           import('./sections/cursos/pages/edicao-curso/edicao-curso.component').then((m) => m.EdicaoCursoComponent),
       },
