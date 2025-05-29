@@ -17,10 +17,6 @@
     @apply mt-2 flex items-center justify-end gap-4;
   }
 
-  .campo_obrigatorio {
-    @apply text-red-400;
-  }
-
   .mensagem {
     @apply text-sm tracking-wide;
 

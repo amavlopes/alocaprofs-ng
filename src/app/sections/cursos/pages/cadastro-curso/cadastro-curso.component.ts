@@ -1,6 +1,9 @@
 import { Component, OnInit, viewChild, OnDestroy, inject } from '@angular/core'
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { CommonModule } from '@angular/common'
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
+
+import { Router } from '@angular/router'
+
 import {
   catchError,
   debounceTime,
@@ -22,7 +25,7 @@ import { MessageModule } from 'primeng/message'
 import { DialogModule } from 'primeng/dialog'
 
 import { CursoService } from '../../services/curso.service'
-import { CursoI } from '../../interfaces/response/curso.interface'
+import { CursoI } from '../../interfaces/curso.interface'
 
 @Component({
   selector: 'pa-cadastro-curso',
@@ -40,6 +43,7 @@ import { CursoI } from '../../interfaces/response/curso.interface'
 })
 export class CadastroCursoComponent implements OnInit, OnDestroy {
   private construtorFormulario = inject(FormBuilder)
+  private roteador = inject(Router)
   private servicoCurso = inject(CursoService)
   private destroy$ = new Subject<void>()
 
@@ -97,7 +101,6 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
   tratarEventoSalvar(): void {
     fromEvent(this.botaoSalvar()?.el.nativeElement, 'click')
       .pipe(
-        takeUntil(this.destroy$),
         debounceTime(100),
         tap(() => this.formulario.markAllAsTouched()),
         filter(() => this.formulario.valid),
@@ -113,11 +116,12 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
               return EMPTY
             })
           )
-        })
+        }),
+        takeUntil(this.destroy$)
       )
-      .subscribe((curso: CursoI) => {
-        // TO DO: Redirecionar para lista de cursos e abrir toast de sucesso
-        console.log('Sucesso: ', curso)
+      .subscribe((curso: Omit<CursoI, 'id'>) => {
+        // TO DO: Abrir toast de sucesso na lista de cursos (mandar mensagem behavior subject ou só o serviço do PrimeNG)
+        this.roteador.navigate(['cursos'])
       })
   }
 

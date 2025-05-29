@@ -1,0 +1,58 @@
+<div id="lista_curso_container" class="container">
+  <h3>Todos os Cursos</h3>
+
+  <div class="card pt-2">
+    <p-table
+      [value]="(cursos$ | async)!"
+      [scrollable]="true"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{first} a {last} de {totalRecords} resultado(s)"
+      [tableStyle]="{ 'min-width': '640px' }"
+      class="text-sm"
+    >
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="id" style="width: 17%">Código <p-sortIcon field="id" /></th>
+          <th pSortableColumn="nome">Nome <p-sortIcon field="nome" /></th>
+          <th style="width: 13%"></th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-curso>
+        <tr>
+          <td>{{ curso.id }}</td>
+          <td>{{ curso.nome }}</td>
+          <td class="flex justify-between">
+            <button
+              #botaoEditar
+              pButton
+              icon="pi pi-pencil"
+              size="small"
+              [text]="true"
+              [rounded]="true"
+              severity="primary"
+            ></button>
+
+            <button
+              #botaoExcluir
+              pButton
+              icon="pi pi-trash"
+              size="small"
+              [text]="true"
+              [rounded]="true"
+              severity="primary"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog id="lista_curso_modal_erro" [modal]="true" [(visible)]="mostrarDialog" [style]="{ width: '20rem' }">
+  <ng-template #header>
+    <h5 class="mt-0 text-zinc-800">{{ tituloErro }}</h5>
+  </ng-template>
+  <p class="mb-2 text-sm">{{ mensagemErro }}.</p>
+</p-dialog>
