@@ -1,22 +1,23 @@
-import { Component, OnInit, viewChild, OnDestroy, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
-import { Router } from '@angular/router'
+import { Component, inject, viewChild } from '@angular/core'
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { ActivatedRoute, Router } from '@angular/router'
 
 import { catchError, debounceTime, EMPTY, filter, finalize, fromEvent, Subject, switchMap, takeUntil, tap } from 'rxjs'
 
-import { InputTextModule } from 'primeng/inputtext'
-import { TextareaModule } from 'primeng/textarea'
 import { Button, ButtonModule } from 'primeng/button'
+import { InputTextModule } from 'primeng/inputtext'
 import { MessageModule } from 'primeng/message'
+import { TextareaModule } from 'primeng/textarea'
 
 import { CursoService } from '../../services/curso.service'
+import { CursoI } from '../../interfaces/curso.interface'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { FormularioBlocoComponent } from '../../../../shared/formulario-bloco/formulario-bloco.component'
 import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validacao/mensagem-validacao.component'
 
 @Component({
-  selector: 'pa-cadastro-curso',
+  selector: 'pa-edicao-curso',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -28,26 +29,29 @@ import { MensagemValidacaoComponent } from '../../../../shared/mensagem-validaca
     FormularioBlocoComponent,
     MensagemValidacaoComponent,
   ],
-  templateUrl: './cadastro-curso.component.html',
-  styleUrl: './cadastro-curso.component.css',
+  templateUrl: './edicao-curso.component.html',
+  styleUrl: './edicao-curso.component.css',
 })
-export class CadastroCursoComponent implements OnInit, OnDestroy {
+export class EdicaoCursoComponent {
   private construtorFormulario = inject(FormBuilder)
   private roteador = inject(Router)
+  private rotaAtiva = inject(ActivatedRoute)
   private servicoCurso = inject(CursoService)
   private destroy$ = new Subject<void>()
 
-  loading = false
-  formularioSubmetido = false
+  cursoId!: number
+  salvandoCurso = false
+  carregandoPagina = false
   minLength = 6
   maxLength = 120
   mostrarDialog = false
-  tituloErro = 'Erro ao cadastrar curso'
+  tituloErro = ''
   mensagemErro = ''
   botaoSalvar = viewChild<Button>('botaoSalvar')
   botaoLimpar = viewChild<Button>('botaoLimpar')
   formulario: FormGroup = this.construtorFormulario.group(
     {
+      id: null,
       nome: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
       descricao: [''],
     },
@@ -70,6 +74,10 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
     },
   ]
 
+  get id(): FormControl {
+    return this.formulario.get('id') as FormControl
+  }
+
   get nome(): FormControl {
     return this.formulario.get('nome') as FormControl
   }
@@ -79,6 +87,8 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.carregarCurso()
+
     this.observarEvtSalvar()
     this.observarEvtLimpar()
   }
@@ -88,6 +98,31 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
     this.destroy$.complete()
   }
 
+  carregarCurso(): void {
+    this.carregandoPagina = true
+
+    this.rotaAtiva.paramMap
+      .pipe(
+        switchMap((params) => {
+          this.cursoId = Number(params.get('cursoId'))
+          return this.servicoCurso.obterCursoPorId(this.cursoId).pipe(
+            finalize(() => (this.carregandoPagina = false)),
+            catchError((e) => {
+              this.tituloErro = 'Erro ao carregar curso'
+              this.mensagemErro = e.message
+              this.mostrarDialog = true
+
+              return EMPTY
+            })
+          )
+        })
+      )
+      .subscribe((curso: CursoI) => {
+        this.id.setValue(curso?.id)
+        this.nome.setValue(curso?.nome)
+      })
+  }
+
   observarEvtSalvar(): void {
     fromEvent(this.botaoSalvar()?.el.nativeElement, 'click')
       .pipe(
@@ -95,10 +130,10 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
         tap(() => this.formulario.markAllAsTouched()),
         filter(() => this.formulario.valid),
         switchMap(() => {
-          this.loading = true
+          this.salvandoCurso = true
 
-          return this.servicoCurso.criarCurso({ nome: this.nome.value }).pipe(
-            finalize(() => (this.loading = false)),
+          return this.servicoCurso.atualizarCurso({ id: this.id.value, nome: this.nome.value }).pipe(
+            finalize(() => (this.salvandoCurso = false)),
             catchError((e) => {
               this.mensagemErro = e.message
               this.mostrarDialog = true

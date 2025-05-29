@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.formulario_bloco {
+  @apply flex flex-col gap-1;
+}

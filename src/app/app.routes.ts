@@ -23,6 +23,12 @@ export const routes: Routes = [
             (m) => m.CadastroCursoComponent
           ),
       },
+      {
+        path: 'edicao/:cursoId',
+        title: 'Cursos - Editar Curso',
+        loadComponent: () =>
+          import('./sections/cursos/pages/edicao-curso/edicao-curso.component').then((m) => m.EdicaoCursoComponent),
+      },
     ],
   },
 ]

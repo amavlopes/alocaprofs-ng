@@ -1,18 +1,19 @@
-<div id="cadastro_curso_container" class="container">
-  <h3>Cadastro de curso</h3>
+<div id="edicao_curso_container" class="container">
+  <h3>Informações do Curso</h3>
 
   <p class="my-10">
-    Para cadastrar um curso, preencha as informações abaixo. <br />
+    Atualize os dados do curso preenchendo as informações abaixo. <br />
     Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
   </p>
 
-  <form id="cadastro_curso_formulario" class="formulario" [formGroup]="formulario">
+  <form id="edicao_curso_formulario" class="formulario" [formGroup]="formulario">
+    <input type="hidden" formControlName="id" />
     <pa-formulario-bloco>
-      <label for="cadastro_curso_campo_nome">Nome<span class="campo_obrigatorio">*</span></label>
+      <label for="edicao_curso_campo_nome">Nome<span class="campo_obrigatorio">*</span></label>
       <input
         pInputText
         pSize="small"
-        id="cadastro_curso_campo_nome"
+        id="edicao_curso_campo_nome"
         class="campo_formulario"
         type="text"
         formControlName="nome"
@@ -22,7 +23,7 @@
       <ng-container *ngFor="let validacao of validacoes">
         <pa-mensagem-validacao
           *ngIf="nome.touched && nome.errors?.[validacao.tipo]"
-          id="cadastro_curso_validacao_{{ validacao.tipo }}"
+          id="edicao_curso_validacao_{{ validacao.tipo }}"
           tipoMensagem="erro"
           [mensagemValidacao]="validacao.mensagem"
         >
@@ -31,12 +32,12 @@
     </pa-formulario-bloco>
 
     <pa-formulario-bloco>
-      <label for="cadastro_curso_campo_descricao">Descrição</label>
+      <label for="edicao_curso_campo_descricao">Descrição</label>
 
       <textarea
         pTextarea
         pSize="small"
-        id="cadastro_curso_campo_descricao"
+        id="edicao_curso_campo_descricao"
         class="campo_formulario"
         rows="4"
         formControlName="descricao"
@@ -48,17 +49,17 @@
     <div class="formulario_rodape">
       <p-button
         #botaoSalvar
-        id="cadastro_curso_botao_salvar"
+        id="edicao_curso_botao_salvar"
         label="Salvar"
         type="submit"
         icon="pi pi-check"
         size="small"
         aria-label="Salvar curso"
-        [loading]="loading"
+        [loading]="salvandoCurso"
       />
       <p-button
         #botaoLimpar
-        id="cadastro_curso_botao_limpar"
+        id="edicao_curso_botao_limpar"
         label="Limpar"
         icon="pi pi-times"
         severity="secondary"
@@ -70,7 +71,7 @@
 </div>
 
 <pa-dialog
-  id="cadastro_curso_dialog_erro"
+  id="edicao_curso_dialog_erro"
   [mostrarDialog]="mostrarDialog"
   [tituloErro]="tituloErro"
   [mensagemErro]="mensagemErro"

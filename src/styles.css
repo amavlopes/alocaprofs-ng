@@ -66,8 +66,33 @@
   .campo_obrigatorio {
     @apply text-red-400;
   }
-}
 
+  .formulario {
+    @apply flex flex-col gap-5;
+
+    label {
+      @apply block font-medium;
+    }
+  }
+
+  .formulario_rodape {
+    @apply mt-2 flex items-center justify-end gap-4;
+  }
+
+  .campo_formulario {
+    &.ng-invalid.ng-touched {
+      @apply border-red-400!;
+
+      &:focus {
+        @apply border-red-400!;
+      }
+
+      &:focus-visible {
+        @apply outline-0!;
+      }
+    }
+  }
+}
 html {
-  @apply bg-slate-50 font-sans;
+  @apply bg-zinc-50 font-sans;
 }

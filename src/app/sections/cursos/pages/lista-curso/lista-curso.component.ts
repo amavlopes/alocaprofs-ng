@@ -62,7 +62,7 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
   @ViewChild('pesquisaPorNome') pesquisaPorNome!: ElementRef
 
   ngAfterViewInit(): void {
-    this.cursos$ = this.observarPesquisaPorNome()
+    this.cursos$ = this.observarEvtPesquisaPorNome()
   }
 
   ngOnDestroy(): void {
@@ -70,7 +70,7 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  observarPesquisaPorNome(): Observable<CursoI[]> {
+  observarEvtPesquisaPorNome(): Observable<CursoI[]> {
     return fromEvent<any>(this.pesquisaPorNome.nativeElement, 'keyup').pipe(
       map((evento) => evento.target.value),
       startWith(''),
@@ -81,7 +81,7 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
   }
 
   carregarCursos(nome: string = ''): Observable<CursoI[]> {
-    return this.servicoCurso.listar(nome).pipe(
+    return this.servicoCurso.obterCursos(nome).pipe(
       finalize(() => (this.loading = false)),
       catchError((e) => {
         this.mensagemErro = e.message
@@ -96,7 +96,11 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
     this.roteador.navigate(['cursos/cadastro'])
   }
 
-  confirmarExclusao(event: Event, curso: CursoI) {
+  atualizarCurso(curso: CursoI) {
+    this.roteador.navigate(['cursos/edicao', curso.id])
+  }
+
+  confirmarExclusao(curso: CursoI) {
     this.servicoConfirmacao.confirm({
       closable: true,
       closeOnEscape: true,
@@ -113,7 +117,7 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
     this.loading = true
 
     this.servicoCurso
-      .excluir(id)
+      .excluirCursoPorId(id)
       .pipe(
         finalize(() => (this.loading = false)),
         catchError((e) => {

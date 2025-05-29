@@ -1,0 +1,14 @@
+@reference "tailwindcss";
+
+:host {
+  display: block;
+  line-height: 1;
+}
+
+.mensagem {
+  @apply tracking-wide;
+
+  &.mensagem_erro {
+    @apply text-red-600;
+  }
+}

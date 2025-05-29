@@ -13,7 +13,7 @@ export class CursoService {
 
   private http = inject(HttpClient)
 
-  criar(curso: Omit<CursoI, 'id'>): Observable<CursoI> {
+  criarCurso(curso: Omit<CursoI, 'id'>): Observable<CursoI> {
     const request = { name: curso.nome }
 
     return this.http.post<{ course: CursoResponseI }>(this.url, request).pipe(
@@ -22,7 +22,7 @@ export class CursoService {
     )
   }
 
-  listar(nome?: string): Observable<CursoI[]> {
+  obterCursos(nome?: string): Observable<CursoI[]> {
     nome = nome?.trim()
     const opcoes = nome ? { params: new HttpParams().set('name', nome) } : {}
 
@@ -40,7 +40,27 @@ export class CursoService {
     )
   }
 
-  excluir(id: number): Observable<void> {
+  obterCursoPorId(id: number): Observable<CursoI> {
+    return this.http.get<{ course: CursoResponseI }>(`${this.url}/${id}`).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      retry({ count: 2, delay: 1000 }),
+      map((response: { course: CursoResponseI }) => ({
+        id: response.course.id,
+        nome: response.course.name,
+      }))
+    )
+  }
+
+  atualizarCurso(curso: CursoI): Observable<CursoI> {
+    const request = { name: curso.nome }
+
+    return this.http.put<{ course: CursoResponseI }>(`${this.url}/${curso.id}`, request).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      map((response: { course: CursoResponseI }) => ({ id: response.course.id, nome: response.course.name }))
+    )
+  }
+
+  excluirCursoPorId(id: number): Observable<void> {
     return this.http.delete<Observable<void>>(`${this.url}/${id}`).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
       map(() => void 0)

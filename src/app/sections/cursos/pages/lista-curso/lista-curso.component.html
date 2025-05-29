@@ -11,17 +11,22 @@
       [first]="first"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="{first} a {last} de {totalRecords} resultado(s)"
-      [tableStyle]="{ 'min-width': '640px' }"
+      [tableStyle]="{ 'min-width': '560px' }"
       (onPage)="aoMudarDePagina($event)"
     >
       <ng-template #caption>
-        <div class="mb-2 flex items-center justify-between">
-          <div class="flex">
+        <div class="mb-2 sm:flex sm:items-center sm:justify-between">
+          <div class="mb-4 sm:mb-0">
             <p-iconfield iconPosition="left" class="ml-auto">
-              <p-inputicon>
-                <i class="pi pi-search"></i>
-              </p-inputicon>
-              <input #pesquisaPorNome pInputText type="text" placeholder="Pesquisar por nome" pSize="small" />
+              <p-inputicon><i class="pi pi-search" style="font-size: 0.875rem"></i></p-inputicon>
+              <input
+                #pesquisaPorNome
+                pInputText
+                type="text"
+                placeholder="Pesquisar por nome"
+                pSize="small"
+                class="max-w-full"
+              />
             </p-iconfield>
           </div>
 
@@ -30,9 +35,9 @@
       </ng-template>
       <ng-template #header>
         <tr>
-          <th pSortableColumn="id" style="width: 17%">Código <p-sortIcon field="id" /></th>
-          <th pSortableColumn="nome">Nome <p-sortIcon field="nome" /></th>
-          <th style="width: 13%"></th>
+          <th pSortableColumn="id" style="width: 6.5rem">Código<p-sortIcon field="id" /></th>
+          <th pSortableColumn="nome">Nome<p-sortIcon field="nome" /></th>
+          <th style="width: 6.5rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template #body let-curso>
@@ -40,26 +45,23 @@
           <td>{{ curso.id }}</td>
           <td>{{ curso.nome }}</td>
           <td class="flex justify-between">
-            <button
-              #botaoEditar
-              pButton
+            <p-button
               icon="pi pi-pencil"
               size="small"
-              [text]="true"
               [rounded]="true"
+              [outlined]="true"
               severity="primary"
-            ></button>
+              (click)="atualizarCurso(curso)"
+            ></p-button>
 
-            <button
-              #botaoExcluir
-              pButton
+            <p-button
               icon="pi pi-trash"
               size="small"
-              [text]="true"
               [rounded]="true"
+              [outlined]="true"
               severity="primary"
-              (click)="confirmarExclusao($event, curso)"
-            ></button>
+              (click)="confirmarExclusao(curso)"
+            ></p-button>
           </td>
         </tr>
       </ng-template>
