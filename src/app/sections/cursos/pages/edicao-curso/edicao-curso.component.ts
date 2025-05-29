@@ -4,17 +4,18 @@ import { ActivatedRoute, Router } from '@angular/router'
 
 import { catchError, EMPTY, finalize, Observable, Subject, switchMap, takeUntil } from 'rxjs'
 
-import { MessageService } from 'primeng/api'
+import { MenuItem, MessageService } from 'primeng/api'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { FormularioCursoComponent } from '../../components/formulario-curso/formulario-curso.component'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
+import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 
 @Component({
   selector: 'pa-edicao-curso',
-  imports: [CommonModule, FormularioCursoComponent, DialogComponent, LoaderComponent],
+  imports: [CommonModule, BreadcrumbComponent, FormularioCursoComponent, DialogComponent, LoaderComponent],
   templateUrl: './edicao-curso.component.html',
   styleUrl: './edicao-curso.component.css',
 })
@@ -27,10 +28,15 @@ export class EdicaoCursoComponent {
 
   curso$!: Observable<CursoI>
   cursoId!: number
-  operacaoPendente = false
+  salvando = false
   mostrarDialog = false
+  items: MenuItem[] = []
   tituloErro = ''
   mensagemErro = ''
+
+  constructor() {
+    this.definirBreadcrumb()
+  }
 
   ngOnInit(): void {
     this.carregarCurso()
@@ -39,6 +45,13 @@ export class EdicaoCursoComponent {
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
+  }
+
+  definirBreadcrumb(): void {
+    this.items = [
+      { icon: 'pi pi-home', route: '/inicio' },
+      { icon: '', label: 'Cursos', route: '/cursos' },
+    ]
   }
 
   carregarCurso(): void {
@@ -60,13 +73,13 @@ export class EdicaoCursoComponent {
   }
 
   observarEvtSalvar(curso: CursoI): void {
-    this.operacaoPendente = true
+    this.salvando = true
 
     this.servicoCurso
       .atualizarCurso(curso)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => (this.operacaoPendente = false)),
+        finalize(() => (this.salvando = false)),
         catchError((e) => {
           this.tituloErro = 'Erro ao atualizar curso'
           this.mensagemErro = e.message

@@ -1,4 +1,6 @@
 <div id="cadastro_curso_container">
+  <pa-breadcrumb [items]="items" />
+
   <h3>Cadastrar curso</h3>
 
   <div class="card mt-8">
@@ -9,7 +11,7 @@
 
     <pa-formulario-curso
       id="cadastro_curso"
-      [loading]="salvandoCurso"
+      [loading]="salvando"
       (evtSalvar)="observarEvtSalvar($event)"
       (evtLimpar)="observarEvtLimpar()"
     />

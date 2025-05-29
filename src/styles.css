@@ -2,6 +2,7 @@
 
 @import 'tailwindcss';
 @import 'primeicons/primeicons.css';
+
 @theme inline {
   --font-inter: 'Inter', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-sans: var(--font-inter);
@@ -63,13 +64,18 @@
 
 @layer components {
   /* Menu */
-
   .p-menubar {
     @apply border-0!;
 
     @variant max-lg {
       @apply gap-0!;
     }
+  }
+
+  /* Breadcrumb */
+
+  .p-breadcrumb {
+    @apply mb-4 bg-transparent! p-0!;
   }
 
   /* Card */

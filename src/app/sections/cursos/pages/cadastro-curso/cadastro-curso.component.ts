@@ -8,12 +8,13 @@ import { catchError, EMPTY, finalize, Subject, takeUntil } from 'rxjs'
 import { CursoService } from '../../services/curso.service'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { CursoI } from '../../interfaces/curso.interface'
-import { MessageService } from 'primeng/api'
+import { MenuItem, MessageService } from 'primeng/api'
 import { FormularioCursoComponent } from '../../components/formulario-curso/formulario-curso.component'
+import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 
 @Component({
   selector: 'pa-cadastro-curso',
-  imports: [CommonModule, ReactiveFormsModule, FormularioCursoComponent, DialogComponent],
+  imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioCursoComponent, DialogComponent],
   templateUrl: './cadastro-curso.component.html',
   styleUrl: './cadastro-curso.component.css',
 })
@@ -23,18 +24,30 @@ export class CadastroCursoComponent implements OnDestroy {
   private servicoCurso = inject(CursoService)
   private destroy$ = new Subject<void>()
 
-  salvandoCurso = false
+  salvando = false
   mostrarDialog = false
+  items: MenuItem[] = []
   tituloErro = 'Erro ao cadastrar curso'
   mensagemErro = ''
+
+  constructor() {
+    this.definirBreadcrumb()
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
   }
 
+  definirBreadcrumb(): void {
+    this.items = [
+      { icon: 'pi pi-home', route: '/inicio' },
+      { icon: '', label: 'Cursos', route: '/cursos' },
+    ]
+  }
+
   observarEvtSalvar(curso: CursoI): void {
-    this.salvandoCurso = true
+    this.salvando = true
 
     const { id, ...cursoACadastrar } = curso
 
@@ -42,7 +55,7 @@ export class CadastroCursoComponent implements OnDestroy {
       .criarCurso(cursoACadastrar)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => (this.salvandoCurso = false)),
+        finalize(() => (this.salvando = false)),
         catchError((e) => {
           this.tituloErro = 'Erro ao carregar curso'
           this.mensagemErro = e.message

@@ -4,30 +4,28 @@
 
 <ng-container *ngIf="!loading; else carregando">
   <div id="lista_curso_container">
+    <pa-breadcrumb [items]="items" />
+
     <h3>Cursos</h3>
 
-    <div class="card mt-8">
-      <p-fluid>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <pa-input-search
-              id="lista_curso_campo_pesquisa"
-              placeholder="Pesquisar por nome"
-              (aoPesquisar)="pesquisarPorNome($event)"
-            />
-          </div>
+    <pa-filtro-tabela-container>
+      <div>
+        <pa-input-search
+          id="lista_curso_campo_pesquisa"
+          placeholder="Pesquisar por nome"
+          (aoPesquisar)="pesquisarPorNome($event)"
+        />
+      </div>
 
-          <p-button
-            class="justify-self-end"
-            label="Adicionar Curso"
-            icon="pi pi-plus"
-            [fluid]="false"
-            size="small"
-            (click)="adicionarCurso()"
-          />
-        </div>
-      </p-fluid>
-    </div>
+      <p-button
+        class="justify-self-end"
+        label="Adicionar Curso"
+        icon="pi pi-plus"
+        [fluid]="false"
+        size="small"
+        (click)="adicionarCurso()"
+      />
+    </pa-filtro-tabela-container>
 
     <pa-tabela
       id="lista_curso_tabela"

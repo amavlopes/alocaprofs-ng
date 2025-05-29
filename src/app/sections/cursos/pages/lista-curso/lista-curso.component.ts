@@ -6,25 +6,27 @@ import { catchError, concatMap, EMPTY, finalize, Observable, of, Subject, takeUn
 
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { ButtonModule } from 'primeng/button'
-import { ConfirmationService } from 'primeng/api'
-import { FluidModule } from 'primeng/fluid'
+import { ConfirmationService, MenuItem } from 'primeng/api'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
 import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component'
+import { FiltroTabelaContainerComponent } from '../../../../shared/filtro-tabela-container/filtro-tabela-container.component'
 import { InputSearchComponent } from '../../../../shared/input-search/input-search.component'
 import { TabelaComponent } from '../../../../shared/tabela/tabela.component'
 import { Coluna } from '../../../../shared/tabela/interfaces/coluna.interface'
+import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 
 @Component({
   selector: 'pa-lista-curso',
   imports: [
     CommonModule,
+    BreadcrumbComponent,
     ButtonModule,
-    FluidModule,
     DialogComponent,
     ConfirmDialogComponent,
+    FiltroTabelaContainerComponent,
     InputSearchComponent,
     LoaderComponent,
     TabelaComponent,
@@ -41,22 +43,19 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
 
   loading = true
   mostrarDialog = false
+  items: MenuItem[] = []
+  home: MenuItem | undefined
   tituloErro = 'Erro ao buscar curso'
   mensagemErro = ''
-  cursos: CursoI[] = []
   indice = 0
   registros = 10
-  colunas: Coluna[] = [
-    {
-      campo: 'id',
-      cabecalho: 'Código',
-      largura: '7rem',
-    },
-    {
-      campo: 'nome',
-      cabecalho: 'Nome',
-    },
-  ]
+  cursos: CursoI[] = []
+  colunas: Coluna[] = []
+
+  constructor() {
+    this.definirBreadcrumb()
+    this.definirColunasTabela()
+  }
 
   ngOnInit() {
     this.carregarCursos()
@@ -65,6 +64,24 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
+  }
+
+  definirBreadcrumb(): void {
+    this.items = [{ icon: 'pi pi-home', route: '/inicio' }]
+  }
+
+  definirColunasTabela(): void {
+    this.colunas = [
+      {
+        campo: 'id',
+        cabecalho: 'Código',
+        largura: '7rem',
+      },
+      {
+        campo: 'nome',
+        cabecalho: 'Nome',
+      },
+    ]
   }
 
   obterCursosHttp$(termo: string = ''): Observable<CursoI[]> {

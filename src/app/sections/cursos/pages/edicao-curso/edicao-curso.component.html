@@ -3,6 +3,8 @@
 </ng-template>
 <ng-container *ngIf="curso$ | async as curso; else carregando">
   <div id="edicao_curso_container">
+    <pa-breadcrumb [items]="items" />
+
     <h3>Editar Curso</h3>
 
     <div class="card mt-8">
@@ -13,7 +15,7 @@
 
       <pa-formulario-curso
         id="edicao_curso"
-        [loading]="operacaoPendente"
+        [loading]="salvando"
         [curso]="curso"
         (evtSalvar)="observarEvtSalvar($event)"
         (evtLimpar)="observarEvtLimpar()"
