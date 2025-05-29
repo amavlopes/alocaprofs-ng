@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playpen+Sans+Arabic:wght@100..800&display=swap');
 @import 'tailwindcss';
 @import 'primeicons/primeicons.css';
 
@@ -17,7 +16,7 @@
   h4,
   h5,
   h6 {
-    @apply mt-2 font-bold tracking-tight;
+    @apply mt-2 font-semibold tracking-tight;
   }
 
   h1 {
@@ -42,6 +41,16 @@
 
   h6 {
     @apply tracking-normal;
+  }
+}
+
+@layer components {
+  .container {
+    @apply container mx-auto mt-20 max-w-3xl! px-5;
+
+    @variant md {
+      @apply px-2.5;
+    }
   }
 }
 

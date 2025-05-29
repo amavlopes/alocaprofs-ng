@@ -1,14 +1,6 @@
 @reference "tailwindcss";
 
 @layer components {
-  .container {
-    @apply container mx-auto mt-20 max-w-3xl! px-5;
-
-    @variant md {
-      @apply px-2.5;
-    }
-  }
-
   .formulario {
     @apply flex flex-col gap-5;
   }

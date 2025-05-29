@@ -18,26 +18,14 @@
         autocomplete="off"
       />
 
-      <small
-        *ngIf="nome.touched && nome.errors?.['required']"
-        id="cadastro_curso_validacao_required"
-        class="mensagem mensagem_erro"
-        >O campo nome é obrigatório</small
-      >
-
-      <small
-        *ngIf="nome.touched && nome.errors?.['minlength']"
-        id="cadastro_curso_validacao_minlength"
-        class="mensagem mensagem_erro"
-        >O campo nome deve ter no mínimo {{ minLength }} caracteres</small
-      >
-
-      <small
-        *ngIf="nome.touched && nome.errors?.['maxlength']"
-        id="cadastro_curso_validacao_maxlength"
-        class="mensagem mensagem_erro"
-        >O campo nome deve ter no máximo {{ maxLength }} caracteres</small
-      >
+      <ng-container *ngFor="let validacao of validacoes">
+        <small
+          *ngIf="nome.touched && nome.errors?.[validacao.tipo]"
+          id="cadastro_curso_validacao_{{ validacao.tipo }}"
+          class="mensagem mensagem_erro"
+          >{{ validacao.mensagem }}
+        </small>
+      </ng-container>
     </div>
 
     <div class="formulario_bloco">
@@ -77,3 +65,10 @@
     </div>
   </form>
 </div>
+
+<p-dialog id="cadastro_curso_modal_erro" [modal]="true" [(visible)]="mostrarDialog" [style]="{ width: '20rem' }">
+  <ng-template #header>
+    <h5 class="mt-0 text-zinc-800">Erro ao cadastrar curso</h5>
+  </ng-template>
+  <p class="mb-2 text-sm">{{ mensagemErro }}.</p>
+</p-dialog>

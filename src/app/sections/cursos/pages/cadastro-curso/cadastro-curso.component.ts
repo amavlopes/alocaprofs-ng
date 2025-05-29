@@ -19,13 +19,22 @@ import { InputTextModule } from 'primeng/inputtext'
 import { TextareaModule } from 'primeng/textarea'
 import { Button, ButtonModule } from 'primeng/button'
 import { MessageModule } from 'primeng/message'
+import { DialogModule } from 'primeng/dialog'
 
-import { CursoI } from '../../interfaces/response/curso.interface'
 import { CursoService } from '../../services/curso.service'
+import { CursoI } from '../../interfaces/response/curso.interface'
 
 @Component({
   selector: 'pa-cadastro-curso',
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, TextareaModule, ButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    TextareaModule,
+    ButtonModule,
+    MessageModule,
+    DialogModule,
+  ],
   templateUrl: './cadastro-curso.component.html',
   styleUrl: './cadastro-curso.component.css',
 })
@@ -35,9 +44,11 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>()
 
   loading = false
-  salvando = false
+  formularioSubmetido = false
   minLength = 6
   maxLength = 120
+  mostrarDialog = false
+  mensagemErro = ''
   inscricoes: Subscription = new Subscription()
   botaoSalvar = viewChild<Button>('botaoSalvar')
   botaoLimpar = viewChild<Button>('botaoLimpar')
@@ -50,6 +61,20 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
       updateOn: 'blur',
     }
   )
+  validacoes = [
+    {
+      tipo: 'required',
+      mensagem: 'O campo nome é obrigatório',
+    },
+    {
+      tipo: 'minlength',
+      mensagem: `O campo nome deve ter no mínimo ${this.minLength} caracteres`,
+    },
+    {
+      tipo: 'maxlength',
+      mensagem: `O campo nome deve ter no máximo ${this.maxLength} caracteres`,
+    },
+  ]
 
   get nome(): FormControl {
     return this.formulario.get('nome') as FormControl
@@ -73,10 +98,8 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
     fromEvent(this.botaoSalvar()?.el.nativeElement, 'click')
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
-        tap(() => {
-          this.formulario.markAllAsTouched()
-        }),
+        debounceTime(100),
+        tap(() => this.formulario.markAllAsTouched()),
         filter(() => this.formulario.valid),
         switchMap(() => {
           this.loading = true
@@ -84,7 +107,9 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
           return this.servicoCurso.criar({ nome: this.nome.value }).pipe(
             finalize(() => (this.loading = false)),
             catchError((e) => {
-              // TO DO: Abrir modal com mensagem de erro
+              this.mensagemErro = e.message
+              this.mostrarDialog = true
+
               return EMPTY
             })
           )
@@ -92,6 +117,7 @@ export class CadastroCursoComponent implements OnInit, OnDestroy {
       )
       .subscribe((curso: CursoI) => {
         // TO DO: Redirecionar para lista de cursos e abrir toast de sucesso
+        console.log('Sucesso: ', curso)
       })
   }
 
