@@ -12,6 +12,20 @@
       [tableStyle]="{ 'min-width': '640px' }"
       class="text-sm"
     >
+      <ng-template #caption>
+        <div class="mb-2 flex items-center justify-between">
+          <div class="flex">
+            <p-iconfield iconPosition="left" class="ml-auto">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input #pesquisaPorNome pInputText type="text" placeholder="Pesquisar por nome" pSize="small" />
+            </p-iconfield>
+          </div>
+
+          <p-button label="Adicionar Curso" icon="pi pi-plus" size="small" (click)="adicionarCurso()" />
+        </div>
+      </ng-template>
       <ng-template #header>
         <tr>
           <th pSortableColumn="id" style="width: 17%">Código <p-sortIcon field="id" /></th>

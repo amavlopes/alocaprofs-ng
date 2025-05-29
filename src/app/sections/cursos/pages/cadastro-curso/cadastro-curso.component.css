@@ -18,7 +18,7 @@
   }
 
   .mensagem {
-    @apply text-sm tracking-wide;
+    @apply tracking-wide;
 
     &.mensagem_erro {
       @apply text-red-600;

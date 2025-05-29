@@ -1,7 +1,19 @@
-import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
-import { catchError, finalize, Observable, of, Subject } from 'rxjs'
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  finalize,
+  fromEvent,
+  map,
+  Observable,
+  of,
+  startWith,
+  Subject,
+  switchMap,
+} from 'rxjs'
 
 import { DialogModule } from 'primeng/dialog'
 import { TableModule } from 'primeng/table'
@@ -14,6 +26,7 @@ import { InputTextModule } from 'primeng/inputtext'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'pa-lista-curso',
@@ -32,6 +45,7 @@ import { CursoI } from '../../interfaces/curso.interface'
   styleUrl: './lista-curso.component.css',
 })
 export class ListaCursoComponent implements AfterViewInit, OnDestroy {
+  private roteador = inject(Router)
   private servicoCurso = inject(CursoService)
   private destroy$ = new Subject<void>()
 
@@ -41,13 +55,25 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
   mensagemErro = ''
   cursos$!: Observable<CursoI[]>
 
+  @ViewChild('pesquisaPorNome') pesquisaPorNome!: ElementRef
+
   ngAfterViewInit(): void {
-    this.cursos$ = this.carregarCursos()
+    this.cursos$ = this.observarPesquisaPorNome()
   }
 
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
+  }
+
+  observarPesquisaPorNome(): Observable<CursoI[]> {
+    return fromEvent<any>(this.pesquisaPorNome.nativeElement, 'keyup').pipe(
+      map((evento) => evento.target.value),
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((nome) => this.carregarCursos(nome))
+    )
   }
 
   carregarCursos(nome: string = ''): Observable<CursoI[]> {
@@ -60,5 +86,9 @@ export class ListaCursoComponent implements AfterViewInit, OnDestroy {
         return of([])
       })
     )
+  }
+
+  adicionarCurso(): void {
+    this.roteador.navigate(['cursos/cadastro'])
   }
 }

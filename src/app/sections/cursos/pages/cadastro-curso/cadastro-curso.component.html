@@ -11,6 +11,7 @@
       <label for="cadastro_curso_campo_nome">Nome<span class="campo_obrigatorio">*</span></label>
       <input
         pInputText
+        pSize="small"
         id="cadastro_curso_campo_nome"
         class="campo_formulario"
         type="text"
@@ -33,6 +34,7 @@
 
       <textarea
         pTextarea
+        pSize="small"
         id="cadastro_curso_campo_descricao"
         class="campo_formulario"
         rows="4"
@@ -70,5 +72,5 @@
   <ng-template #header>
     <h5 class="mt-0 text-zinc-800">Erro ao cadastrar curso</h5>
   </ng-template>
-  <p class="mb-2 text-sm">{{ mensagemErro }}.</p>
+  <p class="mb-2">{{ mensagemErro }}.</p>
 </p-dialog>

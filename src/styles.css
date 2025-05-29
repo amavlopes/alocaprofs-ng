@@ -43,6 +43,11 @@
   h6 {
     @apply tracking-normal;
   }
+
+  p,
+  label {
+    @apply text-sm;
+  }
 }
 
 @layer components {
