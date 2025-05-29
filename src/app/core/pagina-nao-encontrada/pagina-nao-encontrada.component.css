@@ -1,0 +1,25 @@
+@reference "../../../styles.css";
+
+.not_found {
+  @apply pa-altura-100vh flex items-center justify-center;
+}
+
+.not_found_container {
+  @apply flex flex-col items-center justify-center;
+}
+
+.not_found_card {
+  @apply flex flex-col items-center gap-8 p-10!;
+}
+
+.not_found_titulo {
+  @apply text-8xl font-extrabold tracking-wider;
+}
+
+.not_found_subtitulo {
+  @apply border-t border-gray-200 pt-8 text-center text-4xl font-bold text-slate-700;
+}
+
+.not_found_botao {
+  @apply font-bold uppercase;
+}

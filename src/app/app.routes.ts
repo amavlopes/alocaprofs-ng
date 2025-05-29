@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router'
+import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagina-nao-encontrada.component'
 
 export const routes: Routes = [
   {
@@ -31,4 +32,5 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: '**', component: PaginaNaoEncontradaComponent },
 ]

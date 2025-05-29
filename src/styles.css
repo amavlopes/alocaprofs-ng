@@ -5,58 +5,64 @@
 
 @theme inline {
   --font-inter: 'Inter', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-fredericka: 'Fredericka the Great', serif;
-
   --font-sans: var(--font-inter);
+
+  --pa-height-100vh: 28;
 }
 
-html {
-  @apply bg-slate-50 font-sans;
+@utility pa-altura-100vh {
+  height: calc(100vh - (var(--spacing) * 28));
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply mt-2 font-bold tracking-tight text-slate-900;
-}
+@layer base {
+  html {
+    @apply bg-slate-50 font-sans;
+  }
 
-h1 {
-  @apply text-4xl;
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply mt-2 font-bold tracking-tight text-slate-900;
+  }
 
-h2 {
-  @apply text-3xl;
-}
+  h1 {
+    @apply text-4xl;
+  }
 
-h3 {
-  @apply text-2xl;
-}
+  h2 {
+    @apply text-3xl;
+  }
 
-h4 {
-  @apply text-xl;
-}
+  h3 {
+    @apply text-2xl;
+  }
 
-h5 {
-  @apply text-lg tracking-normal;
-}
+  h4 {
+    @apply text-xl;
+  }
 
-h6 {
-  @apply tracking-normal;
-}
+  h5 {
+    @apply text-lg tracking-normal;
+  }
 
-p,
-label {
-  @apply text-sm;
-}
+  h6 {
+    @apply tracking-normal;
+  }
 
-.container {
-  @apply container mx-auto max-w-3xl! px-5;
+  p,
+  label {
+    @apply text-sm;
+  }
 
-  @variant md {
-    @apply px-2.5;
+  .container {
+    @apply container mx-auto max-w-3xl! px-5;
+
+    @variant md {
+      @apply px-2.5;
+    }
   }
 }
 
@@ -107,4 +113,8 @@ label {
   &:focus-visible {
     @apply outline-0!;
   }
+}
+
+.not_found {
+  @apply pa-altura-100vh flex items-center justify-center;
 }

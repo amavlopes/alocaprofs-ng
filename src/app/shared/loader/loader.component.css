@@ -1,7 +1,7 @@
-@reference "tailwindcss";
+@reference "../../../styles.css";
 
 .loader {
-  @apply flex h-screen items-center justify-center;
+  @apply pa-altura-100vh flex items-center justify-center;
 }
 
 .loader_container {

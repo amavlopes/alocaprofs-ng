@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
-import { RouterModule } from '@angular/router'
+import { Component, inject, OnInit } from '@angular/core'
+import { Router, RouterModule } from '@angular/router'
 
 import { MenuItem } from 'primeng/api'
 import { MenubarModule } from 'primeng/menubar'
@@ -14,6 +14,8 @@ import { LogoComponent } from '../logo/logo.component'
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
+  private roteador: Router = inject(Router)
+
   items: MenuItem[] | undefined
 
   ngOnInit(): void {
@@ -21,22 +23,31 @@ export class HeaderComponent implements OnInit {
       {
         label: 'Cursos',
         icon: 'pi pi-book',
-        route: '/cursos',
+        command: () => {
+          this.roteador.navigate(['/cursos'])
+        },
       },
+
       {
         label: 'Departamentos',
         icon: 'pi pi-sitemap',
-        route: '/departamentos',
+        command: () => {
+          this.roteador.navigate(['/departamentos'])
+        },
       },
       {
         label: 'Professores',
         icon: 'pi pi-user-edit',
-        route: '/professores',
+        command: () => {
+          this.roteador.navigate(['/professores'])
+        },
       },
       {
         label: 'Alocações',
         icon: 'pi pi-calendar-clock',
-        route: '/alocacoes',
+        command: () => {
+          this.roteador.navigate(['/alocacoes'])
+        },
       },
     ]
   }

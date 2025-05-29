@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: AlocaProfs,
         options: {
-          darkModeSelector: false || 'none',
+          darkModeSelector: 'none',
         },
       },
     }),
