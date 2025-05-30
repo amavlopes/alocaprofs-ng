@@ -14,11 +14,15 @@ export class CursoService {
   private http = inject(HttpClient)
 
   criarCurso(curso: Omit<CursoI, 'id'>): Observable<CursoI> {
-    const request = { name: curso.nome }
+    const request = { name: curso.nome, description: curso.descricao }
 
     return this.http.post<{ course: CursoResponseI }>(this.url, request).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
-      map((response: { course: CursoResponseI }) => ({ id: response.course.id, nome: response.course.name }))
+      map((response: { course: CursoResponseI }) => ({
+        id: response.course.id,
+        nome: response.course.name,
+        descricao: response.course.description,
+      }))
     )
   }
 
@@ -33,6 +37,7 @@ export class CursoService {
         const cursos = response.courses.map((curso: CursoResponseI) => ({
           id: curso.id,
           nome: curso.name,
+          descricao: curso.description,
         }))
 
         return cursos
@@ -47,16 +52,21 @@ export class CursoService {
       map((response: { course: CursoResponseI }) => ({
         id: response.course.id,
         nome: response.course.name,
+        descricao: response.course.description,
       }))
     )
   }
 
   atualizarCurso(curso: CursoI): Observable<CursoI> {
-    const request = { name: curso.nome }
+    const request = { name: curso.nome, description: curso.descricao }
 
     return this.http.put<{ course: CursoResponseI }>(`${this.url}/${curso.id}`, request).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
-      map((response: { course: CursoResponseI }) => ({ id: response.course.id, nome: response.course.name }))
+      map((response: { course: CursoResponseI }) => ({
+        id: response.course.id,
+        nome: response.course.name,
+        descricao: response.course.description,
+      }))
     )
   }
 

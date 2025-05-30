@@ -69,6 +69,7 @@ export class FormularioCursoComponent implements OnInit {
   carregarFormulario(): void {
     this.idCurso.setValue(this.curso?.id)
     this.nome.setValue(this.curso?.nome)
+    this.descricao.setValue(this.curso?.descricao)
 
     this.formulario.updateValueAndValidity()
   }
@@ -81,7 +82,7 @@ export class FormularioCursoComponent implements OnInit {
         tap(() => this.formulario.markAllAsTouched()),
         filter(() => this.formulario.valid),
         tap(() => {
-          const curso = { id: this.idCurso.value, nome: this.nome.value }
+          const curso = { id: this.idCurso.value, nome: this.nome.value, descricao: this.descricao.value }
           this.evtSalvar.emit(curso)
         })
       )

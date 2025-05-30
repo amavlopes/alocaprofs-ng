@@ -57,7 +57,7 @@ export class CadastroCursoComponent implements OnDestroy {
         takeUntil(this.destroy$),
         finalize(() => (this.salvando = false)),
         catchError((e) => {
-          this.tituloErro = 'Erro ao carregar curso'
+          this.tituloErro = 'Erro ao criar curso'
           this.mensagemErro = e.message
           this.mostrarDialog = true
 
