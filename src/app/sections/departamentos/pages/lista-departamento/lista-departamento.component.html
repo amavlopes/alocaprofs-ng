@@ -1,0 +1,70 @@
+@if (estaCarregandoPagina) {
+  <pa-loader
+    id="lista_departamento_loader"
+    titulo="Carregando página"
+    conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto."
+  />
+} @else {
+  <ng-template #botaoAdicionar>
+    <p-button
+      id="lista_departamento_adicionar"
+      label="Adicionar departamento"
+      icon="pi pi-plus"
+      size="small"
+      (click)="adicionarDepartamento()"
+    />
+  </ng-template>
+
+  <div class="pa_pagina_main">
+    <div class="pa_container">
+      <pa-breadcrumb id="lista_departamento_breadcrumb" [items]="items" />
+
+      <h3>Departamentos</h3>
+
+      <div class="pa_pagina_conteudo">
+        @if (departamentos.length === 0 && mostrarEstadoInicialVazio) {
+          <pa-nenhum-resultado
+            id="lista_departamento_nenhum_resultado"
+            titulo="Você ainda não possui departamentos cadastrados."
+            subtitulo="Clique abaixo para cadastrar um novo departamento."
+          >
+            <div class="mt-4">
+              <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
+            </div>
+          </pa-nenhum-resultado>
+        } @else {
+          <pa-filtro-tabela-container>
+            <div>
+              <pa-input-search
+                id="lista_departamento_pesquisa"
+                placeholder="Pesquisar por nome"
+                (aoPesquisar)="pesquisarPorNome($event)"
+              />
+            </div>
+
+            <div class="justify-self-end">
+              <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
+            </div>
+          </pa-filtro-tabela-container>
+
+          <pa-tabela
+            id="lista_departamento_tabela"
+            [items]="departamentos"
+            [colunas]="colunas"
+            [(indiceRegistro)]="indice"
+            [registrosPorPagina]="registros"
+          />
+        }
+      </div>
+    </div>
+  </div>
+
+  <pa-dialog
+    id="lista_departamento_dialog_erro"
+    [mostrarDialog]="mostrarDialog"
+    [tituloErro]="tituloErro"
+    [mensagemErro]="mensagemErro"
+  ></pa-dialog>
+
+  <pa-confirm-dialog id="lista_departamento_dialog_confirmar" />
+}

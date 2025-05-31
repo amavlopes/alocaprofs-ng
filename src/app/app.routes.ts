@@ -42,8 +42,16 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'cadastro',
+        redirectTo: 'lista',
         pathMatch: 'full',
+      },
+      {
+        path: 'lista',
+        title: 'AlocaProfs - Departamentos',
+        loadComponent: () =>
+          import('./sections/departamentos/pages/lista-departamento/lista-departamento.component').then(
+            (m) => m.ListaDepartamentoComponent
+          ),
       },
       {
         path: 'cadastro',
