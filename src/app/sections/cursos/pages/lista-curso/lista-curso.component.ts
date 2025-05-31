@@ -17,6 +17,7 @@ import { InputSearchComponent } from '../../../../shared/input-search/input-sear
 import { TabelaComponent } from '../../../../shared/tabela/tabela.component'
 import { Coluna } from '../../../../shared/tabela/interfaces/coluna.interface'
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
+import { NenhumResultadoComponent } from '../../../../shared/nenhum-resultado/nenhum-resultado.component'
 
 @Component({
   selector: 'pa-lista-curso',
@@ -30,6 +31,7 @@ import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.co
     InputSearchComponent,
     LoaderComponent,
     TabelaComponent,
+    NenhumResultadoComponent,
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-curso.component.html',
@@ -41,7 +43,8 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   private servicoCurso = inject(CursoService)
   private destroy$ = new Subject<void>()
 
-  loading = true
+  estaCarregandoPagina = true
+  mostrarEstadoInicialVazio!: boolean
   mostrarDialog = false
   items: MenuItem[] = []
   home: MenuItem | undefined
@@ -99,16 +102,22 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
     )
   }
 
-  carregarCursos(termo: string = ''): void {
-    this.obterCursosHttp$(termo)
-      .pipe(finalize(() => (this.loading = false)))
+  carregarCursos() {
+    this.obterCursosHttp$()
+      .pipe(finalize(() => (this.estaCarregandoPagina = false)))
       .subscribe((cursos: CursoI[]) => {
         this.cursos = cursos
+
+        this.mostrarEstadoInicialVazio = cursos.length === 0
       })
   }
 
   pesquisarPorNome(termo: string): void {
-    this.carregarCursos(termo)
+    this.obterCursosHttp$(termo).subscribe((cursos: CursoI[]) => {
+      this.cursos = cursos
+
+      this.mostrarEstadoInicialVazio = false
+    })
   }
 
   adicionarCurso(): void {
@@ -133,8 +142,6 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   }
 
   excluirCurso(id: number): void {
-    this.loading = true
-
     this.servicoCurso
       .excluirCursoPorId(id)
       .pipe(
@@ -148,9 +155,10 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
         concatMap(() => this.obterCursosHttp$()),
         takeUntil(this.destroy$)
       )
-      .subscribe({
-        next: (cursos: CursoI[]) => (this.cursos = cursos),
-        complete: () => (this.loading = false),
+      .subscribe((cursos: CursoI[]) => {
+        if (!cursos.length) this.mostrarEstadoInicialVazio = true
+
+        this.cursos = cursos
       })
   }
 }

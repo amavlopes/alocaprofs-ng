@@ -1,47 +1,63 @@
-<ng-template #carregando>
+@if (estaCarregandoPagina) {
   <pa-loader
     id="lista_curso_loader"
     titulo="Carregando página"
     conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto."
   />
-</ng-template>
+} @else {
+  <ng-template #botaoAdicionar>
+    <p-button
+      id="lista_curso_adicionar"
+      label="Adicionar Curso"
+      icon="pi pi-plus"
+      size="small"
+      (click)="adicionarCurso()"
+    />
+  </ng-template>
 
-<ng-container *ngIf="!loading; else carregando">
   <div class="pa_pagina_main">
     <div class="pa_container">
       <pa-breadcrumb id="lista_curso_breadcrumb" [items]="items" />
 
       <h3>Cursos</h3>
 
-      <pa-filtro-tabela-container>
-        <div>
-          <pa-input-search
-            id="lista_curso_pesquisa"
-            placeholder="Pesquisar por nome"
-            (aoPesquisar)="pesquisarPorNome($event)"
+      <div class="pa_pagina_conteudo">
+        @if (cursos.length === 0 && mostrarEstadoInicialVazio) {
+          <pa-nenhum-resultado
+            id="lista_curso_nenhum_resultado"
+            titulo="Você ainda não possui cursos cadastrados."
+            subtitulo="Clique abaixo para cadastrar um novo curso."
+          >
+            <div class="mt-4">
+              <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
+            </div>
+          </pa-nenhum-resultado>
+        } @else {
+          <pa-filtro-tabela-container>
+            <div>
+              <pa-input-search
+                id="lista_curso_pesquisa"
+                placeholder="Pesquisar por nome"
+                (aoPesquisar)="pesquisarPorNome($event)"
+              />
+            </div>
+
+            <div class="justify-self-end">
+              <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
+            </div>
+          </pa-filtro-tabela-container>
+
+          <pa-tabela
+            id="lista_curso_tabela"
+            [items]="cursos"
+            [colunas]="colunas"
+            [(indiceRegistro)]="indice"
+            [registrosPorPagina]="registros"
+            (aoClicarEmEditar)="editarCurso($event)"
+            (aoClicarEmExcluir)="confirmarExclusao($event)"
           />
-        </div>
-
-        <p-button
-          id="lista_curso_adicionar"
-          class="justify-self-end"
-          label="Adicionar Curso"
-          icon="pi pi-plus"
-          [fluid]="false"
-          size="small"
-          (click)="adicionarCurso()"
-        />
-      </pa-filtro-tabela-container>
-
-      <pa-tabela
-        id="lista_curso_tabela"
-        [items]="cursos"
-        [colunas]="colunas"
-        [(indiceRegistro)]="indice"
-        [registrosPorPagina]="registros"
-        (aoClicarEmEditar)="editarCurso($event)"
-        (aoClicarEmExcluir)="confirmarExclusao($event)"
-      />
+        }
+      </div>
     </div>
   </div>
 
@@ -53,4 +69,4 @@
   ></pa-dialog>
 
   <pa-confirm-dialog id="lista_curso_dialog_confirmar" />
-</ng-container>
+}

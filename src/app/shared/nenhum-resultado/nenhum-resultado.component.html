@@ -1,0 +1,7 @@
+<div class="nenhum_resultado">
+  <div class="card">
+    <h6 class="nenhum_resultado_titulo">{{ titulo }}</h6>
+    <p *ngIf="!!subtitulo" class="nenhum_resultado_conteudo">{{ subtitulo }}</p>
+    <ng-content></ng-content>
+  </div>
+</div>

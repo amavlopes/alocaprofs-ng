@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+.nenhum_resultado_titulo {
+  @apply mb-0;
+}
+
+.nenhum_resultado_conteudo {
+  @apply font-semibold text-slate-600;
+}

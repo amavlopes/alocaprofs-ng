@@ -13,19 +13,21 @@
 
       <h3>Editar Curso</h3>
 
-      <div class="card mt-8">
-        <p class="mb-8">
-          Atualize os dados do curso preenchendo as informações abaixo. <br />
-          Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
-        </p>
+      <div class="pa_pagina_conteudo">
+        <div class="card">
+          <p class="mb-8">
+            Atualize os dados do curso preenchendo as informações abaixo. <br />
+            Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
+          </p>
 
-        <pa-formulario-curso
-          id="edicao_curso"
-          [loading]="salvando"
-          [curso]="curso"
-          (evtSalvar)="observarEvtSalvar($event)"
-          (evtLimpar)="observarEvtLimpar()"
-        />
+          <pa-formulario-curso
+            id="edicao_curso"
+            [loading]="salvando"
+            [curso]="curso"
+            (evtSalvar)="observarEvtSalvar($event)"
+            (evtLimpar)="observarEvtLimpar()"
+          />
+        </div>
       </div>
     </div>
   </div>
