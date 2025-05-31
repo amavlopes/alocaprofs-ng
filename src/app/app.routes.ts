@@ -37,5 +37,23 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'departamentos',
+    children: [
+      {
+        path: '',
+        redirectTo: 'cadastro',
+        pathMatch: 'full',
+      },
+      {
+        path: 'cadastro',
+        title: 'AlocaProfs - Cadastrar Departamento',
+        loadComponent: () =>
+          import('./sections/departamentos/pages/cadastro-departamento/cadastro-departamento.component').then(
+            (m) => m.CadastroDepartamentoComponent
+          ),
+      },
+    ],
+  },
   { path: '**', component: PaginaNaoEncontradaComponent },
 ]
