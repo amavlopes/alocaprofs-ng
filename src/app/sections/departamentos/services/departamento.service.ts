@@ -45,4 +45,11 @@ export class DepartamentoService {
       })
     )
   }
+
+  excluirDepartamentoPorId(id: number): Observable<void> {
+    return this.http.delete<Observable<void>>(`${this.url}/${id}`).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      map(() => void 0)
+    )
+  }
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 
-import { catchError, finalize, Observable, of, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, concatMap, EMPTY, finalize, Observable, of, Subject, takeUntil, tap } from 'rxjs'
 
 import { ButtonModule } from 'primeng/button'
 import { ConfirmationService, MenuItem } from 'primeng/api'
@@ -38,6 +38,7 @@ import { Router } from '@angular/router'
 })
 export class ListaDepartamentoComponent implements OnDestroy, OnInit {
   private roteador = inject(Router)
+  private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
   private servicoDepartamento = inject(DepartamentoService)
   private destroy$ = new Subject<void>()
 
@@ -121,5 +122,39 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
 
   adicionarDepartamento(): void {
     this.roteador.navigate(['/departamentos/cadastro'])
+  }
+
+  confirmarExclusao(departamento: DepartamentoI) {
+    this.servicoConfirmacao.confirm({
+      closable: true,
+      closeOnEscape: true,
+      header: 'Excluir departamento?',
+      message: `Tem certeza que deseja excluir o departamento de ${departamento.nome}?`,
+      accept: () => {
+        this.excluirDepartamento(departamento.id)
+      },
+      reject: () => {},
+    })
+  }
+
+  excluirDepartamento(id: number): void {
+    this.servicoDepartamento
+      .excluirDepartamentoPorId(id)
+      .pipe(
+        catchError((e) => {
+          this.tituloErro = 'Erro ao excluir departamento'
+          this.mensagemErro = e.message
+          this.mostrarDialog = true
+
+          return EMPTY
+        }),
+        concatMap(() => this.obterDepartamentosHttp$()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((departamentos: DepartamentoI[]) => {
+        if (!departamentos.length) this.mostrarEstadoInicialVazio = true
+
+        this.departamentos = departamentos
+      })
   }
 }
