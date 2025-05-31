@@ -70,7 +70,7 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   }
 
   definirBreadcrumb(): void {
-    this.items = [{ icon: 'pi pi-home', route: '/inicio' }]
+    this.items = [{ icon: 'pi pi-home', route: '/' }]
   }
 
   definirColunasTabela(): void {

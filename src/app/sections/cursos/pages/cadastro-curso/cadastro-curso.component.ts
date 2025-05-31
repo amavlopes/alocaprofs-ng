@@ -41,7 +41,7 @@ export class CadastroCursoComponent implements OnDestroy {
 
   definirBreadcrumb(): void {
     this.items = [
-      { icon: 'pi pi-home', route: '/inicio' },
+      { icon: 'pi pi-home', route: '/' },
       { icon: '', label: 'Cursos', route: '/cursos' },
     ]
   }
