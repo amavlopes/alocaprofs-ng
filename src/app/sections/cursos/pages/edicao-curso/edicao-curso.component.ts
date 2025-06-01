@@ -17,7 +17,6 @@ import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.co
   selector: 'pa-edicao-curso',
   imports: [CommonModule, BreadcrumbComponent, FormularioCursoComponent, DialogComponent, LoaderComponent],
   templateUrl: './edicao-curso.component.html',
-  styleUrl: './edicao-curso.component.css',
 })
 export class EdicaoCursoComponent {
   private servicoMensagem: MessageService = inject(MessageService)
@@ -28,7 +27,8 @@ export class EdicaoCursoComponent {
 
   curso$!: Observable<CursoI>
   cursoId!: number
-  salvando = false
+  estaCarregando = true
+  operacaoPendente = false
   mostrarDialog = false
   items: MenuItem[] = []
   tituloErro = ''
@@ -72,14 +72,16 @@ export class EdicaoCursoComponent {
     )
   }
 
-  observarEvtSalvar(curso: CursoI): void {
-    this.salvando = true
+  aoClicarSalvar(curso: CursoI): void {
+    if (this.operacaoPendente) return
+
+    this.operacaoPendente = true
 
     this.servicoCurso
       .atualizarCurso(curso)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => (this.salvando = false)),
+        finalize(() => (this.operacaoPendente = false)),
         catchError((e) => {
           this.tituloErro = 'Erro ao atualizar curso'
           this.mensagemErro = e.message
@@ -95,9 +97,7 @@ export class EdicaoCursoComponent {
           detail: curso.nome,
         })
 
-        this.roteador.navigate(['cursos'])
+        this.roteador.navigate(['/cursos'])
       })
   }
-
-  observarEvtLimpar(): void {}
 }

@@ -5,18 +5,18 @@ import { Router } from '@angular/router'
 
 import { catchError, EMPTY, finalize, Subject, takeUntil } from 'rxjs'
 
-import { CursoService } from '../../services/curso.service'
+import { MenuItem, MessageService } from 'primeng/api'
+
+import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { CursoI } from '../../interfaces/curso.interface'
-import { MenuItem, MessageService } from 'primeng/api'
+import { CursoService } from '../../services/curso.service'
 import { FormularioCursoComponent } from '../../components/formulario-curso/formulario-curso.component'
-import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 
 @Component({
   selector: 'pa-cadastro-curso',
   imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioCursoComponent, DialogComponent],
   templateUrl: './cadastro-curso.component.html',
-  styleUrl: './cadastro-curso.component.css',
 })
 export class CadastroCursoComponent implements OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
@@ -24,7 +24,7 @@ export class CadastroCursoComponent implements OnDestroy {
   private servicoCurso = inject(CursoService)
   private destroy$ = new Subject<void>()
 
-  salvando = false
+  operacaoPendente = false
   mostrarDialog = false
   items: MenuItem[] = []
   tituloErro = 'Erro ao cadastrar curso'
@@ -46,16 +46,18 @@ export class CadastroCursoComponent implements OnDestroy {
     ]
   }
 
-  observarEvtSalvar(curso: CursoI): void {
-    this.salvando = true
+  aoClicarSalvar(curso: CursoI): void {
+    if (this.operacaoPendente) return
 
-    const { id, ...cursoACadastrar } = curso
+    this.operacaoPendente = true
+
+    const { id, ...novoCurso } = curso
 
     this.servicoCurso
-      .criarCurso(cursoACadastrar)
+      .criarCurso(novoCurso)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => (this.salvando = false)),
+        finalize(() => (this.operacaoPendente = false)),
         catchError((e) => {
           this.tituloErro = 'Erro ao criar curso'
           this.mensagemErro = e.message
@@ -71,9 +73,7 @@ export class CadastroCursoComponent implements OnDestroy {
           detail: curso.nome,
         })
 
-        this.roteador.navigate(['cursos'])
+        this.roteador.navigate(['/cursos'])
       })
   }
-
-  observarEvtLimpar(): void {}
 }

@@ -2,42 +2,39 @@ import { CommonModule } from '@angular/common'
 import { Component, EventEmitter, inject, Input, OnInit, Output, viewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 
-import { debounceTime, filter, fromEvent, Subject, takeUntil, tap } from 'rxjs'
+import { debounceTime, filter, Subject, takeUntil, tap } from 'rxjs'
 
 import { Button, ButtonModule } from 'primeng/button'
 
 import { InputTextComponent } from '../../../../shared/input-text/input-text.component'
 import { TextareaComponent } from '../../../../shared/textarea/textarea.component'
 import { CursoI } from '../../interfaces/curso.interface'
+import { FormularioCursoI } from './interfaces/formulario-curso.interface'
 
 @Component({
   selector: 'pa-formulario-curso',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextComponent, TextareaComponent, ButtonModule],
   templateUrl: './formulario-curso.component.html',
-  styleUrl: './formulario-curso.component.css',
 })
 export class FormularioCursoComponent implements OnInit {
-  private construtorFormulario = inject(FormBuilder)
+  private fb = inject(FormBuilder)
+  private salvar$ = new Subject<void>()
   private destroy$ = new Subject<void>()
 
-  carregando: boolean = true
   minLength = 6
   maxLength = 120
-  botaoSalvar = viewChild<Button>('botaoSalvar')
-  botaoLimpar = viewChild<Button>('botaoLimpar')
-  formulario: FormGroup = this.construtorFormulario.group(
-    {
-      idCurso: [''],
-      nome: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
-      descricao: [''],
-    },
-    {
-      updateOn: 'blur',
-    }
-  )
+  formulario: FormGroup<FormularioCursoI> = this.fb.group({
+    idCurso: this.fb.control(''),
+    nome: this.fb.control('', [
+      Validators.required,
+      Validators.minLength(this.minLength),
+      Validators.maxLength(this.maxLength),
+    ]),
+    descricao: this.fb.control(''),
+  })
 
   @Input() id!: string
-  @Input() loading: boolean = false
+  @Input() operacaoPendente: boolean = false
   @Input() curso!: CursoI
   @Output() evtSalvar: EventEmitter<CursoI> = new EventEmitter()
   @Output() evtLimpar: EventEmitter<void> = new EventEmitter()
@@ -58,7 +55,6 @@ export class FormularioCursoComponent implements OnInit {
     this.carregarFormulario()
 
     this.observarEvtSalvar()
-    this.observarEvtLimpar()
   }
 
   ngOnDestroy(): void {
@@ -67,38 +63,43 @@ export class FormularioCursoComponent implements OnInit {
   }
 
   carregarFormulario(): void {
-    this.idCurso.setValue(this.curso?.id)
-    this.nome.setValue(this.curso?.nome)
-    this.descricao.setValue(this.curso?.descricao)
+    if (!this.curso) return
+
+    this.idCurso.setValue(this.curso.id)
+    this.nome.setValue(this.curso.nome)
+    this.descricao.setValue(this.curso.descricao)
 
     this.formulario.updateValueAndValidity()
   }
 
   observarEvtSalvar(): void {
-    fromEvent(this.botaoSalvar()?.el.nativeElement, 'click')
+    this.salvar$
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(100),
+        debounceTime(500),
+        filter(() => !this.operacaoPendente),
         tap(() => this.formulario.markAllAsTouched()),
-        filter(() => this.formulario.valid),
-        tap(() => {
-          const curso = { id: this.idCurso.value, nome: this.nome.value, descricao: this.descricao.value }
-          this.evtSalvar.emit(curso)
-        })
+        filter(() => this.formulario.valid)
       )
-      .subscribe()
-  }
-
-  observarEvtLimpar(): void {
-    fromEvent(this.botaoLimpar()?.el.nativeElement, 'click')
-      .pipe(takeUntil(this.destroy$), debounceTime(100))
       .subscribe(() => {
-        this.limparFormulario()
-        this.evtLimpar.emit()
+        const curso: CursoI = {
+          id: this.idCurso.value,
+          nome: this.nome.value,
+          descricao: this.descricao.value,
+        }
+
+        this.evtSalvar.emit(curso)
       })
   }
 
-  limparFormulario(): void {
+  aoClicarSalvar(): void {
+    if (this.operacaoPendente) return
+
+    this.salvar$.next()
+  }
+
+  aoClicarLimpar(): void {
     this.formulario.reset()
+    this.evtLimpar.emit()
   }
 }
