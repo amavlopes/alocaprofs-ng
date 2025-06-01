@@ -8,7 +8,6 @@ import { catchError, EMPTY, finalize, Subject, takeUntil } from 'rxjs'
 import { MenuItem, MessageService } from 'primeng/api'
 
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
-
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
 import { DepartamentoI } from '../../interfaces/departamento.interface'
 import { DepartamentoService } from './../../services/departamento.service'
@@ -18,7 +17,6 @@ import { FormularioDepartamentoComponent } from '../../components/formulario-dep
   selector: 'pa-cadastro-departamento',
   imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioDepartamentoComponent, DialogComponent],
   templateUrl: './cadastro-departamento.component.html',
-  styleUrl: './cadastro-departamento.component.css',
 })
 export class CadastroDepartamentoComponent implements OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)

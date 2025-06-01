@@ -124,6 +124,10 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
     this.roteador.navigate(['/departamentos/cadastro'])
   }
 
+  editarDepartamento(departamento: DepartamentoI) {
+    this.roteador.navigate(['/departamentos/edicao', departamento.id])
+  }
+
   confirmarExclusao(departamento: DepartamentoI) {
     this.servicoConfirmacao.confirm({
       closable: true,

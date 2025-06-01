@@ -1,0 +1,38 @@
+@if (departamento$ | async; as departamento) {
+  <div class="pa_pagina_main">
+    <div class="pa_container">
+      <pa-breadcrumb id="edicao_departamento_breadcrumb" [items]="items" />
+
+      <h3>Editar Departamento</h3>
+
+      <div class="pa_pagina_conteudo">
+        <div class="card">
+          <p class="mb-8">
+            Atualize os dados do departamento preenchendo as informações abaixo. <br />
+            Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
+          </p>
+
+          <pa-formulario-departamento
+            id="edicao_departamento_formulario"
+            [operacaoPendente]="operacaoPendente"
+            [departamento]="departamento"
+            (evtSalvar)="aoClicarSalvar($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <pa-dialog
+    id="edicao_departamento_dialog_erro"
+    [mostrarDialog]="mostrarDialog"
+    [tituloErro]="tituloErro"
+    [mensagemErro]="mensagemErro"
+  ></pa-dialog>
+} @else {
+  <pa-loader
+    id="edicao_departamento_loader"
+    titulo="Carregando página"
+    conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto."
+  />
+}

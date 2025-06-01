@@ -61,6 +61,14 @@ export const routes: Routes = [
             (m) => m.CadastroDepartamentoComponent
           ),
       },
+      {
+        path: 'edicao/:departamentoId',
+        title: 'AlocaProfs - Editar Departamento',
+        loadComponent: () =>
+          import('./sections/departamentos/pages/edicao-departamento/edicao-departamento.component').then(
+            (m) => m.EdicaoDepartamentoComponent
+          ),
+      },
     ],
   },
   { path: '**', component: PaginaNaoEncontradaComponent },
