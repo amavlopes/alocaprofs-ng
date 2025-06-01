@@ -37,5 +37,39 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'departamentos',
+    children: [
+      {
+        path: '',
+        redirectTo: 'lista',
+        pathMatch: 'full',
+      },
+      {
+        path: 'lista',
+        title: 'AlocaProfs - Departamentos',
+        loadComponent: () =>
+          import('./sections/departamentos/pages/lista-departamento/lista-departamento.component').then(
+            (m) => m.ListaDepartamentoComponent
+          ),
+      },
+      {
+        path: 'cadastro',
+        title: 'AlocaProfs - Cadastrar Departamento',
+        loadComponent: () =>
+          import('./sections/departamentos/pages/cadastro-departamento/cadastro-departamento.component').then(
+            (m) => m.CadastroDepartamentoComponent
+          ),
+      },
+      {
+        path: 'edicao/:departamentoId',
+        title: 'AlocaProfs - Editar Departamento',
+        loadComponent: () =>
+          import('./sections/departamentos/pages/edicao-departamento/edicao-departamento.component').then(
+            (m) => m.EdicaoDepartamentoComponent
+          ),
+      },
+    ],
+  },
   { path: '**', component: PaginaNaoEncontradaComponent },
 ]

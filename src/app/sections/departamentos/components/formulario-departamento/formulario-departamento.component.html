@@ -1,0 +1,37 @@
+<form id="{{ id }}_formulario" class="formulario" [formGroup]="formulario">
+  <input type="hidden" formControlName="idDepartamento" />
+
+  <pa-input-text
+    id="{{ id }}_nome"
+    label="Nome"
+    formControlName="nome"
+    [obrigatorio]="true"
+    [minLength]="minLength"
+    [maxLength]="maxLength"
+  ></pa-input-text>
+
+  <pa-textarea id="{{ id }}_descricao" label="Descrição" formControlName="descricao" />
+
+  <div class="formulario_rodape">
+    <p-button
+      id="{{ id }}_botao_salvar"
+      label="Salvar"
+      type="submit"
+      icon="pi pi-check"
+      size="small"
+      aria-label="Salvar departamento"
+      [loading]="operacaoPendente"
+      [disabled]="operacaoPendente"
+      (click)="aoClicarSalvar()"
+    />
+    <p-button
+      id="{{ id }}_botao_limpar"
+      label="Limpar"
+      icon="pi pi-times"
+      severity="secondary"
+      size="small"
+      aria-label="Limpar dados"
+      (click)="aoClicarLimpar()"
+    />
+  </div>
+</form>
