@@ -13,9 +13,8 @@
 
         <pa-formulario-curso
           id="cadastro_curso_formulario"
-          [loading]="salvando"
-          (evtSalvar)="observarEvtSalvar($event)"
-          (evtLimpar)="observarEvtLimpar()"
+          [operacaoPendente]="operacaoPendente"
+          (evtSalvar)="aoClicarSalvar($event)"
         />
       </div>
     </div>

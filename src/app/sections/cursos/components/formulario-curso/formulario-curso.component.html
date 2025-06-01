@@ -14,23 +14,24 @@
 
   <div class="formulario_rodape">
     <p-button
-      #botaoSalvar
       id="{{ id }}_botao_salvar"
       label="Salvar"
       type="submit"
       icon="pi pi-check"
       size="small"
       aria-label="Salvar curso"
-      [loading]="loading"
+      [loading]="operacaoPendente"
+      [disabled]="operacaoPendente"
+      (click)="aoClicarSalvar()"
     />
     <p-button
-      #botaoLimpar
       id="{{ id }}_botao_limpar"
       label="Limpar"
       icon="pi pi-times"
       severity="secondary"
       size="small"
       aria-label="Limpar dados"
+      (click)="aoClicarLimpar()"
     />
   </div>
 </form>

@@ -35,7 +35,6 @@ import { NenhumResultadoComponent } from '../../../../shared/nenhum-resultado/ne
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-curso.component.html',
-  styleUrl: './lista-curso.component.css',
 })
 export class ListaCursoComponent implements OnDestroy, OnInit {
   private roteador = inject(Router)
@@ -57,6 +56,7 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
 
   constructor() {
     this.definirBreadcrumb()
+
     this.definirColunasTabela()
   }
 
@@ -121,11 +121,11 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   }
 
   adicionarCurso(): void {
-    this.roteador.navigate(['cursos/cadastro'])
+    this.roteador.navigate(['/cursos/cadastro'])
   }
 
   editarCurso(curso: CursoI) {
-    this.roteador.navigate(['cursos/edicao', curso.id])
+    this.roteador.navigate(['/cursos/edicao', curso.id])
   }
 
   confirmarExclusao(curso: CursoI) {
