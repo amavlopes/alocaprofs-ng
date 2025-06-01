@@ -4,8 +4,8 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 
 import { ButtonModule } from 'primeng/button'
 
-import { InputTextComponent } from '../../../../shared/input-text/input-text.component'
-import { TextareaComponent } from '../../../../shared/textarea/textarea.component'
+import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
+import { TextareaComponent } from '../../../../shared/formulario/textarea/textarea.component'
 import { debounceTime, filter, Subject, takeUntil, tap } from 'rxjs'
 import { DepartamentoI } from '../../interfaces/departamento.interface'
 import { FormularioDepartamentoI } from './interfaces/formulario-departamento.interface'

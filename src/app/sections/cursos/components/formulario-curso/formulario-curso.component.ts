@@ -6,8 +6,8 @@ import { debounceTime, filter, Subject, takeUntil, tap } from 'rxjs'
 
 import { Button, ButtonModule } from 'primeng/button'
 
-import { InputTextComponent } from '../../../../shared/input-text/input-text.component'
-import { TextareaComponent } from '../../../../shared/textarea/textarea.component'
+import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
+import { TextareaComponent } from '../../../../shared/formulario/textarea/textarea.component'
 import { CursoI } from '../../interfaces/curso.interface'
 import { FormularioCursoI } from './interfaces/formulario-curso.interface'
 

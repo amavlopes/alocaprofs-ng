@@ -8,7 +8,7 @@ import { catchError, EMPTY, finalize, Subject, takeUntil } from 'rxjs'
 import { MenuItem, MessageService } from 'primeng/api'
 
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
-import { DialogComponent } from '../../../../shared/dialog/dialog.component'
+import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
 import { CursoI } from '../../interfaces/curso.interface'
 import { CursoService } from '../../services/curso.service'
 import { FormularioCursoComponent } from '../../components/formulario-curso/formulario-curso.component'

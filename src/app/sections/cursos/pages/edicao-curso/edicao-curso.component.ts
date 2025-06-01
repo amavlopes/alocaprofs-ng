@@ -8,7 +8,7 @@ import { MenuItem, MessageService } from 'primeng/api'
 
 import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
-import { DialogComponent } from '../../../../shared/dialog/dialog.component'
+import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
 import { FormularioCursoComponent } from '../../components/formulario-curso/formulario-curso.component'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'

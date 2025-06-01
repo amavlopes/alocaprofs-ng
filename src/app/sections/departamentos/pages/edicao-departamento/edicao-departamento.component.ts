@@ -8,7 +8,7 @@ import { catchError, EMPTY, finalize, Observable, Subject, switchMap, takeUntil 
 import { MenuItem, MessageService } from 'primeng/api'
 
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
-import { DialogComponent } from '../../../../shared/dialog/dialog.component'
+import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
 import { FormularioDepartamentoComponent } from '../../components/formulario-departamento/formulario-departamento.component'
 
 import { DepartamentoService } from '../../services/departamento.service'

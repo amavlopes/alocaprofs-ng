@@ -6,7 +6,7 @@ import { debounceTime, filter, Subject, takeUntil, tap } from 'rxjs'
 
 import { ButtonModule } from 'primeng/button'
 
-import { InputTextComponent } from '../../../../shared/input-text/input-text.component'
+import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
 import { FormularioProfessorI } from './interfaces/formulario-professor.interface'
 import { ProfessorI } from '../../interfaces/professor.interface'
 
