@@ -71,5 +71,23 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'professores',
+    children: [
+      {
+        path: '',
+        redirectTo: 'cadastro',
+        pathMatch: 'full',
+      },
+      {
+        path: 'cadastro',
+        title: 'AlocaProfs - Cadastrar Professor',
+        loadComponent: () =>
+          import('./sections/professores/pages/cadastro-professor/cadastro-professor.component').then(
+            (m) => m.CadastroProfessorComponent
+          ),
+      },
+    ],
+  },
   { path: '**', component: PaginaNaoEncontradaComponent },
 ]

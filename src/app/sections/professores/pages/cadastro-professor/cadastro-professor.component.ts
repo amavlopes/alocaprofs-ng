@@ -3,31 +3,31 @@ import { Component, inject, OnDestroy } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 
-import { catchError, EMPTY, finalize, Subject, takeUntil } from 'rxjs'
+import { Subject, takeUntil, finalize, catchError, EMPTY } from 'rxjs'
 
-import { MenuItem, MessageService } from 'primeng/api'
+import { MessageService, MenuItem } from 'primeng/api'
 
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 import { DialogComponent } from '../../../../shared/dialog/dialog.component'
-import { DepartamentoI } from '../../interfaces/departamento.interface'
-import { DepartamentoService } from './../../services/departamento.service'
-import { FormularioDepartamentoComponent } from '../../components/formulario-departamento/formulario-departamento.component'
+import { FormularioProfessorComponent } from '../../components/formulario-professor/formulario-professor.component'
+import { ProfessorI } from '../../interfaces/professor.interface'
+import { ProfessorService } from '../../services/professor.service'
 
 @Component({
-  selector: 'pa-cadastro-departamento',
-  imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioDepartamentoComponent, DialogComponent],
-  templateUrl: './cadastro-departamento.component.html',
+  selector: 'pa-cadastro-professor',
+  imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioProfessorComponent, DialogComponent],
+  templateUrl: './cadastro-professor.component.html',
 })
-export class CadastroDepartamentoComponent implements OnDestroy {
+export class CadastroProfessorComponent implements OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
   private roteador = inject(Router)
-  private servicoDepartamento = inject(DepartamentoService)
+  private servicoProfessor = inject(ProfessorService)
   private destroy$ = new Subject<void>()
 
   operacaoPendente = false
   mostrarDialog = false
   items: MenuItem[] = []
-  tituloErro = 'Erro ao cadastrar departamento'
+  tituloErro = 'Erro ao cadastrar professor'
   mensagemErro = ''
 
   constructor() {
@@ -42,38 +42,38 @@ export class CadastroDepartamentoComponent implements OnDestroy {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Departamentos', route: '/departamentos' },
+      { icon: '', label: 'Professores', route: '/professores' },
     ]
   }
 
-  aoClicarSalvar(departamento: DepartamentoI): void {
+  aoClicarSalvar(professor: ProfessorI): void {
     if (this.operacaoPendente) return
 
     this.operacaoPendente = true
 
-    const { id, ...novoDepartamento } = departamento
+    const { id, ...novoProfessor } = professor
 
-    this.servicoDepartamento
-      .criarDepartamento(novoDepartamento)
+    this.servicoProfessor
+      .criarProfessor(novoProfessor)
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => (this.operacaoPendente = false)),
         catchError((e) => {
-          this.tituloErro = 'Erro ao criar departamento'
+          this.tituloErro = 'Erro ao criar professor'
           this.mensagemErro = e.message
           this.mostrarDialog = true
 
           return EMPTY
         })
       )
-      .subscribe((departamento: DepartamentoI) => {
+      .subscribe((professor: ProfessorI) => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Departamento cadastrado com sucesso`,
-          detail: departamento.nome,
+          summary: `Professor cadastrado com sucesso`,
+          detail: professor.nome,
         })
 
-        this.roteador.navigate(['/departamentos'])
+        this.roteador.navigate(['/professores'])
       })
   }
 }
