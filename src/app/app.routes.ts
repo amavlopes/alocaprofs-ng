@@ -76,8 +76,16 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'cadastro',
+        redirectTo: 'lista',
         pathMatch: 'full',
+      },
+      {
+        path: 'lista',
+        title: 'AlocaProfs - Professores',
+        loadComponent: () =>
+          import('./sections/professores/pages/lista-professor/lista-professor.component').then(
+            (m) => m.ListaProfessorComponent
+          ),
       },
       {
         path: 'cadastro',

@@ -1,35 +1,35 @@
 @if (estaCarregandoPagina) {
   <pa-loader
-    id="lista_departamento_loader"
+    id="lista_professor_loader"
     titulo="Carregando página"
     conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto."
   />
 } @else {
   <ng-template #botaoAdicionar>
     <p-button
-      id="lista_departamento_adicionar"
-      label="Adicionar departamento"
+      id="lista_professor_adicionar"
+      label="Adicionar Professor"
       icon="pi pi-plus"
       size="small"
-      (click)="adicionarDepartamento()"
+      (click)="adicionarProfessor()"
     />
   </ng-template>
 
   <div class="pa_pagina_main">
     <div class="pa_container">
-      <pa-breadcrumb id="lista_departamento_breadcrumb" [items]="items" />
+      <pa-breadcrumb id="lista_professor_breadcrumb" [items]="items" />
 
       <div class="pa_pagina_titulo_container">
-        <h3 class="pa_pagina_titulo">Departamentos</h3>
+        <h3 class="pa_pagina_titulo">Professores</h3>
         <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
       </div>
 
       <div class="pa_pagina_conteudo">
-        @if (departamentos.length === 0 && mostrarEstadoInicialVazio) {
+        @if (professores.length === 0 && mostrarEstadoInicialVazio) {
           <pa-nenhum-resultado
-            id="lista_departamento_nenhum_resultado"
-            titulo="Você ainda não possui departamentos cadastrados."
-            subtitulo="Clique abaixo para cadastrar um novo departamento."
+            id="lista_professor_nenhum_resultado"
+            titulo="Você ainda não possui professores cadastrados."
+            subtitulo="Clique abaixo para cadastrar um novo professor."
           >
             <div class="mt-4">
               <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
@@ -39,21 +39,33 @@
           <pa-filtro-tabela-container>
             <div>
               <pa-input-search
-                id="lista_departamento_pesquisa"
+                id="lista_professor_pesquisa"
                 placeholder="Pesquisar por nome"
                 (aoPesquisar)="pesquisarPorNome($event)"
+              />
+            </div>
+
+            <div>
+              <pa-select
+                id="lista_professor_filtro_departamento"
+                label=""
+                [items]="departamentos"
+                opcaoLabel="nome"
+                opcaoValor="id"
+                filtrarPor="nome"
+                placeholder="Filtrar por departamento"
+                formControlName="hum"
+                (evtSelecionar)="aoSelecionarDepartamento($event)"
               />
             </div>
           </pa-filtro-tabela-container>
 
           <pa-tabela
-            id="lista_departamento_tabela"
-            [items]="departamentos"
+            id="lista_professor_tabela"
+            [items]="professores"
             [colunas]="colunas"
             [(indiceRegistro)]="indice"
             [registrosPorPagina]="registros"
-            (aoClicarEmEditar)="editarDepartamento($event)"
-            (aoClicarEmExcluir)="confirmarExclusao($event)"
           />
         }
       </div>
@@ -61,11 +73,11 @@
   </div>
 
   <pa-dialog
-    id="lista_departamento_dialog_erro"
+    id="lista_professor_dialog_erro"
     [mostrarDialog]="mostrarDialog"
     [tituloErro]="tituloErro"
     [mensagemErro]="mensagemErro"
   ></pa-dialog>
 
-  <pa-confirm-dialog id="lista_departamento_dialog_confirmar" />
+  <pa-confirm-dialog id="lista_professor_dialog_confirmar" />
 }

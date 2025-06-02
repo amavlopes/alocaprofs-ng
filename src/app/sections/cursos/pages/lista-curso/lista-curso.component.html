@@ -19,7 +19,10 @@
     <div class="pa_container">
       <pa-breadcrumb id="lista_curso_breadcrumb" [items]="items" />
 
-      <h3>Cursos</h3>
+      <div class="pa_pagina_titulo_container">
+        <h3 class="pa_pagina_titulo">Cursos</h3>
+        <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
+      </div>
 
       <div class="pa_pagina_conteudo">
         @if (cursos.length === 0 && mostrarEstadoInicialVazio) {
@@ -40,10 +43,6 @@
                 placeholder="Pesquisar por nome"
                 (aoPesquisar)="pesquisarPorNome($event)"
               />
-            </div>
-
-            <div class="justify-self-end">
-              <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
             </div>
           </pa-filtro-tabela-container>
 

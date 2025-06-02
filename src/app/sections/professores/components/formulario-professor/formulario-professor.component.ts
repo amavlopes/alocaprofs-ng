@@ -124,7 +124,7 @@ export class FormularioProfessorComponent implements OnInit {
       )
       .subscribe(() => {
         const professor: ProfessorI = {
-          id: this.idProfessor.value,
+          id: Number(this.idProfessor.value),
           nome: this.nome.value,
           cpf: this.cpf.value,
           idDepartamento: Number(this.idDepartamento.value),
@@ -132,6 +132,10 @@ export class FormularioProfessorComponent implements OnInit {
 
         this.evtSalvar.emit(professor)
       })
+  }
+
+  retornaDepartamentoPorId(id: number): string {
+    return this.departamentos.find((departamento) => departamento.id === id)!.nome
   }
 
   aoClicarSalvar(): void {

@@ -1,8 +1,10 @@
 <div class="input_container">
-  <label [for]="id"
-    >{{ label }}
-    <span *ngIf="obrigatorio" class="campo_obrigatorio">*</span>
-  </label>
+  @if (!!label) {
+    <label [for]="id"
+      >{{ label }}
+      <span *ngIf="obrigatorio" class="campo_obrigatorio">*</span>
+    </label>
+  }
 
   <p-select
     class="text-sm"
@@ -19,6 +21,7 @@
     [placeholder]="placeholder"
     [disabled]="estaDesabilitado"
     [(ngModel)]="valor"
+    (onChange)="aoSelecionar($event)"
   />
 
   <ng-content></ng-content>

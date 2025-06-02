@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common'
-import { Component, forwardRef, Input } from '@angular/core'
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core'
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms'
 
-import { SelectModule } from 'primeng/select'
+import { SelectChangeEvent, SelectModule } from 'primeng/select'
 
 @Component({
   selector: 'pa-select',
-  imports: [CommonModule, FormsModule, SelectModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SelectModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -24,7 +24,7 @@ export class SelectComponent implements ControlValueAccessor {
   OnTouched: any = () => {}
 
   @Input({ required: true }) id!: string
-  @Input({ required: true }) label!: string
+  @Input() label!: string
   @Input({ required: true }) items!: any[] | undefined
   @Input({ required: true }) opcaoLabel!: string
   @Input({ required: true }) opcaoValor!: string
@@ -33,6 +33,8 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() carregando: boolean = false
   @Input() obrigatorio: boolean = false
   @Input() placeholder: string = ''
+
+  @Output() evtSelecionar: EventEmitter<any> = new EventEmitter()
 
   get valor(): any {
     return this._valor
@@ -59,5 +61,9 @@ export class SelectComponent implements ControlValueAccessor {
 
   setDisabledState?(estaDesabilitado: boolean): void {
     this.estaDesabilitado = estaDesabilitado
+  }
+
+  aoSelecionar(evento: SelectChangeEvent): void {
+    this.evtSelecionar.emit(evento.value)
   }
 }

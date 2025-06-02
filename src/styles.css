@@ -105,8 +105,24 @@ html {
   @apply pt-10 pb-8;
 }
 
+.pa_pagina_titulo_container {
+  @apply flex flex-col justify-between gap-5;
+
+  @variant sm {
+    @apply flex-row gap-0;
+  }
+}
+
+.pa_pagina_titulo {
+  @apply m-0;
+}
+
 .pa_pagina_conteudo {
-  @apply mt-8;
+  @apply mt-4;
+
+  @variant sm {
+    @apply mt-8;
+  }
 }
 
 /* Formulario */
