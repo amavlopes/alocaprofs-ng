@@ -1,0 +1,25 @@
+<div class="input_container">
+  <label [for]="id"
+    >{{ label }}
+    <span *ngIf="obrigatorio" class="campo_obrigatorio">*</span>
+  </label>
+
+  <p-select
+    class="text-sm"
+    size="small"
+    [id]="id"
+    [options]="items"
+    [filter]="true"
+    [checkmark]="true"
+    [showClear]="carregando ? false : true"
+    [loading]="carregando"
+    [optionLabel]="opcaoLabel"
+    [optionValue]="opcaoValor"
+    [filterBy]="filtrarPor"
+    [placeholder]="placeholder"
+    [disabled]="estaDesabilitado"
+    [(ngModel)]="valor"
+  />
+
+  <ng-content></ng-content>
+</div>

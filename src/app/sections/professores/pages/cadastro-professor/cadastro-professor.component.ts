@@ -25,8 +25,8 @@ export class CadastroProfessorComponent implements OnDestroy {
   private destroy$ = new Subject<void>()
 
   operacaoPendente = false
-  mostrarDialog = false
   items: MenuItem[] = []
+  mostrarDialog = false
   tituloErro = 'Erro ao cadastrar professor'
   mensagemErro = ''
 
@@ -58,7 +58,7 @@ export class CadastroProfessorComponent implements OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => (this.operacaoPendente = false)),
-        catchError((e) => {
+        catchError((e: Error) => {
           this.tituloErro = 'Erro ao criar professor'
           this.mensagemErro = e.message
           this.mostrarDialog = true

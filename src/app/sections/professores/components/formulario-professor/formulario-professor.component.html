@@ -1,32 +1,57 @@
 <form id="{{ id }}_formulario" class="formulario" [formGroup]="formulario">
   <input type="hidden" formControlName="idDepartamento" />
 
-  <pa-input-text
-    id="{{ id }}_nome"
-    label="Nome"
-    formControlName="nome"
-    [obrigatorio]="true"
-    [minLength]="minLength"
-    [maxLength]="maxLength"
-  ></pa-input-text>
+  <pa-input-text id="{{ id }}_nome" label="Nome" formControlName="nome" [obrigatorio]="true">
+    <pa-mensagem-validacao
+      *ngIf="nome.touched && nome.errors?.['required']"
+      id="{{ id }}_validacao_nome_required"
+      tipo="erro"
+      mensagem="O campo nome é obrigatório"
+    />
 
-  <pa-input-text
-    id="{{ id }}_cpf"
-    label="CPF"
-    formControlName="cpf"
-    [obrigatorio]="true"
-    [minLength]="minLength"
-    [maxLength]="maxLength"
-  ></pa-input-text>
+    <pa-mensagem-validacao
+      *ngIf="nome.touched && nome.errors?.['minlength']"
+      id="{{ id }}_validacao_nome_minlength"
+      tipo="erro"
+      mensagem="O campo nome deve ter no mínimo {{ minLength }} caracteres"
+    />
 
-  <pa-input-text
-    id="{{ id }}_idDepartamento"
+    <pa-mensagem-validacao
+      *ngIf="nome.touched && nome.errors?.['maxlength']"
+      id="{{ id }}_validacao_nome_maxlength"
+      tipo="erro"
+      mensagem="O campo nome deve ter no máximo {{ maxLength }} caracteres"
+    />
+  </pa-input-text>
+
+  <pa-input-text id="{{ id }}_cpf" label="CPF" formControlName="cpf" [obrigatorio]="true">
+    <pa-mensagem-validacao
+      *ngIf="cpf.touched && cpf.errors?.['required']"
+      id="{{ id }}_validacao_cpf_required"
+      tipo="erro"
+      mensagem="O campo CPF é obrigatório"
+    />
+  </pa-input-text>
+
+  <pa-select
+    id="{{ id }}_departamento"
     label="Departamento"
+    [items]="departamentos"
+    opcaoLabel="nome"
+    opcaoValor="id"
+    filtrarPor="nome"
     formControlName="idDepartamento"
+    [carregando]="carregando"
     [obrigatorio]="true"
-    [minLength]="minLength"
-    [maxLength]="maxLength"
-  ></pa-input-text>
+    [placeholder]="carregando ? 'Carregando departamentos...' : 'Selecione um departamento'"
+  >
+    <pa-mensagem-validacao
+      *ngIf="idDepartamento.touched && idDepartamento.errors?.['required']"
+      id="{{ id }}_validacao_departamento_required"
+      tipo="erro"
+      mensagem="O campo departamento é obrigatório"
+    />
+  </pa-select>
 
   <div class="formulario_rodape">
     <p-button
@@ -51,3 +76,10 @@
     />
   </div>
 </form>
+
+<pa-dialog
+  id="formulario_professor_dialog_erro"
+  [mostrarDialog]="mostrarDialog"
+  [tituloErro]="tituloErro"
+  [mensagemErro]="mensagemErro"
+></pa-dialog>
