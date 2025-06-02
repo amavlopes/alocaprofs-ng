@@ -1,14 +1,28 @@
 <form id="{{ id }}_formulario" class="formulario" [formGroup]="formulario">
   <input type="hidden" formControlName="idCurso" />
 
-  <pa-input-text
-    id="{{ id }}_nome"
-    label="Nome"
-    formControlName="nome"
-    [obrigatorio]="true"
-    [minLength]="minLength"
-    [maxLength]="maxLength"
-  ></pa-input-text>
+  <pa-input-text id="{{ id }}_nome" label="Nome" formControlName="nome" [obrigatorio]="true">
+    <pa-mensagem-validacao
+      *ngIf="nome.touched && nome.errors?.['required']"
+      id="{{ id }}_validacao_nome_required"
+      tipo="erro"
+      mensagem="O campo nome é obrigatório"
+    />
+
+    <pa-mensagem-validacao
+      *ngIf="nome.touched && nome.errors?.['minlength']"
+      id="{{ id }}_validacao_nome_minlength"
+      tipo="erro"
+      mensagem="O campo nome deve ter no mínimo {{ minLength }} caracteres"
+    />
+
+    <pa-mensagem-validacao
+      *ngIf="nome.touched && nome.errors?.['maxlength']"
+      id="{{ id }}_validacao_nome_maxlength"
+      tipo="erro"
+      mensagem="O campo nome deve ter no máximo {{ maxLength }} caracteres"
+    />
+  </pa-input-text>
 
   <pa-textarea id="{{ id }}_descricao" label="Descrição" formControlName="descricao" />
 

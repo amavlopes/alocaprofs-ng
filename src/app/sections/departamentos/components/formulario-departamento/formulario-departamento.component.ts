@@ -9,10 +9,19 @@ import { TextareaComponent } from '../../../../shared/formulario/textarea/textar
 import { debounceTime, filter, Subject, takeUntil, tap } from 'rxjs'
 import { DepartamentoI } from '../../interfaces/departamento.interface'
 import { FormularioDepartamentoI } from './interfaces/formulario-departamento.interface'
+import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensagem-validacao/mensagem-validacao.component'
 
 @Component({
   selector: 'pa-formulario-departamento',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextComponent, TextareaComponent, ButtonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextComponent,
+    TextareaComponent,
+    ButtonModule,
+    MensagemValidacaoComponent,
+  ],
   templateUrl: './formulario-departamento.component.html',
 })
 export class FormularioDepartamentoComponent implements OnInit {
@@ -32,8 +41,8 @@ export class FormularioDepartamentoComponent implements OnInit {
     descricao: this.fb.control(''),
   })
 
-  @Input() id!: string
-  @Input() operacaoPendente: boolean = false
+  @Input({ required: true }) id!: string
+  @Input({ required: true }) operacaoPendente: boolean = false
   @Input() departamento!: DepartamentoI
   @Output() evtSalvar: EventEmitter<DepartamentoI> = new EventEmitter()
   @Output() evtLimpar: EventEmitter<void> = new EventEmitter()

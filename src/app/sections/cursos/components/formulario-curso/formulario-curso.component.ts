@@ -1,19 +1,28 @@
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, inject, Input, OnInit, Output, viewChild } from '@angular/core'
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 
 import { debounceTime, filter, Subject, takeUntil, tap } from 'rxjs'
 
-import { Button, ButtonModule } from 'primeng/button'
+import { ButtonModule } from 'primeng/button'
 
 import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
 import { TextareaComponent } from '../../../../shared/formulario/textarea/textarea.component'
 import { CursoI } from '../../interfaces/curso.interface'
 import { FormularioCursoI } from './interfaces/formulario-curso.interface'
+import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensagem-validacao/mensagem-validacao.component'
 
 @Component({
   selector: 'pa-formulario-curso',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextComponent, TextareaComponent, ButtonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextComponent,
+    TextareaComponent,
+    ButtonModule,
+    MensagemValidacaoComponent,
+  ],
   templateUrl: './formulario-curso.component.html',
 })
 export class FormularioCursoComponent implements OnInit {
@@ -33,8 +42,8 @@ export class FormularioCursoComponent implements OnInit {
     descricao: this.fb.control(''),
   })
 
-  @Input() id!: string
-  @Input() operacaoPendente: boolean = false
+  @Input({ required: true }) id!: string
+  @Input({ required: true }) operacaoPendente: boolean = false
   @Input() curso!: CursoI
   @Output() evtSalvar: EventEmitter<CursoI> = new EventEmitter()
   @Output() evtLimpar: EventEmitter<void> = new EventEmitter()

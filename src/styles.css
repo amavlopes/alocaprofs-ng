@@ -115,7 +115,7 @@ html {
 }
 
 .formulario_rodape {
-  @apply mt-2 flex items-center justify-end gap-4;
+  @apply mt-6 flex items-center justify-end gap-4;
 }
 
 .input_container {

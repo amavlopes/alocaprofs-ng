@@ -1,20 +1,24 @@
 import { CommonModule } from '@angular/common'
-import { Component, Input, OnInit, Optional, Self } from '@angular/core'
-import { AbstractControl, ControlValueAccessor, FormsModule, NgControl } from '@angular/forms'
+import { Component, forwardRef, Input } from '@angular/core'
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 import { TextareaModule } from 'primeng/textarea'
-import { MensagemValidacaoComponent } from '../mensagem-validacao/mensagem-validacao.component'
 
 @Component({
   selector: 'pa-textarea',
-  imports: [CommonModule, FormsModule, TextareaModule, MensagemValidacaoComponent],
+  imports: [CommonModule, FormsModule, TextareaModule],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TextareaComponent),
+      multi: true,
+    },
+  ],
   templateUrl: './textarea.component.html',
-  styleUrl: './textarea.component.css',
 })
-export class TextareaComponent implements OnInit, ControlValueAccessor {
+export class TextareaComponent implements ControlValueAccessor {
   private _valor: any
 
-  controle!: AbstractControl
   estaDesabilitado: boolean = false
   onChanged: any = () => {}
   onTouched: any = () => {}
@@ -25,12 +29,6 @@ export class TextareaComponent implements OnInit, ControlValueAccessor {
   @Input() placeholder: string = ''
   @Input() autoResize: boolean = true
   @Input() rows: number = 4
-  @Input() minLength: number = 2
-  @Input() maxLength: number = 100
-
-  constructor(@Optional() @Self() public ngControl: NgControl) {
-    if (ngControl != null) ngControl.valueAccessor = this
-  }
 
   get valor() {
     return this._valor
@@ -41,10 +39,6 @@ export class TextareaComponent implements OnInit, ControlValueAccessor {
       this._valor = v
       this.onChanged(v)
     }
-  }
-
-  ngOnInit(): void {
-    if (this.ngControl && this.ngControl.control) this.controle = this.ngControl.control
   }
 
   writeValue(v: any): void {

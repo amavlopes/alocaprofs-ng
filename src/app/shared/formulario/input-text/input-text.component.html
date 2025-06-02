@@ -1,5 +1,5 @@
 <div class="input_container">
-  <label [attr.for]="id"
+  <label [for]="id"
     >{{ label }}
     <span *ngIf="obrigatorio" class="campo_obrigatorio">*</span>
   </label>
@@ -7,35 +7,13 @@
   <input
     pInputText
     pSize="small"
-    class="campo_formulario"
     type="text"
     autocomplete="off"
     [id]="id"
-    [attr.placeholder]="placeholder"
+    [placeholder]="placeholder"
     [disabled]="estaDesabilitado"
     [(ngModel)]="valor"
   />
 
-  <ng-container *ngIf="controle">
-    <pa-mensagem-validacao
-      *ngIf="controle.touched && controle.errors?.['required']"
-      id="required"
-      tipo="erro"
-      mensagem="O campo {{ label.toLocaleLowerCase() }} é obrigatório"
-    />
-
-    <pa-mensagem-validacao
-      *ngIf="controle.touched && controle.errors?.['minlength']"
-      id="minlength"
-      tipo="erro"
-      mensagem="O campo {{ label.toLocaleLowerCase() }} deve ter no mínimo {{ minLength }} caracteres"
-    />
-
-    <pa-mensagem-validacao
-      *ngIf="controle.touched && controle.errors?.['maxlength']"
-      id="maxlength"
-      tipo="erro"
-      mensagem="O campo {{ label.toLocaleLowerCase() }} deve ter no máximo {{ maxLength }} caracteres"
-    />
-  </ng-container>
+  <ng-content></ng-content>
 </div>
