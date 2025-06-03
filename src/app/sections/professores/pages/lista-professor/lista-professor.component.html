@@ -10,7 +10,6 @@
       id="lista_professor_adicionar"
       label="Adicionar Professor"
       icon="pi pi-plus"
-      size="small"
       (click)="adicionarProfessor()"
     />
   </ng-template>
@@ -36,29 +35,40 @@
             </div>
           </pa-nenhum-resultado>
         } @else {
-          <pa-filtro-tabela-container>
-            <div>
-              <pa-input-search
-                id="lista_professor_pesquisa"
-                placeholder="Pesquisar por nome"
-                (aoPesquisar)="pesquisarPorNome($event)"
-              />
-            </div>
+          <div class="card">
+            <form [formGroup]="formulario" class="flex flex-col gap-4">
+              <fieldset class="grid items-center gap-2 sm:grid-cols-2 sm:gap-4">
+                <pa-input-text
+                  id="lista_professor_pesquisa_nome"
+                  label=""
+                  placeholder="Pesquisar por nome"
+                  formControlName="nome"
+                />
 
-            <div>
-              <pa-select
-                id="lista_professor_filtro_departamento"
-                label=""
-                [items]="departamentos"
-                opcaoLabel="nome"
-                opcaoValor="id"
-                filtrarPor="nome"
-                placeholder="Filtrar por departamento"
-                formControlName="hum"
-                (evtSelecionar)="aoSelecionarDepartamento($event)"
-              />
-            </div>
-          </pa-filtro-tabela-container>
+                <pa-select
+                  id="lista_professor_filtro_departamento"
+                  label=""
+                  [items]="departamentos"
+                  opcaoLabel="nome"
+                  opcaoValor="id"
+                  filtrarPor="nome"
+                  placeholder="Filtrar por departamento"
+                  formControlName="departmentoId"
+                />
+              </fieldset>
+
+              <div class="flex gap-2 self-end">
+                <p-button size="small" id="lista_professor_pesquisar" label="Pesquisar" (click)="pesquisar()" />
+                <p-button
+                  size="small"
+                  id="lista_professor_limpar_filtros"
+                  label="Limpar"
+                  severity="secondary"
+                  (click)="limpar()"
+                />
+              </div>
+            </form>
+          </div>
 
           <pa-tabela
             id="lista_professor_tabela"

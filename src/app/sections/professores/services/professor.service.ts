@@ -27,11 +27,13 @@ export class ProfessorService {
     )
   }
 
-  obterProfessores(nome?: string): Observable<ProfessorI[]> {
-    nome = nome?.trim()
-    const opcoes = nome ? { params: new HttpParams().set('name', nome) } : {}
+  obterProfessores(nome?: string, idDepartamento?: string): Observable<ProfessorI[]> {
+    const params = this.buildHttpParams({
+      name: nome?.trim(),
+      departmentId: idDepartamento,
+    })
 
-    return this.http.get<{ professors: ProfessorResponseI[] }>(this.url, opcoes).pipe(
+    return this.http.get<{ professors: ProfessorResponseI[] }>(this.url, { params }).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
       retry({ count: 2, delay: 1000 }),
       map((response: { professors: ProfessorResponseI[] }) => {
@@ -62,5 +64,17 @@ export class ProfessorService {
         return professores
       })
     )
+  }
+
+  buildHttpParams(query: { [key: string]: any }): HttpParams {
+    let params = new HttpParams()
+
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, value.toString())
+      }
+    })
+
+    return params
   }
 }
