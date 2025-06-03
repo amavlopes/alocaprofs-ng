@@ -1,4 +1,4 @@
-<p-breadcrumb class="max-w-full text-sm" [model]="items">
+<p-breadcrumb class="max-w-full" [model]="items">
   <ng-template #item let-item>
     <ng-container *ngIf="item.route; else elseBlock">
       <a [routerLink]="item.route" class="p-breadcrumb-item-link">

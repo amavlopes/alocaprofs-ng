@@ -2,10 +2,10 @@
   <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
     <div class="flex flex-col p-4">
       <h5 class="mt-0 text-zinc-800">{{ message.header }}</h5>
-      <p class="mt-4 mb-5 text-sm">{{ message.message }}</p>
+      <p class="mt-4 mb-5">{{ message.message }}</p>
       <div class="flex justify-end gap-2">
-        <p-button label="Sim" (onClick)="onAccept()" size="small" styleClass="w-20"></p-button>
-        <p-button label="Não" [outlined]="true" (onClick)="onReject()" size="small" styleClass="w-20"></p-button>
+        <p-button label="Sim" (onClick)="onAccept()" styleClass="w-20"></p-button>
+        <p-button label="Não" [outlined]="true" (onClick)="onReject()" styleClass="w-20"></p-button>
       </div>
     </div>
   </ng-template>

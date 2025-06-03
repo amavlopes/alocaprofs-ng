@@ -54,16 +54,6 @@
   h5 {
     @apply text-lg;
   }
-
-  h6 {
-    @apply text-sm;
-  }
-
-  p,
-  label,
-  strong {
-    @apply text-sm;
-  }
 }
 
 @layer components {
@@ -94,7 +84,11 @@
 }
 
 html {
-  @apply bg-slate-50 font-sans;
+  @apply bg-slate-50 font-sans text-sm;
+
+  @variant sm {
+    font-size: 1rem;
+  }
 }
 
 .pa_container {
