@@ -1,6 +1,6 @@
 <p-dialog [id]="id" [modal]="true" [(visible)]="mostrarDialog" [style]="{ width: largura }">
   <ng-template #header>
-    <h5 class="dialog_titulo">{{ tituloErro }}</h5>
+    <h4 class="dialog_titulo">{{ tituloErro }}</h4>
   </ng-template>
-  <p class="dialog_mensagem">{{ mensagemErro }}.</p>
+  <p class="dialog_mensagem" [innerHTML]="mensagemErro | safeHtml"></p>
 </p-dialog>

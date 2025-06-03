@@ -1,8 +1,8 @@
-<p-confirmdialog [id]="id" [style]="{ width: '20rem' }">
+<p-confirmdialog [id]="id" [style]="{ width: largura }">
   <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
     <div class="flex flex-col p-4">
-      <h5 class="mt-0 text-zinc-800">{{ message.header }}</h5>
-      <p class="mt-4 mb-5">{{ message.message }}</p>
+      <h4 class="mt-0 text-zinc-800">{{ message.header }}</h4>
+      <p class="mt-4 mb-5" [innerHTML]="message.message | safeHtml"></p>
       <div class="flex justify-end gap-2">
         <p-button label="Sim" (onClick)="onAccept()" styleClass="w-20"></p-button>
         <p-button label="Não" [outlined]="true" (onClick)="onReject()" styleClass="w-20"></p-button>

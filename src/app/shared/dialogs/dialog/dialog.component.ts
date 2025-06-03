@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core'
 
 import { DialogModule } from 'primeng/dialog'
+import { SafeHtmlPipe } from '../../pipes/safe-html.pipe.ts.pipe'
 
 @Component({
   selector: 'pa-dialog',
-  imports: [DialogModule],
+  imports: [DialogModule, SafeHtmlPipe],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.css',
 })
