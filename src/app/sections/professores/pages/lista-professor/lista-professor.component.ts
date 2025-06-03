@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { Router } from '@angular/router'
 
-import { catchError, EMPTY, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, concatMap, EMPTY, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
 
 import { ConfirmationService, MenuItem } from 'primeng/api'
 import { ButtonModule } from 'primeng/button'
@@ -45,6 +45,7 @@ import { FluidModule } from 'primeng/fluid'
 export class ListaProfessorComponent {
   private fb = inject(FormBuilder)
   private roteador = inject(Router)
+  private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
   private servicoProfessor = inject(ProfessorService)
   private servicoDepartamento = inject(DepartamentoService)
   private destroy$ = new Subject<void>()
@@ -162,5 +163,39 @@ export class ListaProfessorComponent {
 
   adicionarProfessor(): void {
     this.roteador.navigate(['/professores/cadastro'])
+  }
+
+  confirmarExclusao(professor: ProfessorI) {
+    this.servicoConfirmacao.confirm({
+      closable: true,
+      closeOnEscape: true,
+      header: 'Excluir professor',
+      message: `Tem certeza que deseja excluir <b>${professor.nome}</b>?`,
+      accept: () => {
+        this.excluirProfessor(professor.id)
+      },
+      reject: () => {},
+    })
+  }
+
+  excluirProfessor(id: number): void {
+    this.servicoProfessor
+      .excluirProfessorPorId(id)
+      .pipe(
+        catchError((e) => {
+          this.tituloErro = 'Erro ao excluir professor'
+          this.mensagemErro = e.message
+          this.mostrarDialog = true
+
+          return EMPTY
+        }),
+        concatMap(() => this.obterProfessoresHttp$()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((professores: ProfessorI[]) => {
+        if (!professores.length) this.mostrarEstadoInicialVazio = true
+
+        this.professores = professores
+      })
   }
 }

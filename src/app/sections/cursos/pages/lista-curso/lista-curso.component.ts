@@ -132,8 +132,8 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
     this.servicoConfirmacao.confirm({
       closable: true,
       closeOnEscape: true,
-      header: 'Excluir curso?',
-      message: `Tem certeza que deseja excluir o curso de ${curso.nome}?`,
+      header: 'Excluir curso',
+      message: `Tem certeza que deseja excluir <b>${curso.nome}</b>?`,
       accept: () => {
         this.excluirCurso(curso.id)
       },

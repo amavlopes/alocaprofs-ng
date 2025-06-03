@@ -132,8 +132,8 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
     this.servicoConfirmacao.confirm({
       closable: true,
       closeOnEscape: true,
-      header: 'Excluir departamento?',
-      message: `Tem certeza que deseja excluir o departamento de ${departamento.nome}?`,
+      header: 'Excluir departamento',
+      message: `Tem certeza que deseja excluir <b>${departamento.nome}</b>?`,
       accept: () => {
         this.excluirDepartamento(departamento.id)
       },
