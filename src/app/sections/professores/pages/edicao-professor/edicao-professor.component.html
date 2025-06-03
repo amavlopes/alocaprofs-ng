@@ -1,0 +1,40 @@
+@if (professor$ | async; as professor) {
+  <ng-container>
+    <div class="pa_pagina_main">
+      <div class="pa_container">
+        <pa-breadcrumb id="edicao_professor_breadcrumb" [items]="items" />
+
+        <h3>Editar Professor</h3>
+
+        <div class="pa_pagina_conteudo">
+          <div class="card">
+            <p class="mb-8">
+              Atualize os dados do professor preenchendo as informações abaixo. <br />
+              Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
+            </p>
+
+            <pa-formulario-professor
+              id="edicao_professor_formulario"
+              [operacaoPendente]="operacaoPendente"
+              [professor]="professor"
+              (evtSalvar)="aoClicarSalvar($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <pa-dialog
+      id="edicao_professor_dialog_erro"
+      [mostrarDialog]="mostrarDialog"
+      [tituloErro]="tituloErro"
+      [mensagemErro]="mensagemErro"
+    ></pa-dialog>
+  </ng-container>
+} @else {
+  <pa-loader
+    id="edicao_professor_loader"
+    titulo="Carregando página"
+    conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto."
+  />
+}

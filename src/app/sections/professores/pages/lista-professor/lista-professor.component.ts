@@ -165,6 +165,10 @@ export class ListaProfessorComponent {
     this.roteador.navigate(['/professores/cadastro'])
   }
 
+  editarProfessor(curso: ProfessorI) {
+    this.roteador.navigate(['/professores/edicao', curso.id])
+  }
+
   confirmarExclusao(professor: ProfessorI) {
     this.servicoConfirmacao.confirm({
       closable: true,

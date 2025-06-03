@@ -95,6 +95,14 @@ export const routes: Routes = [
             (m) => m.CadastroProfessorComponent
           ),
       },
+      {
+        path: 'edicao/:professorId',
+        title: 'AlocaProfs - Editar Professor',
+        loadComponent: () =>
+          import('./sections/professores/pages/edicao-professor/edicao-professor.component').then(
+            (m) => m.EdicaoProfessorComponent
+          ),
+      },
     ],
   },
   { path: '**', component: PaginaNaoEncontradaComponent },

@@ -66,6 +66,33 @@ export class ProfessorService {
     )
   }
 
+  obterProfessorPorId(id: number): Observable<ProfessorI> {
+    return this.http.get<{ professor: ProfessorResponseI }>(`${this.url}/${id}`).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      retry({ count: 2, delay: 1000 }),
+      map((response: { professor: ProfessorResponseI }) => ({
+        id: response.professor.id,
+        nome: response.professor.name,
+        cpf: response.professor.cpf,
+        idDepartamento: response.professor.department.id,
+      }))
+    )
+  }
+
+  atualizarProfessor(professor: ProfessorI): Observable<ProfessorI> {
+    const request = { name: professor.nome, cpf: professor.cpf, departmentId: professor.idDepartamento }
+
+    return this.http.put<{ professor: ProfessorResponseI }>(`${this.url}/${professor.id}`, request).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      map((response: { professor: ProfessorResponseI }) => ({
+        id: response.professor.id,
+        nome: response.professor.name,
+        cpf: response.professor.cpf,
+        idDepartamento: response.professor.department.id,
+      }))
+    )
+  }
+
   excluirProfessorPorId(id: number): Observable<void> {
     return this.http.delete<Observable<void>>(`${this.url}/${id}`).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
