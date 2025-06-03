@@ -1,24 +1,35 @@
-<div class="header">
-  <div class="pa_container">
-    <div class="header_container">
+<div class="header w-full bg-white shadow">
+  <div class="pa_container px-4">
+    <div class="header_container flex items-center justify-between">
       <pa-logo />
-      <p-menubar [model]="items">
+      <p-menubar [model]="items" class="border-none shadow-none">
         <ng-template #start></ng-template>
+
         <ng-template #item let-item>
-          <ng-container *ngIf="item.route; else urlRef">
-            <a [routerLink]="item.route" class="p-menubar-item-link">
+          <ng-container *ngIf="item.routerLink; else urlRef">
+            <a
+              [routerLink]="item.routerLink"
+              routerLinkActive="menu_ativo"
+              class="p-menubar-item-link flex items-center rounded px-3 py-2 transition-colors hover:bg-blue-50"
+            >
               <span [class]="item.icon"></span>
               <span class="ml-2">{{ item.label }}</span>
             </a>
           </ng-container>
+
           <ng-template #urlRef>
-            <a *ngIf="item.url; else noLink" [href]="item.url" class="p-menubar-item-link">
+            <a
+              *ngIf="item.url; else noLink"
+              [href]="item.url"
+              class="p-menubar-item-link flex items-center rounded px-3 py-2 transition-colors hover:bg-blue-50"
+            >
               <span [class]="item.icon"></span>
               <span class="ml-2">{{ item.label }}</span>
             </a>
           </ng-template>
+
           <ng-template #noLink>
-            <div class="p-menubar-item-link">
+            <div class="p-menubar-item-link flex items-center rounded px-3 py-2 transition-colors hover:bg-blue-50">
               <span [class]="item.icon"></span>
               <span class="ml-2">{{ item.label }}</span>
             </div>

@@ -17,5 +17,5 @@
 }
 
 .loader_conteudo {
-  @apply text-sm font-medium tracking-wide text-slate-800;
+  @apply font-medium tracking-wide text-slate-800;
 }

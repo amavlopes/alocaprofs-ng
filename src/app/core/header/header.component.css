@@ -6,3 +6,7 @@
 .header_container {
   @apply flex items-center justify-between;
 }
+
+.p-menubar-item-link.menu_ativo {
+  @apply border-0 bg-pink-50 text-pink-600;
+}

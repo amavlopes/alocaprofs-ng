@@ -23,31 +23,22 @@ export class HeaderComponent implements OnInit {
       {
         label: 'Cursos',
         icon: 'pi pi-book',
-        command: () => {
-          this.roteador.navigate(['/cursos'])
-        },
+        routerLink: '/cursos',
       },
-
       {
         label: 'Departamentos',
         icon: 'pi pi-sitemap',
-        command: () => {
-          this.roteador.navigate(['/departamentos'])
-        },
+        routerLink: '/departamentos',
       },
       {
         label: 'Professores',
         icon: 'pi pi-user-edit',
-        command: () => {
-          this.roteador.navigate(['/professores'])
-        },
+        routerLink: '/professores',
       },
       {
         label: 'Alocações',
         icon: 'pi pi-calendar-clock',
-        command: () => {
-          this.roteador.navigate(['/alocacoes'])
-        },
+        routerLink: '/alocacoes',
       },
     ]
   }
