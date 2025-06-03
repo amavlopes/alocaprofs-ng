@@ -12,12 +12,12 @@ import { CursoService } from '../../services/curso.service'
 import { CursoI } from '../../interfaces/curso.interface'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
 import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component'
-import { FiltroTabelaContainerComponent } from '../../../../shared/tabela/components/filtro-tabela-container/filtro-tabela-container.component'
-import { InputSearchComponent } from '../../../../shared/tabela/components/input-search/input-search.component'
 import { TabelaComponent } from '../../../../shared/tabela/tabela.component'
 import { Coluna } from '../../../../shared/tabela/interfaces/coluna.interface'
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 import { NenhumResultadoComponent } from '../../../../shared/nenhum-resultado/nenhum-resultado.component'
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
+import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
 
 @Component({
   selector: 'pa-lista-curso',
@@ -27,8 +27,8 @@ import { NenhumResultadoComponent } from '../../../../shared/nenhum-resultado/ne
     ButtonModule,
     DialogComponent,
     ConfirmDialogComponent,
-    FiltroTabelaContainerComponent,
-    InputSearchComponent,
+    ReactiveFormsModule,
+    InputTextComponent,
     LoaderComponent,
     TabelaComponent,
     NenhumResultadoComponent,
@@ -37,6 +37,7 @@ import { NenhumResultadoComponent } from '../../../../shared/nenhum-resultado/ne
   templateUrl: './lista-curso.component.html',
 })
 export class ListaCursoComponent implements OnDestroy, OnInit {
+  private fb = inject(FormBuilder)
   private roteador = inject(Router)
   private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
   private servicoCurso = inject(CursoService)
@@ -53,11 +54,19 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   registros = 10
   cursos: CursoI[] = []
   colunas: Coluna[] = []
+  filtros = this.fb.group({
+    nome: this.fb.control(''),
+    departmentoId: this.fb.control(''),
+  })
 
   constructor() {
     this.definirBreadcrumb()
 
     this.definirColunasTabela()
+  }
+
+  get nome(): FormControl {
+    return this.filtros.controls.nome as FormControl
   }
 
   ngOnInit() {
@@ -112,12 +121,21 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
       })
   }
 
-  pesquisarPorNome(termo: string): void {
-    this.obterCursosHttp$(termo).subscribe((cursos: CursoI[]) => {
+  atualizarLista(): void {
+    this.obterCursosHttp$(this.nome.value).subscribe((cursos: CursoI[]) => {
       this.cursos = cursos
 
       this.mostrarEstadoInicialVazio = false
     })
+  }
+
+  pesquisar(): void {
+    this.atualizarLista()
+  }
+
+  limpar(): void {
+    this.filtros.reset()
+    this.atualizarLista()
   }
 
   adicionarCurso(): void {

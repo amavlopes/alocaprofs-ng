@@ -9,8 +9,6 @@ import { ConfirmationService, MenuItem } from 'primeng/api'
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component'
 import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
-import { FiltroTabelaContainerComponent } from '../../../../shared/tabela/components/filtro-tabela-container/filtro-tabela-container.component'
-import { InputSearchComponent } from '../../../../shared/tabela/components/input-search/input-search.component'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
 import { NenhumResultadoComponent } from '../../../../shared/nenhum-resultado/nenhum-resultado.component'
 import { TabelaComponent } from '../../../../shared/tabela/tabela.component'
@@ -18,6 +16,8 @@ import { DepartamentoService } from '../../services/departamento.service'
 import { DepartamentoI } from '../../interfaces/departamento.interface'
 import { Coluna } from '../../../../shared/tabela/interfaces/coluna.interface'
 import { Router } from '@angular/router'
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
+import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
 
 @Component({
   selector: 'pa-lista-departamento',
@@ -27,8 +27,8 @@ import { Router } from '@angular/router'
     ButtonModule,
     DialogComponent,
     ConfirmDialogComponent,
-    FiltroTabelaContainerComponent,
-    InputSearchComponent,
+    ReactiveFormsModule,
+    InputTextComponent,
     LoaderComponent,
     TabelaComponent,
     NenhumResultadoComponent,
@@ -37,6 +37,7 @@ import { Router } from '@angular/router'
   templateUrl: './lista-departamento.component.html',
 })
 export class ListaDepartamentoComponent implements OnDestroy, OnInit {
+  private fb = inject(FormBuilder)
   private roteador = inject(Router)
   private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
   private servicoDepartamento = inject(DepartamentoService)
@@ -53,11 +54,19 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
   registros = 10
   departamentos: DepartamentoI[] = []
   colunas: Coluna[] = []
+  filtros = this.fb.group({
+    nome: this.fb.control(''),
+    departmentoId: this.fb.control(''),
+  })
 
   constructor() {
     this.definirBreadcrumb()
 
     this.definirColunasTabela()
+  }
+
+  get nome(): FormControl {
+    return this.filtros.controls.nome as FormControl
   }
 
   ngOnInit() {
@@ -112,12 +121,21 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
       })
   }
 
-  pesquisarPorNome(termo: string): void {
-    this.obterDepartamentosHttp$(termo).subscribe((departamentos: DepartamentoI[]) => {
+  atualizarLista(): void {
+    this.obterDepartamentosHttp$(this.nome.value).subscribe((departamentos: DepartamentoI[]) => {
       this.departamentos = departamentos
 
       this.mostrarEstadoInicialVazio = false
     })
+  }
+
+  pesquisar(): void {
+    this.atualizarLista()
+  }
+
+  limpar(): void {
+    this.filtros.reset()
+    this.atualizarLista()
   }
 
   adicionarDepartamento(): void {

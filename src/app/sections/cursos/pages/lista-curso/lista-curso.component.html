@@ -30,15 +30,29 @@
             </div>
           </pa-nenhum-resultado>
         } @else {
-          <pa-filtro-tabela-container>
-            <div>
-              <pa-input-search
-                id="lista_curso_pesquisa"
-                placeholder="Pesquisar por nome"
-                (aoPesquisar)="pesquisarPorNome($event)"
-              />
-            </div>
-          </pa-filtro-tabela-container>
+          <div class="card">
+            <form [formGroup]="filtros" class="filtro">
+              <fieldset>
+                <pa-input-text
+                  id="lista_curso_pesquisa_nome"
+                  label=""
+                  placeholder="Pesquisar por nome"
+                  formControlName="nome"
+                />
+              </fieldset>
+
+              <div class="filtro_rodape">
+                <p-button size="small" id="lista_curso_pesquisar" label="Pesquisar" (click)="pesquisar()" />
+                <p-button
+                  size="small"
+                  id="lista_curso_limpar_filtros"
+                  label="Limpar"
+                  severity="secondary"
+                  (click)="limpar()"
+                />
+              </div>
+            </form>
+          </div>
 
           <pa-tabela
             id="lista_curso_tabela"

@@ -36,8 +36,8 @@
           </pa-nenhum-resultado>
         } @else {
           <div class="card">
-            <form [formGroup]="formulario" class="flex flex-col gap-4">
-              <fieldset class="grid items-center gap-2 sm:grid-cols-2 sm:gap-4">
+            <form [formGroup]="filtros" class="filtro">
+              <fieldset class="filtro_container">
                 <pa-input-text
                   id="lista_professor_pesquisa_nome"
                   label=""
@@ -57,7 +57,7 @@
                 />
               </fieldset>
 
-              <div class="flex gap-2 self-end">
+              <div class="filtro_rodape">
                 <p-button size="small" id="lista_professor_pesquisar" label="Pesquisar" (click)="pesquisar()" />
                 <p-button
                   size="small"

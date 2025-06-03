@@ -151,3 +151,21 @@ html {
     @apply outline-0!;
   }
 }
+
+/*  Filtro Tabela  */
+
+.filtro {
+  @apply flex flex-col gap-4;
+
+  .filtro_container {
+    @apply grid items-center gap-2;
+
+    @variant sm {
+      @apply grid-cols-2 gap-4;
+    }
+  }
+
+  .filtro_rodape {
+    @apply flex gap-2 self-end;
+  }
+}

@@ -21,7 +21,6 @@ import { DepartamentoService } from '../../../departamentos/services/departament
 import { DepartamentoI } from '../../../departamentos/interfaces/departamento.interface'
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
-import { FluidModule } from 'primeng/fluid'
 
 @Component({
   selector: 'pa-lista-professor',
@@ -37,7 +36,6 @@ import { FluidModule } from 'primeng/fluid'
     SelectComponent,
     ReactiveFormsModule,
     InputTextComponent,
-    FluidModule,
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-professor.component.html',
@@ -61,8 +59,7 @@ export class ListaProfessorComponent {
   professores: ProfessorI[] = []
   departamentos: DepartamentoI[] = []
   colunas: Coluna[] = []
-
-  formulario = this.fb.group({
+  filtros = this.fb.group({
     nome: this.fb.control(''),
     departmentoId: this.fb.control(''),
   })
@@ -73,11 +70,11 @@ export class ListaProfessorComponent {
   }
 
   get nome(): FormControl {
-    return this.formulario.controls.nome as FormControl
+    return this.filtros.controls.nome as FormControl
   }
 
   get departmentoId(): FormControl {
-    return this.formulario.controls.departmentoId as FormControl
+    return this.filtros.controls.departmentoId as FormControl
   }
 
   ngOnInit() {
@@ -151,14 +148,21 @@ export class ListaProfessorComponent {
       })
   }
 
-  pesquisar(): void {
+  atualizarLista(): void {
     this.obterProfessoresHttp$(this.nome.value, this.departmentoId.value).subscribe((professores: ProfessorI[]) => {
       this.professores = professores
+
+      this.mostrarEstadoInicialVazio = false
     })
   }
 
+  pesquisar(): void {
+    this.atualizarLista()
+  }
+
   limpar(): void {
-    this.formulario.reset()
+    this.filtros.reset()
+    this.atualizarLista()
   }
 
   adicionarProfessor(): void {
