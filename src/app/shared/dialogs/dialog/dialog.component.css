@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 
 .dialog_titulo {
-  @apply mt-0! text-zinc-800;
+  @apply mb-0! text-zinc-800;
 }
 
 .dialog__mensagem {

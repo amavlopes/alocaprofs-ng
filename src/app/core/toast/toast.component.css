@@ -9,9 +9,9 @@
 }
 
 .toast_titulo {
-  @apply my-0 font-medium text-green-800;
+  @apply my-0 text-sm font-medium text-green-800;
 }
 
 .toast_detalhes {
-  @apply mt-1 text-xs font-medium tracking-wide text-zinc-800;
+  @apply mt-1 font-medium tracking-wide text-zinc-800;
 }

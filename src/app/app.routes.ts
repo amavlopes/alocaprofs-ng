@@ -105,5 +105,23 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'alocacoes',
+    children: [
+      {
+        path: '',
+        redirectTo: 'cadastro',
+        pathMatch: 'full',
+      },
+      {
+        path: 'cadastro',
+        title: 'AlocaProfs - Cadastrar Alocação',
+        loadComponent: () =>
+          import('./sections/alocacoes/pages/cadastro-alocacao/cadastro-alocacao.component').then(
+            (m) => m.CadastroAlocacaoComponent
+          ),
+      },
+    ],
+  },
   { path: '**', component: PaginaNaoEncontradaComponent },
 ]

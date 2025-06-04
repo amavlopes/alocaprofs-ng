@@ -4,6 +4,7 @@ import { inject, Injectable } from '@angular/core'
 import { ProfessorI } from '../interfaces/professor.interface'
 import { catchError, map, Observable, retry, throwError } from 'rxjs'
 import { ProfessorResponseI } from '../interfaces/response/professor-response.interface'
+import { ProfessorParametrosI } from '../interfaces/professor-parametros.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -27,10 +28,10 @@ export class ProfessorService {
     )
   }
 
-  obterProfessores(nome?: string, idDepartamento?: string): Observable<ProfessorI[]> {
+  obterProfessores(parametros?: ProfessorParametrosI): Observable<ProfessorI[]> {
     const params = this.buildHttpParams({
-      name: nome?.trim(),
-      departmentId: idDepartamento,
+      name: parametros?.nome?.trim(),
+      departmentId: parametros?.idDepartamento,
     })
 
     return this.http.get<{ professors: ProfessorResponseI[] }>(this.url, { params }).pipe(

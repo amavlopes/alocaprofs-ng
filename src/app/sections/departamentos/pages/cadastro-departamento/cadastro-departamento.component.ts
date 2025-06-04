@@ -70,7 +70,6 @@ export class CadastroDepartamentoComponent implements OnDestroy {
         this.servicoMensagem.add({
           severity: 'success',
           summary: `Departamento cadastrado com sucesso`,
-          detail: departamento.nome,
         })
 
         this.roteador.navigate(['/departamentos'])

@@ -1,0 +1,29 @@
+<div class="pa_pagina_main">
+  <div class="pa_container">
+    <pa-breadcrumb id="cadastro_alocacao_breadcrumb" [items]="items" />
+
+    <h3>Cadastrar Alocação</h3>
+
+    <div class="pa_pagina_conteudo">
+      <div class="card">
+        <p class="mb-8">
+          Para cadastrar um alocação, preencha as informações abaixo. <br />
+          Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
+        </p>
+
+        <pa-formulario-alocacao
+          id="cadastro_alocacao_formulario"
+          [operacaoPendente]="operacaoPendente"
+          (evtSalvar)="aoClicarSalvar($event)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<pa-dialog
+  id="cadastro_alocacao_dialog_erro"
+  [mostrarDialog]="mostrarDialog"
+  [tituloErro]="tituloErro"
+  [mensagemErro]="mensagemErro"
+></pa-dialog>

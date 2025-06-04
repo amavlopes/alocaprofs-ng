@@ -1,0 +1,122 @@
+<form id="{{ id }}_formulario" class="formulario" [formGroup]="formulario">
+  <input type="hidden" formControlName="idAlocacao" />
+
+  <pa-select
+    id="{{ id }}_dia_semana"
+    label="Dia da semana"
+    formControlName="diaSemana"
+    opcaoLabel="nome"
+    opcaoValor="id"
+    filtrarPor="nome"
+    [obrigatorio]="true"
+    [items]="dias"
+    [placeholder]="'Selecione um dia da semana'"
+  >
+    <pa-mensagem-validacao
+      *ngIf="diaSemana.touched && diaSemana.errors?.['required']"
+      id="{{ id }}_validacao_dia_semana_required"
+      tipo="erro"
+      mensagem="O campo dia da semana é obrigatório"
+    />
+  </pa-select>
+
+  <fieldset class="grid grid-cols-2 gap-4">
+    <pa-input-text
+      id="{{ id }}_horario_inicial"
+      label="Horário inicial"
+      formControlName="horarioInicial"
+      [obrigatorio]="true"
+    >
+      <pa-mensagem-validacao
+        *ngIf="horarioInicial.touched && horarioInicial.errors?.['required']"
+        id="{{ id }}_validacao_horario_inicial_required"
+        tipo="erro"
+        mensagem="O campo horário inicial é obrigatório"
+      />
+    </pa-input-text>
+
+    <pa-input-text
+      id="{{ id }}_horario_final"
+      label="Horário final"
+      formControlName="horarioFinal"
+      [obrigatorio]="true"
+    >
+      <pa-mensagem-validacao
+        *ngIf="horarioFinal.touched && horarioFinal.errors?.['required']"
+        id="{{ id }}_validacao_horario_final_required"
+        tipo="erro"
+        mensagem="O campo horário final é obrigatório"
+      />
+    </pa-input-text>
+  </fieldset>
+
+  <fieldset class="grid grid-cols-2 gap-4">
+    <pa-select
+      id="{{ id }}_professor"
+      label="Professor"
+      [items]="professores"
+      opcaoLabel="nome"
+      opcaoValor="id"
+      filtrarPor="nome"
+      formControlName="idProfessor"
+      [carregando]="carregandoProfessores"
+      [obrigatorio]="true"
+      [placeholder]="carregandoProfessores ? 'Carregando professores...' : 'Selecione um professor'"
+    >
+      <pa-mensagem-validacao
+        *ngIf="idProfessor.touched && idProfessor.errors?.['required']"
+        id="{{ id }}_validacao_professor_required"
+        tipo="erro"
+        mensagem="O campo professor é obrigatório"
+      />
+    </pa-select>
+
+    <pa-select
+      id="{{ id }}_curso"
+      label="Curso"
+      [items]="cursos"
+      opcaoLabel="nome"
+      opcaoValor="id"
+      filtrarPor="nome"
+      formControlName="idCurso"
+      [carregando]="carregandoCursos"
+      [obrigatorio]="true"
+      [placeholder]="carregandoCursos ? 'Carregando cursos...' : 'Selecione um curso'"
+    >
+      <pa-mensagem-validacao
+        *ngIf="idCurso.touched && idCurso.errors?.['required']"
+        id="{{ id }}_validacao_curso_required"
+        tipo="erro"
+        mensagem="O campo curso é obrigatório"
+      />
+    </pa-select>
+  </fieldset>
+
+  <div class="formulario_rodape">
+    <p-button
+      id="{{ id }}_botao_salvar"
+      label="Salvar"
+      type="submit"
+      icon="pi pi-check"
+      aria-label="Salvar alocação"
+      [loading]="operacaoPendente"
+      [disabled]="operacaoPendente"
+      (click)="aoClicarSalvar()"
+    />
+    <p-button
+      id="{{ id }}_botao_limpar"
+      label="Limpar"
+      icon="pi pi-times"
+      severity="secondary"
+      aria-label="Limpar dados"
+      (click)="aoClicarLimpar()"
+    />
+  </div>
+</form>
+
+<pa-dialog
+  id="{{ id }}_formulario_dialog_erro"
+  [mostrarDialog]="mostrarDialog"
+  [tituloErro]="tituloErro"
+  [mensagemErro]="mensagemErro"
+></pa-dialog>

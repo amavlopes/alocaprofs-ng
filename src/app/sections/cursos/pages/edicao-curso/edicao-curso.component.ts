@@ -94,7 +94,6 @@ export class EdicaoCursoComponent {
         this.servicoMensagem.add({
           severity: 'success',
           summary: `Curso atualizado com sucesso`,
-          detail: curso.nome,
         })
 
         this.roteador.navigate(['/cursos'])

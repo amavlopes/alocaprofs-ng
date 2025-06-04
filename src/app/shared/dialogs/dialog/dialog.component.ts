@@ -14,5 +14,5 @@ export class DialogComponent {
   @Input({ required: true }) tituloErro!: string
   @Input({ required: true }) mensagemErro!: string
   @Input() mostrarDialog = false
-  @Input() largura = '20rem'
+  @Input() largura = '25rem'
 }

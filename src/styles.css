@@ -140,7 +140,8 @@ html {
   @apply text-red-400;
 }
 
-.ng-invalid.ng-touched .p-inputtext {
+.ng-invalid.ng-touched .p-inputtext,
+.ng-invalid.ng-touched .p-select {
   @apply border-red-400!;
 
   &:focus {

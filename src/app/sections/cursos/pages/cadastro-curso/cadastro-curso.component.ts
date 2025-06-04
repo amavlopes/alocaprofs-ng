@@ -70,7 +70,6 @@ export class CadastroCursoComponent implements OnDestroy {
         this.servicoMensagem.add({
           severity: 'success',
           summary: `Curso cadastrado com sucesso`,
-          detail: curso.nome,
         })
 
         this.roteador.navigate(['/cursos'])

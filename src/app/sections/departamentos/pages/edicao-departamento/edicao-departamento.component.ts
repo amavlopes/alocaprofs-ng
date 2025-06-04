@@ -103,7 +103,6 @@ export class EdicaoDepartamentoComponent implements OnInit {
         this.servicoMensagem.add({
           severity: 'success',
           summary: `Departamento atualizado com sucesso`,
-          detail: departamento.nome,
         })
 
         this.roteador.navigate(['/departamentos'])

@@ -21,6 +21,7 @@ import { DepartamentoService } from '../../../departamentos/services/departament
 import { DepartamentoI } from '../../../departamentos/interfaces/departamento.interface'
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
+import { ProfessorParametrosI } from '../../interfaces/professor-parametros.interface'
 
 @Component({
   selector: 'pa-lista-professor',
@@ -108,8 +109,8 @@ export class ListaProfessorComponent {
     ]
   }
 
-  obterProfessoresHttp$(nome?: string, idDepartamento?: string): Observable<ProfessorI[]> {
-    return this.servicoProfessor.obterProfessores(nome, idDepartamento).pipe(
+  obterProfessoresHttp$(parametros?: ProfessorParametrosI): Observable<ProfessorI[]> {
+    return this.servicoProfessor.obterProfessores(parametros).pipe(
       catchError((e) => {
         this.mensagemErro = e.message
         this.mostrarDialog = true
@@ -149,7 +150,12 @@ export class ListaProfessorComponent {
   }
 
   atualizarLista(): void {
-    this.obterProfessoresHttp$(this.nome.value, this.departmentoId.value).subscribe((professores: ProfessorI[]) => {
+    const parametros = {
+      nome: this.nome.value,
+      idDepartamento: +this.departmentoId.value,
+    }
+
+    this.obterProfessoresHttp$(parametros).subscribe((professores: ProfessorI[]) => {
       this.professores = professores
 
       this.mostrarEstadoInicialVazio = false

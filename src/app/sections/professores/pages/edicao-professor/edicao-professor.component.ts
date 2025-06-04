@@ -94,7 +94,6 @@ export class EdicaoProfessorComponent {
         this.servicoMensagem.add({
           severity: 'success',
           summary: `Professor atualizado com sucesso`,
-          detail: professor.nome,
         })
 
         this.roteador.navigate(['/professores'])

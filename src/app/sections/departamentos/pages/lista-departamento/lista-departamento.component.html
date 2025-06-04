@@ -20,7 +20,9 @@
 
       <div class="pa_pagina_titulo_container">
         <h3 class="pa_pagina_titulo">Departamentos</h3>
-        <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
+        @if (!mostrarEstadoInicialVazio) {
+          <ng-container *ngTemplateOutlet="botaoAdicionar"></ng-container>
+        }
       </div>
 
       <div class="pa_pagina_conteudo">
