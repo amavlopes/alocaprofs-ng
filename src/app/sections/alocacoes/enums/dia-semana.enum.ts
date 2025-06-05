@@ -1,4 +1,4 @@
-export enum DiaSemana {
+export enum DiaSemanaE {
   DOMINGO,
   SEGUNDA,
   TERCA,

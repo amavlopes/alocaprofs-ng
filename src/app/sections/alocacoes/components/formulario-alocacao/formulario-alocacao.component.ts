@@ -17,7 +17,8 @@ import { AlocacaoI } from '../../interfaces/alocacao.interface'
 import { ProfessorI } from '../../../professores/interfaces/professor.interface'
 import { CursoI } from '../../../cursos/interfaces/curso.interface'
 import { DiaSemanaI } from '../../interfaces/dia-semana.interface'
-import { DiaSemana } from '../../enums/dia-semana.enum'
+import { DiaSemanaE } from '../../enums/dia-semana.enum'
+import { DiaSemana } from '../../models/dia-semana'
 
 @Component({
   selector: 'pa-formulario-alocacao',
@@ -45,36 +46,7 @@ export class FormularioAlocacaoComponent implements OnInit, OnDestroy {
   mostrarDialog = false
   tituloErro = 'Erro ao obter alocações'
   mensagemErro = ''
-  dias: DiaSemanaI[] = [
-    {
-      id: DiaSemana.DOMINGO,
-      nome: 'Domingo',
-    },
-    {
-      id: DiaSemana.SEGUNDA,
-      nome: 'Segunda',
-    },
-    {
-      id: DiaSemana.TERCA,
-      nome: 'Terça',
-    },
-    {
-      id: DiaSemana.QUARTA,
-      nome: 'Quarta',
-    },
-    {
-      id: DiaSemana.QUINTA,
-      nome: 'Quinta',
-    },
-    {
-      id: DiaSemana.SEXTA,
-      nome: 'Sexta',
-    },
-    {
-      id: DiaSemana.SABADO,
-      nome: 'Sábado',
-    },
-  ]
+  dias: DiaSemanaI[] = DiaSemana.carregar()
   cursos!: CursoI[]
   professores!: ProfessorI[]
   formulario: FormGroup<FormularioAlocacaoI> = this.fb.group({

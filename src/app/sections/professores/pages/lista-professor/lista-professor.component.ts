@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 
 import { catchError, concatMap, EMPTY, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
@@ -41,7 +41,7 @@ import { ProfessorParametrosI } from '../../interfaces/professor-parametros.inte
   providers: [ConfirmationService],
   templateUrl: './lista-professor.component.html',
 })
-export class ListaProfessorComponent {
+export class ListaProfessorComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder)
   private roteador = inject(Router)
   private servicoConfirmacao: ConfirmationService = inject(ConfirmationService)
@@ -53,7 +53,7 @@ export class ListaProfessorComponent {
   mostrarEstadoInicialVazio!: boolean
   mostrarDialog = false
   items: MenuItem[] = []
-  tituloErro = 'Erro ao buscar professor'
+  tituloErro = 'Erro ao buscar professores'
   mensagemErro = ''
   indice = 0
   registros = 10
@@ -175,8 +175,8 @@ export class ListaProfessorComponent {
     this.roteador.navigate(['/professores/cadastro'])
   }
 
-  editarProfessor(curso: ProfessorI) {
-    this.roteador.navigate(['/professores/edicao', curso.id])
+  editarProfessor(professor: ProfessorI) {
+    this.roteador.navigate(['/professores/edicao', professor.id])
   }
 
   confirmarExclusao(professor: ProfessorI) {

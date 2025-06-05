@@ -92,7 +92,7 @@ html {
 }
 
 .pa_container {
-  @apply mx-auto w-3xl px-4 max-md:w-auto md:px-0;
+  @apply mx-auto px-4 md:w-[47.5rem] md:px-0 lg:w-[63.5rem] xl:w-6xl;
 }
 
 .pa_pagina_main {

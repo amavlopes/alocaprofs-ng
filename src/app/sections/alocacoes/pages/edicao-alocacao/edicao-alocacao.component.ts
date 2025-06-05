@@ -50,7 +50,7 @@ export class EdicaoAlocacaoComponent implements OnInit {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Alocações', route: '/alocacaoes' },
+      { icon: '', label: 'Alocações', route: '/alocacoes' },
     ]
   }
 

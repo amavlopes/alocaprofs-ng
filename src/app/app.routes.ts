@@ -110,8 +110,16 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'cadastro',
+        redirectTo: 'lista',
         pathMatch: 'full',
+      },
+      {
+        path: 'lista',
+        title: 'AlocaProfs - Alocações',
+        loadComponent: () =>
+          import('./sections/alocacoes/pages/lista-alocacao/lista-alocacao.component').then(
+            (m) => m.ListaAlocacaoComponent
+          ),
       },
       {
         path: 'cadastro',
