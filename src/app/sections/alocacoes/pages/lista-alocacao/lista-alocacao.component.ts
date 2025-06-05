@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 
-import { catchError, EMPTY, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, concatMap, EMPTY, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
 
 import { ConfirmationService, MenuItem } from 'primeng/api'
 import { ButtonModule } from 'primeng/button'
@@ -236,5 +236,39 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
 
   editarAlocacao(alocacao: AlocacaoI) {
     this.roteador.navigate(['/alocacoes/edicao', alocacao.id])
+  }
+
+  confirmarExclusao(alocacao: ItemListaAlocacaoI) {
+    this.servicoConfirmacao.confirm({
+      closable: true,
+      closeOnEscape: true,
+      header: 'Excluir alocação',
+      message: `Tem certeza que deseja excluir a alocação da <b>${alocacao.diaSemana}</b> das <b>${alocacao.inicio}</b> às <b>${alocacao.fim}</b>, com o professor <b>${alocacao.professor}</b> do curso de <b>${alocacao.curso}</b>?`,
+      accept: () => {
+        this.excluirAlocacao(alocacao.id)
+      },
+      reject: () => {},
+    })
+  }
+
+  excluirAlocacao(id: number): void {
+    this.servicoAlocacao
+      .excluirAlocacaoPorId(id)
+      .pipe(
+        catchError((e) => {
+          this.tituloErro = 'Erro ao excluir alocação'
+          this.mensagemErro = e.message
+          this.mostrarDialog = true
+
+          return EMPTY
+        }),
+        concatMap(() => this.obterAlocacoesHttp$()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((listaAlocacao: ItemListaAlocacaoI[]) => {
+        if (!listaAlocacao.length) this.mostrarEstadoInicialVazio = true
+
+        this.listaAlocacao = listaAlocacao
+      })
   }
 }
