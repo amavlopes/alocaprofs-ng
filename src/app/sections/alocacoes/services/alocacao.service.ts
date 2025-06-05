@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { AlocacaoI } from '../interfaces/alocacao.interface'
-import { catchError, EMPTY, map, Observable, throwError } from 'rxjs'
+import { catchError, map, Observable, retry, throwError } from 'rxjs'
 import { AlocacaoResponseI } from '../interfaces/response/alocacao-response.interface'
 
 @Injectable({
@@ -12,34 +12,50 @@ export class AlocacaoService {
 
   private http = inject(HttpClient)
 
-  criarAlocacao(professor: Omit<AlocacaoI, 'id'>): Observable<AlocacaoI> {
-    const request = {
-      day: professor.diaSemana,
-      startHour: professor.horarioInicial,
-      endHour: professor.horarioFinal,
-      courseId: professor.idCurso,
-      professorId: professor.idProfessor,
-    }
+  criarAlocacao(alocacao: Omit<AlocacaoI, 'id'>): Observable<AlocacaoI> {
+    const request = this.criarRequest(alocacao)
 
     return this.http.post<{ allocation: AlocacaoResponseI }>(this.url, request).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
-      map((response: { allocation: AlocacaoResponseI }) => ({
-        id: response.allocation.id,
-        diaSemana: response.allocation.day,
-        horarioInicial: response.allocation.startHour,
-        horarioFinal: response.allocation.endHour,
-        idCurso: response.allocation.courseId,
-        idProfessor: response.allocation.professorId,
-      }))
+      map((response: { allocation: AlocacaoResponseI }) => this.mapearResponse(response.allocation))
     )
   }
 
-  transformarStringParaDate(horario: string) {
-    const arrayHora = horario.split(':')
-    const hora = parseInt(arrayHora[0])
-    const minuto = parseInt(arrayHora[1])
-    const segundo = 0
+  obterAlocacaoPorId(id: number): Observable<AlocacaoI> {
+    return this.http.get<{ allocation: AlocacaoResponseI }>(`${this.url}/${id}`).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      retry({ count: 2, delay: 1000 }),
+      map((response: { allocation: AlocacaoResponseI }) => this.mapearResponse(response.allocation))
+    )
+  }
 
-    return new Date(1970, 0, 1, hora, minuto, segundo)
+  atualizarAlocacao(alocacao: AlocacaoI): Observable<AlocacaoI> {
+    const request = this.criarRequest(alocacao)
+
+    return this.http.put<{ allocation: AlocacaoResponseI }>(`${this.url}/${alocacao.id}`, request).pipe(
+      catchError((e) => throwError(() => new Error(e.error.message || e.message))),
+      map((response: { allocation: AlocacaoResponseI }) => this.mapearResponse(response.allocation))
+    )
+  }
+
+  private criarRequest(alocacao: Omit<AlocacaoI, 'id'>) {
+    return {
+      day: alocacao.diaSemana,
+      startHour: alocacao.horarioInicial,
+      endHour: alocacao.horarioFinal,
+      courseId: alocacao.idCurso,
+      professorId: alocacao.idProfessor,
+    }
+  }
+
+  private mapearResponse(allocation: AlocacaoResponseI): AlocacaoI {
+    return {
+      id: allocation.id,
+      diaSemana: allocation.day,
+      horarioInicial: allocation.startHour,
+      horarioFinal: allocation.endHour,
+      idCurso: allocation.course.id,
+      idProfessor: allocation.professor.id,
+    }
   }
 }

@@ -14,7 +14,6 @@ import { ProfessorI } from '../../interfaces/professor.interface'
 import { DepartamentoI } from '../../../departamentos/interfaces/departamento.interface'
 import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
 import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensagem-validacao/mensagem-validacao.component'
-import { converterParaString } from '../../../../shared/utilities/converter-para-string.utility'
 
 @Component({
   selector: 'pa-formulario-professor',
@@ -107,14 +106,6 @@ export class FormularioProfessorComponent implements OnInit {
 
   carregarFormulario(): void {
     if (!this.professor) return
-
-    // const professor = converterParaString(this.professor)
-    // const { id, ...nProfessor } = professor
-
-    // this.formulario.patchValue({
-    //   idProfessor: id,
-    //   ...nProfessor,
-    // })
 
     this.idProfessor.setValue(this.professor.id)
     this.nome.setValue(this.professor.nome)

@@ -121,6 +121,14 @@ export const routes: Routes = [
             (m) => m.CadastroAlocacaoComponent
           ),
       },
+      {
+        path: 'edicao/:alocacaoId',
+        title: 'AlocaProfs - Editar Alocação',
+        loadComponent: () =>
+          import('./sections/alocacoes/pages/edicao-alocacao/edicao-alocacao.component').then(
+            (m) => m.EdicaoAlocacaoComponent
+          ),
+      },
     ],
   },
   { path: '**', component: PaginaNaoEncontradaComponent },

@@ -1,0 +1,40 @@
+@if (alocacao$ | async; as alocacao) {
+  <ng-container>
+    <div class="pa_pagina_main">
+      <div class="pa_container">
+        <pa-breadcrumb id="edicao_alocacao_breadcrumb" [items]="items" />
+
+        <h3>Editar Alocação</h3>
+
+        <div class="pa_pagina_conteudo">
+          <div class="card">
+            <p class="mb-8">
+              Atualize os dados da alocação preenchendo as informações abaixo. <br />
+              Os campos com <span class="campo_obrigatorio">*</span> são obrigatórios.
+            </p>
+
+            <pa-formulario-alocacao
+              id="edicao_alocacao_formulario"
+              [operacaoPendente]="operacaoPendente"
+              [alocacao]="alocacao"
+              (evtSalvar)="aoClicarSalvar($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <pa-dialog
+      id="edicao_alocacao_dialog_erro"
+      [mostrarDialog]="mostrarDialog"
+      [tituloErro]="tituloErro"
+      [mensagemErro]="mensagemErro"
+    ></pa-dialog>
+  </ng-container>
+} @else {
+  <pa-loader
+    id="edicao_alocacao_loader"
+    titulo="Carregando página"
+    conteudo="Por favor, aguarde. Essa operação pode durar até 1 minuto."
+  />
+}

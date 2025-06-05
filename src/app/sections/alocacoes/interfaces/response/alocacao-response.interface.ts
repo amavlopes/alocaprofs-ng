@@ -3,8 +3,15 @@ export interface AlocacaoResponseI {
   day: number
   startHour: string
   endHour: string
-  courseId: number
-  professorId: number
-  createdAt: string
-  updatedAt: string
+  course: {
+    id: number
+    name: string
+    description: string
+  }
+  professor: {
+    id: number
+    name: string
+    cpf: string
+    departmentId: number
+  }
 }

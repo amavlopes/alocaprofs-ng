@@ -1,10 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 
 import { ProfessorI } from '../interfaces/professor.interface'
 import { catchError, map, Observable, retry, throwError } from 'rxjs'
 import { ProfessorResponseI } from '../interfaces/response/professor-response.interface'
 import { ProfessorParametrosI } from '../interfaces/professor-parametros.interface'
+import { criarHttpParams } from '../../../shared/utilities/criar-http-params.utility'
 
 @Injectable({
   providedIn: 'root',
@@ -15,21 +16,16 @@ export class ProfessorService {
   private http = inject(HttpClient)
 
   criarProfessor(professor: Omit<ProfessorI, 'id'>): Observable<ProfessorI> {
-    const request = { name: professor.nome, cpf: professor.cpf, departmentId: professor.idDepartamento }
+    const request = this.criarResquest(professor)
 
     return this.http.post<{ professor: ProfessorResponseI }>(this.url, request).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
-      map((response: { professor: ProfessorResponseI }) => ({
-        id: response.professor.id,
-        nome: response.professor.name,
-        cpf: response.professor.cpf,
-        idDepartamento: response.professor.department.id,
-      }))
+      map((response: { professor: ProfessorResponseI }) => this.mapearResponse(response.professor))
     )
   }
 
   obterProfessores(parametros?: ProfessorParametrosI): Observable<ProfessorI[]> {
-    const params = this.buildHttpParams({
+    const params = criarHttpParams({
       name: parametros?.nome?.trim(),
       departmentId: parametros?.idDepartamento,
     })
@@ -38,12 +34,9 @@ export class ProfessorService {
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
       retry({ count: 2, delay: 1000 }),
       map((response: { professors: ProfessorResponseI[] }) => {
-        const professores: ProfessorI[] = response.professors.map((professor: ProfessorResponseI) => ({
-          id: professor.id,
-          nome: professor.name,
-          cpf: professor.cpf,
-          idDepartamento: professor.department.id,
-        }))
+        const professores: ProfessorI[] = response.professors.map((professor: ProfessorResponseI) =>
+          this.mapearResponse(professor)
+        )
 
         return professores
       })
@@ -55,12 +48,9 @@ export class ProfessorService {
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
       retry({ count: 2, delay: 1000 }),
       map((response: { professors: ProfessorResponseI[] }) => {
-        const professores: ProfessorI[] = response.professors.map((professor: ProfessorResponseI) => ({
-          id: professor.id,
-          nome: professor.name,
-          cpf: professor.cpf,
-          idDepartamento: professor.department.id,
-        }))
+        const professores: ProfessorI[] = response.professors.map((professor: ProfessorResponseI) =>
+          this.mapearResponse(professor)
+        )
 
         return professores
       })
@@ -71,26 +61,16 @@ export class ProfessorService {
     return this.http.get<{ professor: ProfessorResponseI }>(`${this.url}/${id}`).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
       retry({ count: 2, delay: 1000 }),
-      map((response: { professor: ProfessorResponseI }) => ({
-        id: response.professor.id,
-        nome: response.professor.name,
-        cpf: response.professor.cpf,
-        idDepartamento: response.professor.department.id,
-      }))
+      map((response: { professor: ProfessorResponseI }) => this.mapearResponse(response.professor))
     )
   }
 
   atualizarProfessor(professor: ProfessorI): Observable<ProfessorI> {
-    const request = { name: professor.nome, cpf: professor.cpf, departmentId: professor.idDepartamento }
+    const request = this.criarResquest(professor)
 
     return this.http.put<{ professor: ProfessorResponseI }>(`${this.url}/${professor.id}`, request).pipe(
       catchError((e) => throwError(() => new Error(e.error.message || e.message))),
-      map((response: { professor: ProfessorResponseI }) => ({
-        id: response.professor.id,
-        nome: response.professor.name,
-        cpf: response.professor.cpf,
-        idDepartamento: response.professor.department.id,
-      }))
+      map((response: { professor: ProfessorResponseI }) => this.mapearResponse(response.professor))
     )
   }
 
@@ -101,15 +81,16 @@ export class ProfessorService {
     )
   }
 
-  buildHttpParams(query: { [key: string]: any }): HttpParams {
-    let params = new HttpParams()
+  private criarResquest(professor: Omit<ProfessorI, 'id'>) {
+    return { name: professor.nome, cpf: professor.cpf, departmentId: professor.idDepartamento }
+  }
 
-    Object.entries(query).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        params = params.set(key, value.toString())
-      }
-    })
-
-    return params
+  private mapearResponse(professor: ProfessorResponseI): ProfessorI {
+    return {
+      id: professor.id,
+      nome: professor.name,
+      cpf: professor.cpf,
+      idDepartamento: professor.department.id,
+    }
   }
 }

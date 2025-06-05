@@ -1,32 +1,32 @@
-import { ProfessorService } from './../../services/professor.service'
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
 
 import { catchError, EMPTY, finalize, Observable, Subject, switchMap, takeUntil } from 'rxjs'
 
 import { MenuItem, MessageService } from 'primeng/api'
-import { ActivatedRoute, Router } from '@angular/router'
 
 import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.component'
 import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
 import { LoaderComponent } from '../../../../shared/loader/loader.component'
-import { FormularioProfessorComponent } from '../../components/formulario-professor/formulario-professor.component'
-import { ProfessorI } from '../../interfaces/professor.interface'
+import { FormularioAlocacaoComponent } from '../../components/formulario-alocacao/formulario-alocacao.component'
+import { AlocacaoService } from '../../services/alocacao.service'
+import { AlocacaoI } from '../../interfaces/alocacao.interface'
 
 @Component({
-  selector: 'pa-edicao-professor',
-  imports: [CommonModule, BreadcrumbComponent, FormularioProfessorComponent, DialogComponent, LoaderComponent],
-  templateUrl: './edicao-professor.component.html',
+  selector: 'pa-edicao-alocacao',
+  imports: [CommonModule, BreadcrumbComponent, FormularioAlocacaoComponent, DialogComponent, LoaderComponent],
+  templateUrl: './edicao-alocacao.component.html',
 })
-export class EdicaoProfessorComponent implements OnInit {
+export class EdicaoAlocacaoComponent implements OnInit {
   private servicoMensagem: MessageService = inject(MessageService)
   private roteador = inject(Router)
   private rotaAtiva = inject(ActivatedRoute)
-  private servicoProfessor = inject(ProfessorService)
+  private servicoAlocacao = inject(AlocacaoService)
   private destroy$ = new Subject<void>()
 
-  professor$!: Observable<ProfessorI>
-  professorId!: number
+  alocacao$!: Observable<AlocacaoI>
+  alocacaoId!: number
   estaCarregando = true
   operacaoPendente = false
   mostrarDialog = false
@@ -39,7 +39,7 @@ export class EdicaoProfessorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carregarProfessor()
+    this.carregarAlocacao()
   }
 
   ngOnDestroy(): void {
@@ -50,18 +50,18 @@ export class EdicaoProfessorComponent implements OnInit {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Professores', route: '/professores' },
+      { icon: '', label: 'Alocações', route: '/alocacaoes' },
     ]
   }
 
-  carregarProfessor(): void {
-    this.professor$ = this.rotaAtiva.paramMap.pipe(
+  carregarAlocacao(): void {
+    this.alocacao$ = this.rotaAtiva.paramMap.pipe(
       switchMap((params) => {
-        this.professorId = Number(params.get('professorId'))
+        this.alocacaoId = Number(params.get('alocacaoId'))
 
-        return this.servicoProfessor.obterProfessorPorId(this.professorId).pipe(
+        return this.servicoAlocacao.obterAlocacaoPorId(this.alocacaoId).pipe(
           catchError((e) => {
-            this.tituloErro = 'Erro ao carregar professor'
+            this.tituloErro = 'Erro ao carregar alocação'
             this.mensagemErro = e.message
             this.mostrarDialog = true
 
@@ -72,31 +72,31 @@ export class EdicaoProfessorComponent implements OnInit {
     )
   }
 
-  aoClicarSalvar(professor: ProfessorI): void {
+  aoClicarSalvar(alocacao: AlocacaoI): void {
     if (this.operacaoPendente) return
 
     this.operacaoPendente = true
 
-    this.servicoProfessor
-      .atualizarProfessor(professor)
+    this.servicoAlocacao
+      .atualizarAlocacao(alocacao)
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => (this.operacaoPendente = false)),
         catchError((e) => {
-          this.tituloErro = 'Erro ao atualizar professor'
+          this.tituloErro = 'Erro ao atualizar alocação'
           this.mensagemErro = e.message
           this.mostrarDialog = true
 
           return EMPTY
         })
       )
-      .subscribe((professor: ProfessorI) => {
+      .subscribe((_) => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Professor atualizado com sucesso`,
+          summary: `Alocação atualizada com sucesso`,
         })
 
-        this.roteador.navigate(['/professores'])
+        this.roteador.navigate(['/alocacoes'])
       })
   }
 }

@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common'
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 
+import { catchError, debounceTime, EMPTY, filter, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
+
 import { ButtonModule } from 'primeng/button'
 
 import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
@@ -9,11 +11,9 @@ import { InputTextComponent } from '../../../../shared/formulario/input-text/inp
 import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensagem-validacao/mensagem-validacao.component'
 import { SelectComponent } from '../../../../shared/formulario/select/select.component'
 import { ProfessorService } from '../../../professores/services/professor.service'
-import { catchError, debounceTime, EMPTY, filter, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
 import { CursoService } from '../../../cursos/services/curso.service'
 import { FormularioAlocacaoI } from './interfaces/formulario-alocacao.interface'
 import { AlocacaoI } from '../../interfaces/alocacao.interface'
-import { converterParaString } from '../../../../shared/utilities/converter-para-string.utility'
 import { ProfessorI } from '../../../professores/interfaces/professor.interface'
 import { CursoI } from '../../../cursos/interfaces/curso.interface'
 import { DiaSemanaI } from '../../interfaces/dia-semana.interface'
@@ -169,13 +169,12 @@ export class FormularioAlocacaoComponent implements OnInit, OnDestroy {
   carregarFormulario(): void {
     if (!this.alocacao) return
 
-    const alocacao = converterParaString(this.alocacao)
-    const { id, ...nAlocacao } = alocacao
-
-    this.formulario.patchValue({
-      idAlocacao: id,
-      ...nAlocacao,
-    })
+    this.idAlocacao.setValue(this.alocacao.id)
+    this.diaSemana.setValue(this.alocacao.diaSemana)
+    this.horarioInicial.setValue(this.alocacao.horarioInicial)
+    this.horarioFinal.setValue(this.alocacao.horarioFinal)
+    this.idCurso.setValue(this.alocacao.idCurso)
+    this.idProfessor.setValue(this.alocacao.idProfessor)
   }
 
   observarEvtSalvar(): void {
