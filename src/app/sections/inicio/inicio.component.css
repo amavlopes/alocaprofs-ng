@@ -1,0 +1,35 @@
+@reference 'tailwindcss';
+
+@layer components {
+  .pa_logo_slogan {
+    @apply tracking-wide;
+  }
+
+  .pa_titulo_home {
+    @apply mb-7 tracking-tight;
+  }
+
+  .pa_home_descricao {
+    @apply tracking-wide;
+  }
+
+  .pa_texto_destaque {
+    @apply text-pink-600!;
+  }
+
+  .pa_container_home {
+    @apply grid grid-cols-1 gap-5;
+
+    @variant sm {
+      @apply grid-cols-2;
+    }
+  }
+
+  .pa_card_home {
+    @apply card flex items-center gap-5;
+  }
+
+  .pa_card_home_titulo {
+    @apply mb-0 text-slate-800;
+  }
+}

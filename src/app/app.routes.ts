@@ -1,11 +1,17 @@
 import { Routes } from '@angular/router'
 import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagina-nao-encontrada.component'
+import { InicioComponent } from './sections/inicio/inicio.component'
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/cursos',
+    redirectTo: '/inicio',
     pathMatch: 'full',
+  },
+  {
+    path: 'inicio',
+    title: 'AlocaProfs - Início',
+    component: InicioComponent,
   },
   {
     path: 'cursos',

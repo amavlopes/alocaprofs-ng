@@ -1,7 +1,7 @@
-@reference "tailwindcss";
+@reference "./../../../styles.css";
 
 .logo_texto {
-  @apply mb-0! text-xl text-gray-950 capitalize;
+  @apply font-inter mb-0! text-gray-950 capitalize;
   font-weight: 800;
 }
 

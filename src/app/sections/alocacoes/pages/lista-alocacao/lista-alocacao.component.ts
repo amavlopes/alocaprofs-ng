@@ -234,7 +234,7 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
       closable: true,
       closeOnEscape: true,
       header: 'Excluir alocação',
-      message: `Tem certeza que deseja excluir a alocação da <b>${alocacao.diaSemana}</b> das <b>${alocacao.inicio}</b> às <b>${alocacao.fim}</b>, com o professor <b>${alocacao.professor}</b> do curso de <b>${alocacao.curso}</b>?`,
+      message: `Tem certeza que deseja excluir a alocação da <b>${alocacao.diaSemana}</b> das <b>${alocacao.inicio}</b> às <b>${alocacao.fim}</b>, com o professor <b>${alocacao.professor}</b> do curso <b>${alocacao.curso}</b>?`,
       accept: () => {
         this.excluirAlocacao(alocacao.id)
       },
