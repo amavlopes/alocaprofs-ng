@@ -21,7 +21,7 @@
   </pa-select>
 
   <fieldset class="grid gap-5 sm:grid-cols-2">
-    <pa-input-text
+    <pa-input-time
       id="{{ id }}_horario_inicial"
       label="Horário inicial"
       formControlName="horarioInicial"
@@ -33,9 +33,9 @@
         tipo="erro"
         mensagem="O campo horário inicial é obrigatório"
       />
-    </pa-input-text>
+    </pa-input-time>
 
-    <pa-input-text
+    <pa-input-time
       id="{{ id }}_horario_final"
       label="Horário final"
       formControlName="horarioFinal"
@@ -47,7 +47,7 @@
         tipo="erro"
         mensagem="O campo horário final é obrigatório"
       />
-    </pa-input-text>
+    </pa-input-time>
   </fieldset>
 
   <fieldset class="grid gap-5 sm:grid-cols-2">

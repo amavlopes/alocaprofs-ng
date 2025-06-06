@@ -7,7 +7,6 @@ import { catchError, debounceTime, EMPTY, filter, finalize, forkJoin, Observable
 import { ButtonModule } from 'primeng/button'
 
 import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
-import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
 import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensagem-validacao/mensagem-validacao.component'
 import { SelectComponent } from '../../../../shared/formulario/select/select.component'
 import { ProfessorService } from '../../../professores/services/professor.service'
@@ -17,8 +16,8 @@ import { AlocacaoI } from '../../interfaces/alocacao.interface'
 import { ProfessorI } from '../../../professores/interfaces/professor.interface'
 import { CursoI } from '../../../cursos/interfaces/curso.interface'
 import { DiaSemanaI } from '../../interfaces/dia-semana.interface'
-import { DiaSemanaE } from '../../enums/dia-semana.enum'
 import { DiaSemana } from '../../models/dia-semana'
+import { InputTimeComponent } from '../../../../shared/formulario/input-time/input-time.component'
 
 @Component({
   selector: 'pa-formulario-alocacao',
@@ -26,11 +25,11 @@ import { DiaSemana } from '../../models/dia-semana'
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    InputTextComponent,
     SelectComponent,
     ButtonModule,
     DialogComponent,
     MensagemValidacaoComponent,
+    InputTimeComponent,
   ],
   templateUrl: './formulario-alocacao.component.html',
 })

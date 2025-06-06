@@ -24,7 +24,6 @@ import { AlocacaoI } from '../../interfaces/alocacao.interface'
 import { AlocacaoParametrosI } from '../../interfaces/alocacao-parametros.interface'
 import { AlocacaoService } from '../../services/alocacao.service'
 import { ItemListaAlocacaoI } from '../../interfaces/item-lista-alocacao.interface'
-import { DiaSemanaE } from '../../enums/dia-semana.enum'
 import { DiaSemanaI } from '../../interfaces/dia-semana.interface'
 import { DiaSemana } from '../../models/dia-semana'
 
@@ -106,27 +105,19 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
   definirColunasTabela(): void {
     this.colunas = [
       {
-        campo: 'id',
-        cabecalho: 'Código',
-        largura: '7rem',
-      },
-      {
         campo: 'diaSemana',
         cabecalho: 'Dia',
+        largura: '8rem',
       },
       {
         campo: 'inicio',
         cabecalho: 'Início',
-        largura: '3rem',
+        largura: '8rem',
       },
       {
         campo: 'fim',
         cabecalho: 'Fim',
-        largura: '3rem',
-      },
-      {
-        campo: 'curso',
-        cabecalho: 'Curso',
+        largura: '8rem',
       },
       {
         campo: 'professor',
