@@ -170,3 +170,8 @@ html {
     @apply flex gap-2 self-end;
   }
 }
+
+/* InputTime */
+.p-inputtext.p-inputmask {
+  @apply w-full;
+}

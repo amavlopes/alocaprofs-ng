@@ -1,0 +1,9 @@
+<div class="input_container">
+  <label [for]="id"
+    >{{ label }}
+    <span *ngIf="obrigatorio" class="campo_obrigatorio">*</span>
+  </label>
+
+  <p-inputmask [id]="id" mask="99:99" [(ngModel)]="valor" [placeholder]="placeholder" />
+  <ng-content></ng-content>
+</div>
