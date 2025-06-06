@@ -10,3 +10,11 @@
 .tabela th {
   min-width: 7rem;
 }
+
+.coluna_botao_expansivel {
+  width: 1rem;
+}
+
+.coluna_acoes {
+  width: 7rem;
+}

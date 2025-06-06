@@ -16,6 +16,7 @@ export class TabelaComponent {
   @Input({ required: true }) id!: string
   @Input({ required: true }) items!: Array<any>
   @Input({ required: true }) colunas!: Coluna[]
+  @Input() linhasExpansiveis: boolean = false
   @Input() indiceRegistro = 0
   @Input() registrosPorPagina = 10
 

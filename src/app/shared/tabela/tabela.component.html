@@ -1,6 +1,7 @@
 <div class="card mt-4">
   <p-table
     class="tabela"
+    dataKey="id"
     [value]="items"
     [scrollable]="true"
     [paginator]="true"
@@ -13,15 +14,28 @@
   >
     <ng-template #header let-columns>
       <tr>
+        <th *ngIf="linhasExpansiveis" class="coluna_botao_expansivel"></th>
         <th *ngFor="let col of colunas" [pSortableColumn]="col.campo" [style.width]="col.largura || 'auto'">
           {{ col.cabecalho }} <p-sortIcon [field]="col.campo" />
         </th>
-        <th style="width: 7rem">Ações</th>
+        <th class="coluna_acoes">Ações</th>
       </tr>
     </ng-template>
 
-    <ng-template #body let-item let-columns="columns">
+    <ng-template #body let-item let-columns="coluna_botao_expansivel" let-expanded="expanded">
       <tr>
+        <td *ngIf="linhasExpansiveis" class="truncate">
+          <p-button
+            type="button"
+            pRipple
+            [pRowToggler]="item"
+            [text]="true"
+            [rounded]="true"
+            [plain]="true"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          />
+        </td>
+
         <td *ngFor="let col of colunas" class="truncate">
           {{ item[col.campo] }}
         </td>
@@ -42,6 +56,15 @@
             severity="primary"
             (click)="excluir(item)"
           ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template *ngIf="linhasExpansiveis" #expandedrow let-item>
+      <tr dataKey="id">
+        <td style="width: 1rem"></td>
+        <td colspan="6">
+          <p><b>Curso:</b> {{ item['curso'] }}</p>
         </td>
       </tr>
     </ng-template>
