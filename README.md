@@ -1,59 +1,78 @@
-# AlocaprofsNg
+# 🎓 AlocaProfs
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+### Solução ágil para alocação de professores
 
-## Development server
+Projeto para validar conceitos referente à disciplina de **Arquitetura de Front-End**, lecionada pelo professor Keven Leone da Pós-Graduação de **Engenharia de Software 2024.1** do Centro Universitário Frassinetti do Recife (**UniFAFIRE**).
 
-To start a local development server, run:
+AlocaProfs é uma aplicação web que simplifica e otimiza o processo de alocação de professores
+e organização do quadro de horários.
+Com interface amigável e recursos inteligentes, ajuda instituições de ensino a distribuir cargas horárias, evitar conflitos e otimizar a gestão acadêmica de forma ágil e eficiente.
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🚀 Principais funcionalidades:
 
-## Code scaffolding
+- ✅ Gestão de **Cursos**.
+- ✅ Gestão de **Departamentos**.
+- ✅ Gestão de **Professores**.
+- ✅ Gestão de **Alocações de Professores**.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## 🧱 Tecnologias Utilizadas
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Angular v19 (CLI v19.2.4)**
+- **Typescript**
+- **RxJS**
+- **HTML**
+- **CSS (Tailwind CSS)**
+- **Jasmine**
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## 🔗 Dependência da API
 
-To build the project run:
+Esta aplicação consome dados de uma API externa. Para que a aplicação funcione corretamente, é necessário que a **API Professor Allocation** esteja em execução.
 
-```bash
-ng build
-```
+#### 1. Clone e execute a API
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Antes de rodar esta aplicação Angular, siga os passos abaixo para executar a API:
 
 ```bash
-ng test
+  git clone https://github.com/amavlopes/professor-allocation-api.git
+  cd professor-allocation-api
+
+  # siga as instruções do README da API para configurá-la e executá-la
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 🏃 Como executar o projeto
+
+#### 1. Clone o projeto:
 
 ```bash
-ng e2e
+  git clone https://github.com/amavlopes/alocaprofs-ng.git
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+#### 2. Entre no diretório do projeto:
 
-## Additional Resources
+```bash
+  cd alocaprofs-ng
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+#### 3. Instale todas as dependências:
+
+```bash
+  npm install
+```
+
+#### 4. Execute a aplicação:
+
+```bash
+  npm run start
+```
+
+---
+
+⌨️ com ❤️ por [Amanda Avelino](https://github.com/amavlopes) 😊
