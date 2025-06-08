@@ -55,6 +55,10 @@
   h5 {
     @apply text-lg;
   }
+
+  section > p {
+    @apply mb-2;
+  }
 }
 
 @layer components {

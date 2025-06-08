@@ -18,6 +18,7 @@ import { Coluna } from '../../../../shared/tabela/interfaces/coluna.interface'
 import { Router } from '@angular/router'
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
+import { DebounceClickDirective } from '../../../../shared/directives/debounce-click.directive'
 
 @Component({
   selector: 'pa-lista-departamento',
@@ -32,6 +33,7 @@ import { InputTextComponent } from '../../../../shared/formulario/input-text/inp
     LoaderComponent,
     TabelaComponent,
     NenhumResultadoComponent,
+    DebounceClickDirective,
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-departamento.component.html',

@@ -75,13 +75,21 @@
               </fieldset>
 
               <div class="filtro_rodape">
-                <p-button size="small" id="lista_alocacao_pesquisar" label="Pesquisar" (click)="pesquisar()" />
                 <p-button
+                  paDebounceClick
+                  size="small"
+                  id="lista_alocacao_pesquisar"
+                  label="Pesquisar"
+                  (evtClick)="pesquisar()"
+                />
+
+                <p-button
+                  paDebounceClick
                   size="small"
                   id="lista_alocacao_limpar_filtros"
                   label="Limpar"
                   severity="secondary"
-                  (click)="limpar()"
+                  (evtClick)="limpar()"
                 />
               </div>
             </form>

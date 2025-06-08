@@ -22,6 +22,7 @@ import { DepartamentoI } from '../../../departamentos/interfaces/departamento.in
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
 import { ProfessorParametrosI } from '../../interfaces/professor-parametros.interface'
+import { DebounceClickDirective } from '../../../../shared/directives/debounce-click.directive'
 
 @Component({
   selector: 'pa-lista-professor',
@@ -37,6 +38,7 @@ import { ProfessorParametrosI } from '../../interfaces/professor-parametros.inte
     SelectComponent,
     ReactiveFormsModule,
     InputTextComponent,
+    DebounceClickDirective,
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-professor.component.html',

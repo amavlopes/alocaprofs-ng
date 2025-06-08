@@ -18,6 +18,7 @@ import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.co
 import { NenhumResultadoComponent } from '../../../../shared/nenhum-resultado/nenhum-resultado.component'
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 import { InputTextComponent } from '../../../../shared/formulario/input-text/input-text.component'
+import { DebounceClickDirective } from '../../../../shared/directives/debounce-click.directive'
 
 @Component({
   selector: 'pa-lista-curso',
@@ -32,6 +33,7 @@ import { InputTextComponent } from '../../../../shared/formulario/input-text/inp
     LoaderComponent,
     TabelaComponent,
     NenhumResultadoComponent,
+    DebounceClickDirective,
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-curso.component.html',

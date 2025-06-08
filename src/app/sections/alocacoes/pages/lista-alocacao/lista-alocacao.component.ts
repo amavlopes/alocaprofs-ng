@@ -26,6 +26,7 @@ import { AlocacaoService } from '../../services/alocacao.service'
 import { ItemListaAlocacaoI } from '../../interfaces/item-lista-alocacao.interface'
 import { DiaSemanaI } from '../../interfaces/dia-semana.interface'
 import { DiaSemana } from '../../models/dia-semana'
+import { DebounceClickDirective } from '../../../../shared/directives/debounce-click.directive'
 
 @Component({
   selector: 'pa-lista-alocacao',
@@ -40,6 +41,7 @@ import { DiaSemana } from '../../models/dia-semana'
     NenhumResultadoComponent,
     SelectComponent,
     ReactiveFormsModule,
+    DebounceClickDirective,
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-alocacao.component.html',
