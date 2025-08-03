@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint && eslint cypress/**/*.ts && eslint cypress.config.ts",
+    "lint:fix": "ng lint --fix && eslint cypress/**/*.ts --fix && eslint cypress.config.ts --fix"
   },
   "private": true,
   "dependencies": {
@@ -31,15 +33,24 @@
     "@angular-devkit/build-angular": "^19.2.12",
     "@angular/cli": "^19.2.12",
     "@angular/compiler-cli": "^19.2.0",
+    "@eslint/js": "^9.32.0",
     "@types/jasmine": "~5.1.0",
+    "angular-eslint": "20.1.1",
+    "cypress": "^14.5.3",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^5.1.0",
+    "eslint-plugin-prettier": "^5.5.3",
+    "globals": "^16.3.0",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "typescript-eslint": "8.34.1"
   }
 }
