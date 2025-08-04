@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "cy:open": "cypress open",
+    "cy:spec": "cypress run --spec",
     "lint": "ng lint && eslint cypress/**/*.ts && eslint cypress.config.ts",
     "lint:fix": "ng lint --fix && eslint cypress/**/*.ts --fix && eslint cypress.config.ts --fix"
   },
@@ -34,6 +36,7 @@
     "@angular/cli": "^19.2.12",
     "@angular/compiler-cli": "^19.2.0",
     "@eslint/js": "^9.32.0",
+    "@faker-js/faker": "^9.9.0",
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "20.1.1",
     "cypress": "^14.5.3",
