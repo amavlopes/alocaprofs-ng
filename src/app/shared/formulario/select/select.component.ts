@@ -3,6 +3,7 @@ import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/cor
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms'
 
 import { SelectChangeEvent, SelectModule } from 'primeng/select'
+import { noop } from 'rxjs'
 
 @Component({
   selector: 'pa-select',
@@ -11,52 +12,52 @@ import { SelectChangeEvent, SelectModule } from 'primeng/select'
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SelectComponent),
-      multi: true,
-    },
+      multi: true
+    }
   ],
-  templateUrl: './select.component.html',
+  templateUrl: './select.component.html'
 })
 export class SelectComponent implements ControlValueAccessor {
-  private _valor: any
+  private _valor: unknown
 
-  estaDesabilitado: boolean = false
-  OnChange: any = () => {}
-  OnTouched: any = () => {}
+  estaDesabilitado = false
+  onChange: (_: unknown) => void = () => noop
+  onTouched: (_: unknown) => void = () => noop
 
   @Input({ required: true }) id!: string
   @Input() label!: string
-  @Input({ required: true }) items!: any[] | undefined
+  @Input({ required: true }) items!: unknown[] | undefined
   @Input({ required: true }) opcaoLabel!: string
   @Input({ required: true }) opcaoValor!: string
 
   @Input({ required: true }) filtrarPor!: string
-  @Input() carregando: boolean = false
-  @Input() obrigatorio: boolean = false
-  @Input() placeholder: string = ''
+  @Input() carregando = false
+  @Input() obrigatorio = false
+  @Input() placeholder = ''
 
-  @Output() evtSelecionar: EventEmitter<any> = new EventEmitter()
+  @Output() evtSelecionar = new EventEmitter<unknown>()
 
-  get valor(): any {
+  get valor() {
     return this._valor
   }
 
-  set valor(v: any) {
+  set valor(v: unknown) {
     if (v !== this._valor) {
       this._valor = v
-      this.OnChange(v)
+      this.onChange(v)
     }
   }
 
-  writeValue(v: any): void {
+  writeValue(v: unknown): void {
     this.valor = v
   }
 
-  registerOnChange(fn: any): void {
-    this.OnChange = fn
+  registerOnChange(fn: () => void): void {
+    this.onChange = fn
   }
 
-  registerOnTouched(fn: any): void {
-    this.OnTouched = fn
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn
   }
 
   setDisabledState?(estaDesabilitado: boolean): void {

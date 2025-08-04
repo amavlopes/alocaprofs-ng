@@ -10,7 +10,7 @@ import { DepartamentoResponseI } from '../interfaces/response/departamento-respo
   providedIn: 'root',
 })
 export class DepartamentoService {
-  url: string = 'http://localhost:7000/departments'
+  url = 'http://localhost:7000/departments'
 
   private http = inject(HttpClient)
 

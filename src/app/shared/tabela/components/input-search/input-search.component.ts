@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core'
 
 import { IconFieldModule } from 'primeng/iconfield'
 import { InputIconModule } from 'primeng/inputicon'
@@ -12,12 +12,12 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs'
   templateUrl: './input-search.component.html',
   styleUrl: './input-search.component.css',
 })
-export class InputSearchComponent implements OnInit {
+export class InputSearchComponent implements OnInit, OnDestroy {
   private pesquisa$ = new Subject<string>()
   private destroy$ = new Subject<void>()
 
   @Input({ required: true }) id!: string
-  @Input() placeholder: string = ''
+  @Input() placeholder = ''
   @Output() aoPesquisar: EventEmitter<string> = new EventEmitter<string>()
 
   ngOnInit(): void {

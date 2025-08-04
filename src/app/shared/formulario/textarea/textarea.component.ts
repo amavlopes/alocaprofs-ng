@@ -3,6 +3,7 @@ import { Component, forwardRef, Input } from '@angular/core'
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 import { TextareaModule } from 'primeng/textarea'
+import { noop } from 'rxjs'
 
 @Component({
   selector: 'pa-textarea',
@@ -11,45 +12,45 @@ import { TextareaModule } from 'primeng/textarea'
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TextareaComponent),
-      multi: true,
-    },
+      multi: true
+    }
   ],
-  templateUrl: './textarea.component.html',
+  templateUrl: './textarea.component.html'
 })
 export class TextareaComponent implements ControlValueAccessor {
-  private _valor: any
+  private _valor: unknown
 
-  estaDesabilitado: boolean = false
-  onChanged: any = () => {}
-  onTouched: any = () => {}
+  estaDesabilitado = false
+  onChange: (_: unknown) => void = () => noop
+  onTouched: (_: unknown) => void = () => noop
 
   @Input({ required: true }) id!: string
   @Input({ required: true }) label!: string
-  @Input() obrigatorio: boolean = false
-  @Input() placeholder: string = ''
-  @Input() autoResize: boolean = true
-  @Input() rows: number = 4
+  @Input() obrigatorio = false
+  @Input() placeholder = ''
+  @Input() autoResize = true
+  @Input() rows = 4
 
   get valor() {
     return this._valor
   }
 
-  set valor(v: any) {
+  set valor(v: unknown) {
     if (v !== this.valor) {
       this._valor = v
-      this.onChanged(v)
+      this.onChange(v)
     }
   }
 
-  writeValue(v: any): void {
+  writeValue(v: unknown): void {
     this.valor = v
   }
 
-  registerOnChange(fn: any): void {
-    this.onChanged = fn
+  registerOnChange(fn: () => void): void {
+    this.onChange = fn
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn
   }
 

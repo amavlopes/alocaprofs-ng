@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 
-import { catchError, concatMap, EMPTY, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, concatMap, EMPTY, finalize, forkJoin, noop, Observable, Subject, takeUntil, tap } from 'rxjs'
 
 import { ConfirmationService, MenuItem } from 'primeng/api'
 import { ButtonModule } from 'primeng/button'
@@ -41,10 +41,10 @@ import { DebounceClickDirective } from '../../../../shared/directives/debounce-c
     NenhumResultadoComponent,
     SelectComponent,
     ReactiveFormsModule,
-    DebounceClickDirective,
+    DebounceClickDirective
   ],
   providers: [ConfirmationService],
-  templateUrl: './lista-alocacao.component.html',
+  templateUrl: './lista-alocacao.component.html'
 })
 export class ListaAlocacaoComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder)
@@ -71,7 +71,7 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
   filtros = this.fb.group({
     diaSemana: this.fb.control(''),
     idCurso: this.fb.control(''),
-    idProfessor: this.fb.control(''),
+    idProfessor: this.fb.control('')
   })
 
   constructor() {
@@ -109,22 +109,22 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
       {
         campo: 'diaSemana',
         cabecalho: 'Dia',
-        largura: '8rem',
+        largura: '8rem'
       },
       {
         campo: 'inicio',
         cabecalho: 'Início',
-        largura: '8rem',
+        largura: '8rem'
       },
       {
         campo: 'fim',
         cabecalho: 'Fim',
-        largura: '8rem',
+        largura: '8rem'
       },
       {
         campo: 'professor',
-        cabecalho: 'Professor',
-      },
+        cabecalho: 'Professor'
+      }
     ]
   }
 
@@ -179,14 +179,14 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
     forkJoin({
       cursos: this.obterCursosHttp$(),
       professores: this.obterProfessoresHttp$(),
-      listaAlocacao: this.obterAlocacoesHttp$(),
+      listaAlocacao: this.obterAlocacoesHttp$()
     })
       .pipe(finalize(() => (this.estaCarregandoPagina = false)))
       .subscribe(
         ({
           cursos,
           professores,
-          listaAlocacao,
+          listaAlocacao
         }: {
           cursos: CursoI[]
           professores: ProfessorI[]
@@ -204,7 +204,7 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
     const parametros = {
       diaSemana: this.diaSemana.value,
       idCurso: this.idCurso.value,
-      idProfessor: this.idProfessor.value,
+      idProfessor: this.idProfessor.value
     }
 
     this.obterAlocacoesHttp$(parametros).subscribe((listaAlocacao: ItemListaAlocacaoI[]) => {
@@ -240,7 +240,7 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
       accept: () => {
         this.excluirAlocacao(alocacao.id)
       },
-      reject: () => {},
+      reject: noop
     })
   }
 

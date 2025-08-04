@@ -12,11 +12,12 @@ import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.compon
 import { CursoI } from '../../interfaces/curso.interface'
 import { CursoService } from '../../services/curso.service'
 import { FormularioCursoComponent } from '../../components/formulario-curso/formulario-curso.component'
+import { omitirPropriedade } from '../../../../shared/utilities/omitir-propriedade.utility'
 
 @Component({
   selector: 'pa-cadastro-curso',
   imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioCursoComponent, DialogComponent],
-  templateUrl: './cadastro-curso.component.html',
+  templateUrl: './cadastro-curso.component.html'
 })
 export class CadastroCursoComponent implements OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
@@ -42,7 +43,7 @@ export class CadastroCursoComponent implements OnDestroy {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Cursos', route: '/cursos' },
+      { icon: '', label: 'Cursos', route: '/cursos' }
     ]
   }
 
@@ -51,7 +52,7 @@ export class CadastroCursoComponent implements OnDestroy {
 
     this.operacaoPendente = true
 
-    const { id, ...novoCurso } = curso
+    const novoCurso = omitirPropriedade(curso, 'id')
 
     this.servicoCurso
       .criarCurso(novoCurso)
@@ -66,10 +67,10 @@ export class CadastroCursoComponent implements OnDestroy {
           return EMPTY
         })
       )
-      .subscribe((curso: CursoI) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Curso cadastrado com sucesso`,
+          summary: `Curso cadastrado com sucesso`
         })
 
         this.roteador.navigate(['/cursos'])

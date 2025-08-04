@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 
 import { PrimeNG } from 'primeng/config'
@@ -11,10 +11,10 @@ import { HeaderComponent } from './core/header/header.component'
   selector: 'pa-root',
   imports: [CommonModule, RouterOutlet, HeaderComponent, ToastComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.css'
 })
-export class AppComponent {
-  constructor(private primeng: PrimeNG) {}
+export class AppComponent implements OnInit {
+  private primeng = inject(PrimeNG)
 
   ngOnInit() {
     this.primeng.ripple.set(true)

@@ -1,9 +1,9 @@
 import { DepartamentoService } from './../../../departamentos/services/departamento.service'
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, inject, Input, OnInit, Output, OnDestroy } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 
-import { catchError, debounceTime, EMPTY, filter, finalize, Observable, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, debounceTime, EMPTY, filter, finalize, Subject, takeUntil, tap } from 'rxjs'
 
 import { ButtonModule } from 'primeng/button'
 
@@ -25,11 +25,11 @@ import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensag
     SelectComponent,
     ButtonModule,
     DialogComponent,
-    MensagemValidacaoComponent,
+    MensagemValidacaoComponent
   ],
-  templateUrl: './formulario-professor.component.html',
+  templateUrl: './formulario-professor.component.html'
 })
-export class FormularioProfessorComponent implements OnInit {
+export class FormularioProfessorComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder)
   private servicoDepartamento = inject(DepartamentoService)
   private salvar$ = new Subject<void>()
@@ -47,17 +47,17 @@ export class FormularioProfessorComponent implements OnInit {
     nome: this.fb.control('', [
       Validators.required,
       Validators.minLength(this.minLength),
-      Validators.maxLength(this.maxLength),
+      Validators.maxLength(this.maxLength)
     ]),
     cpf: this.fb.control('', [Validators.required]),
-    idDepartamento: this.fb.control('', [Validators.required]),
+    idDepartamento: this.fb.control('', [Validators.required])
   })
 
   @Input({ required: true }) id!: string
-  @Input({ required: true }) operacaoPendente: boolean = false
+  @Input({ required: true }) operacaoPendente = false
   @Input() professor!: ProfessorI
-  @Output() evtSalvar: EventEmitter<ProfessorI> = new EventEmitter()
-  @Output() evtLimpar: EventEmitter<void> = new EventEmitter()
+  @Output() evtSalvar = new EventEmitter<ProfessorI>()
+  @Output() evtLimpar = new EventEmitter<void>()
 
   get idProfessor(): FormControl {
     return this.formulario.get('idProfessor') as FormControl
@@ -127,7 +127,7 @@ export class FormularioProfessorComponent implements OnInit {
           id: Number(this.idProfessor.value),
           nome: this.nome.value,
           cpf: this.cpf.value,
-          idDepartamento: Number(this.idDepartamento.value),
+          idDepartamento: Number(this.idDepartamento.value)
         }
 
         this.evtSalvar.emit(professor)

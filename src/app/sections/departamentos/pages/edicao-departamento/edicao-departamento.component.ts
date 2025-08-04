@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, OnDestroy } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router'
 
@@ -23,11 +23,11 @@ import { LoaderComponent } from '../../../../shared/loader/loader.component'
     BreadcrumbComponent,
     FormularioDepartamentoComponent,
     DialogComponent,
-    LoaderComponent,
+    LoaderComponent
   ],
-  templateUrl: './edicao-departamento.component.html',
+  templateUrl: './edicao-departamento.component.html'
 })
-export class EdicaoDepartamentoComponent implements OnInit {
+export class EdicaoDepartamentoComponent implements OnInit, OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
   private roteador = inject(Router)
   private rotaAtiva = inject(ActivatedRoute)
@@ -59,7 +59,7 @@ export class EdicaoDepartamentoComponent implements OnInit {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Departamentos', route: '/departamentos' },
+      { icon: '', label: 'Departamentos', route: '/departamentos' }
     ]
   }
 
@@ -99,10 +99,10 @@ export class EdicaoDepartamentoComponent implements OnInit {
           return EMPTY
         })
       )
-      .subscribe((departamento: DepartamentoI) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Departamento atualizado com sucesso`,
+          summary: `Departamento atualizado com sucesso`
         })
 
         this.roteador.navigate(['/departamentos'])

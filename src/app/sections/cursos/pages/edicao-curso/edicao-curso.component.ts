@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 
 import { catchError, EMPTY, finalize, Observable, Subject, switchMap, takeUntil } from 'rxjs'
@@ -16,9 +16,9 @@ import { BreadcrumbComponent } from '../../../../shared/breadcrumb/breadcrumb.co
 @Component({
   selector: 'pa-edicao-curso',
   imports: [CommonModule, BreadcrumbComponent, FormularioCursoComponent, DialogComponent, LoaderComponent],
-  templateUrl: './edicao-curso.component.html',
+  templateUrl: './edicao-curso.component.html'
 })
-export class EdicaoCursoComponent {
+export class EdicaoCursoComponent implements OnInit, OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
   private roteador = inject(Router)
   private rotaAtiva = inject(ActivatedRoute)
@@ -50,7 +50,7 @@ export class EdicaoCursoComponent {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Cursos', route: '/cursos' },
+      { icon: '', label: 'Cursos', route: '/cursos' }
     ]
   }
 
@@ -90,10 +90,10 @@ export class EdicaoCursoComponent {
           return EMPTY
         })
       )
-      .subscribe((curso: CursoI) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Curso atualizado com sucesso`,
+          summary: `Curso atualizado com sucesso`
         })
 
         this.roteador.navigate(['/cursos'])
