@@ -227,11 +227,13 @@ export class ListaAlocacaoComponent implements OnInit, OnDestroy {
     this.roteador.navigate(['/alocacoes/cadastro'])
   }
 
-  editarAlocacao(alocacao: AlocacaoI) {
-    this.roteador.navigate(['/alocacoes/edicao', alocacao.id])
+  editarAlocacao(alocacao: unknown) {
+    this.roteador.navigate(['/alocacoes/edicao', (alocacao as AlocacaoI).id])
   }
 
-  confirmarExclusao(alocacao: ItemListaAlocacaoI) {
+  confirmarExclusao(alocacaoEvt: unknown) {
+    const alocacao = alocacaoEvt as ItemListaAlocacaoI
+
     this.servicoConfirmacao.confirm({
       closable: true,
       closeOnEscape: true,

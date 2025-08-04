@@ -144,11 +144,13 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
     this.roteador.navigate(['/departamentos/cadastro'])
   }
 
-  editarDepartamento(departamento: DepartamentoI) {
-    this.roteador.navigate(['/departamentos/edicao', departamento.id])
+  editarDepartamento(departamento: unknown) {
+    this.roteador.navigate(['/departamentos/edicao', (departamento as DepartamentoI).id])
   }
 
-  confirmarExclusao(departamento: DepartamentoI) {
+  confirmarExclusao(departamentoEvt: unknown) {
+    const departamento = departamentoEvt as DepartamentoI
+
     this.servicoConfirmacao.confirm({
       closable: true,
       closeOnEscape: true,

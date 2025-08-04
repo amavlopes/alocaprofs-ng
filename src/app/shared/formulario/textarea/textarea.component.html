@@ -1,5 +1,5 @@
 <div class="input_container">
-  <label [for]="id"
+  <label for="{{ id }}_label"
     >{{ label }}
     <span *ngIf="obrigatorio" class="campo_obrigatorio">*</span>
   </label>
@@ -8,13 +8,12 @@
     pTextarea
     class="campo_formulario"
     autocomplete="off"
-    [id]="id"
+    id="{{ id }}_textarea"
     [rows]="rows"
     [placeholder]="placeholder"
     [disabled]="estaDesabilitado"
     [(ngModel)]="valor"
     [autoResize]="autoResize"
-    (blur)="onTouched()"
   ></textarea>
 
   <ng-content></ng-content>

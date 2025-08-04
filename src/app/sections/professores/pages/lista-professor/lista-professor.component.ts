@@ -177,11 +177,13 @@ export class ListaProfessorComponent implements OnInit, OnDestroy {
     this.roteador.navigate(['/professores/cadastro'])
   }
 
-  editarProfessor(professor: ProfessorI) {
-    this.roteador.navigate(['/professores/edicao', professor.id])
+  editarProfessor(professor: unknown) {
+    this.roteador.navigate(['/professores/edicao', (professor as ProfessorI).id])
   }
 
-  confirmarExclusao(professor: ProfessorI) {
+  confirmarExclusao(professorEvt: unknown) {
+    const professor = professorEvt as ProfessorI
+
     this.servicoConfirmacao.confirm({
       closable: true,
       closeOnEscape: true,

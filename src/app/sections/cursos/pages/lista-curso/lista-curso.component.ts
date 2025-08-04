@@ -144,11 +144,13 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
     this.roteador.navigate(['/cursos/cadastro'])
   }
 
-  editarCurso(curso: CursoI) {
-    this.roteador.navigate(['/cursos/edicao', curso.id])
+  editarCurso(curso: unknown) {
+    this.roteador.navigate(['/cursos/edicao', (curso as CursoI).id])
   }
 
-  confirmarExclusao(curso: CursoI) {
+  confirmarExclusao(cursoEvt: unknown) {
+    const curso = cursoEvt as CursoI
+
     this.servicoConfirmacao.confirm({
       closable: true,
       closeOnEscape: true,
