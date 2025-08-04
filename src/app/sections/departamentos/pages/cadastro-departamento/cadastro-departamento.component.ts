@@ -12,11 +12,12 @@ import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.compon
 import { DepartamentoI } from '../../interfaces/departamento.interface'
 import { DepartamentoService } from './../../services/departamento.service'
 import { FormularioDepartamentoComponent } from '../../components/formulario-departamento/formulario-departamento.component'
+import { omitirPropriedade } from '../../../../shared/utilities/omitir-propriedade.utility'
 
 @Component({
   selector: 'pa-cadastro-departamento',
   imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioDepartamentoComponent, DialogComponent],
-  templateUrl: './cadastro-departamento.component.html',
+  templateUrl: './cadastro-departamento.component.html'
 })
 export class CadastroDepartamentoComponent implements OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
@@ -42,7 +43,7 @@ export class CadastroDepartamentoComponent implements OnDestroy {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Departamentos', route: '/departamentos' },
+      { icon: '', label: 'Departamentos', route: '/departamentos' }
     ]
   }
 
@@ -51,7 +52,7 @@ export class CadastroDepartamentoComponent implements OnDestroy {
 
     this.operacaoPendente = true
 
-    const { id, ...novoDepartamento } = departamento
+    const novoDepartamento = omitirPropriedade(departamento, 'id')
 
     this.servicoDepartamento
       .criarDepartamento(novoDepartamento)
@@ -66,10 +67,10 @@ export class CadastroDepartamentoComponent implements OnDestroy {
           return EMPTY
         })
       )
-      .subscribe((departamento: DepartamentoI) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Departamento cadastrado com sucesso`,
+          summary: `Departamento cadastrado com sucesso`
         })
 
         this.roteador.navigate(['/departamentos'])

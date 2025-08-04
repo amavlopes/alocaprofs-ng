@@ -58,10 +58,10 @@ export class FormularioAlocacaoComponent implements OnInit, OnDestroy {
   })
 
   @Input({ required: true }) id!: string
-  @Input({ required: true }) operacaoPendente: boolean = false
+  @Input({ required: true }) operacaoPendente = false
   @Input() alocacao!: AlocacaoI
-  @Output() evtSalvar: EventEmitter<AlocacaoI> = new EventEmitter()
-  @Output() evtLimpar: EventEmitter<void> = new EventEmitter()
+  @Output() evtSalvar = new EventEmitter<AlocacaoI>()
+  @Output() evtLimpar = new EventEmitter<void>()
 
   get idAlocacao(): FormControl {
     return this.formulario.get('idAlocacao') as FormControl

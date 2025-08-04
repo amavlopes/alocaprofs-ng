@@ -1,6 +1,6 @@
 import { ProfessorService } from './../../services/professor.service'
 import { CommonModule } from '@angular/common'
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, OnDestroy } from '@angular/core'
 
 import { catchError, EMPTY, finalize, Observable, Subject, switchMap, takeUntil } from 'rxjs'
 
@@ -16,9 +16,9 @@ import { ProfessorI } from '../../interfaces/professor.interface'
 @Component({
   selector: 'pa-edicao-professor',
   imports: [CommonModule, BreadcrumbComponent, FormularioProfessorComponent, DialogComponent, LoaderComponent],
-  templateUrl: './edicao-professor.component.html',
+  templateUrl: './edicao-professor.component.html'
 })
-export class EdicaoProfessorComponent implements OnInit {
+export class EdicaoProfessorComponent implements OnInit, OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
   private roteador = inject(Router)
   private rotaAtiva = inject(ActivatedRoute)
@@ -50,7 +50,7 @@ export class EdicaoProfessorComponent implements OnInit {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Professores', route: '/professores' },
+      { icon: '', label: 'Professores', route: '/professores' }
     ]
   }
 
@@ -90,10 +90,10 @@ export class EdicaoProfessorComponent implements OnInit {
           return EMPTY
         })
       )
-      .subscribe((professor: ProfessorI) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Professor atualizado com sucesso`,
+          summary: `Professor atualizado com sucesso`
         })
 
         this.roteador.navigate(['/professores'])

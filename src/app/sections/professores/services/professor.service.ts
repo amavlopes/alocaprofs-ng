@@ -11,7 +11,7 @@ import { criarHttpParams } from '../../../shared/utilities/criar-http-params.uti
   providedIn: 'root',
 })
 export class ProfessorService {
-  url: string = 'http://localhost:7000/professors'
+  url = 'http://localhost:7000/professors'
 
   private http = inject(HttpClient)
 

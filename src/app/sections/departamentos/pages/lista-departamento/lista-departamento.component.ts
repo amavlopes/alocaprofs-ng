@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 
-import { catchError, concatMap, EMPTY, finalize, Observable, of, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, concatMap, EMPTY, finalize, noop, Observable, of, Subject, takeUntil, tap } from 'rxjs'
 
 import { ButtonModule } from 'primeng/button'
 import { ConfirmationService, MenuItem } from 'primeng/api'
@@ -33,10 +33,10 @@ import { DebounceClickDirective } from '../../../../shared/directives/debounce-c
     LoaderComponent,
     TabelaComponent,
     NenhumResultadoComponent,
-    DebounceClickDirective,
+    DebounceClickDirective
   ],
   providers: [ConfirmationService],
-  templateUrl: './lista-departamento.component.html',
+  templateUrl: './lista-departamento.component.html'
 })
 export class ListaDepartamentoComponent implements OnDestroy, OnInit {
   private fb = inject(FormBuilder)
@@ -58,7 +58,7 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
   colunas: Coluna[] = []
   filtros = this.fb.group({
     nome: this.fb.control(''),
-    departmentoId: this.fb.control(''),
+    departmentoId: this.fb.control('')
   })
 
   constructor() {
@@ -89,16 +89,16 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
       {
         campo: 'id',
         cabecalho: 'Código',
-        largura: '7rem',
+        largura: '7rem'
       },
       {
         campo: 'nome',
-        cabecalho: 'Nome',
-      },
+        cabecalho: 'Nome'
+      }
     ]
   }
 
-  obterDepartamentosHttp$(termo: string = ''): Observable<DepartamentoI[]> {
+  obterDepartamentosHttp$(termo = ''): Observable<DepartamentoI[]> {
     return this.servicoDepartamento.obterDepartamentos(termo).pipe(
       catchError((e) => {
         this.mensagemErro = e.message
@@ -157,7 +157,7 @@ export class ListaDepartamentoComponent implements OnDestroy, OnInit {
       accept: () => {
         this.excluirDepartamento(departamento.id)
       },
-      reject: () => {},
+      reject: noop
     })
   }
 

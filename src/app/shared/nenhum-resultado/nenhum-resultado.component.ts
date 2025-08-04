@@ -9,6 +9,6 @@ import { Component, Input } from '@angular/core'
 })
 export class NenhumResultadoComponent {
   @Input({ required: true }) id!: string
-  @Input() titulo: string = 'Nenhum resultado encontrado'
-  @Input() subtitulo: string = ''
+  @Input() titulo = 'Nenhum resultado encontrado'
+  @Input() subtitulo = ''
 }

@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Router } from '@angular/router'
 
-import { catchError, concatMap, EMPTY, finalize, Observable, of, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, concatMap, EMPTY, finalize, noop, Observable, of, Subject, takeUntil, tap } from 'rxjs'
 
 import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.component'
 import { ButtonModule } from 'primeng/button'
@@ -33,10 +33,10 @@ import { DebounceClickDirective } from '../../../../shared/directives/debounce-c
     LoaderComponent,
     TabelaComponent,
     NenhumResultadoComponent,
-    DebounceClickDirective,
+    DebounceClickDirective
   ],
   providers: [ConfirmationService],
-  templateUrl: './lista-curso.component.html',
+  templateUrl: './lista-curso.component.html'
 })
 export class ListaCursoComponent implements OnDestroy, OnInit {
   private fb = inject(FormBuilder)
@@ -58,7 +58,7 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
   colunas: Coluna[] = []
   filtros = this.fb.group({
     nome: this.fb.control(''),
-    departmentoId: this.fb.control(''),
+    departmentoId: this.fb.control('')
   })
 
   constructor() {
@@ -89,16 +89,16 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
       {
         campo: 'id',
         cabecalho: 'Código',
-        largura: '7rem',
+        largura: '7rem'
       },
       {
         campo: 'nome',
-        cabecalho: 'Nome',
-      },
+        cabecalho: 'Nome'
+      }
     ]
   }
 
-  obterCursosHttp$(termo: string = ''): Observable<CursoI[]> {
+  obterCursosHttp$(termo = ''): Observable<CursoI[]> {
     return this.servicoCurso.obterCursos(termo).pipe(
       catchError((e) => {
         this.mensagemErro = e.message
@@ -157,7 +157,7 @@ export class ListaCursoComponent implements OnDestroy, OnInit {
       accept: () => {
         this.excluirCurso(curso.id)
       },
-      reject: () => {},
+      reject: noop
     })
   }
 

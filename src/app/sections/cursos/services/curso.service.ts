@@ -10,7 +10,7 @@ import { CursoResponseI } from '../interfaces/response/curso-response.interface'
   providedIn: 'root',
 })
 export class CursoService {
-  url: string = 'http://localhost:7000/courses'
+  url = 'http://localhost:7000/courses'
 
   private http = inject(HttpClient)
 

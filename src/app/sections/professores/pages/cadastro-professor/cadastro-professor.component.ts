@@ -12,11 +12,12 @@ import { DialogComponent } from '../../../../shared/dialogs/dialog/dialog.compon
 import { FormularioProfessorComponent } from '../../components/formulario-professor/formulario-professor.component'
 import { ProfessorI } from '../../interfaces/professor.interface'
 import { ProfessorService } from '../../services/professor.service'
+import { omitirPropriedade } from '../../../../shared/utilities/omitir-propriedade.utility'
 
 @Component({
   selector: 'pa-cadastro-professor',
   imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioProfessorComponent, DialogComponent],
-  templateUrl: './cadastro-professor.component.html',
+  templateUrl: './cadastro-professor.component.html'
 })
 export class CadastroProfessorComponent implements OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
@@ -42,7 +43,7 @@ export class CadastroProfessorComponent implements OnDestroy {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Professores', route: '/professores' },
+      { icon: '', label: 'Professores', route: '/professores' }
     ]
   }
 
@@ -51,7 +52,7 @@ export class CadastroProfessorComponent implements OnDestroy {
 
     this.operacaoPendente = true
 
-    const { id, ...novoProfessor } = professor
+    const novoProfessor = omitirPropriedade(professor, 'id')
 
     this.servicoProfessor
       .criarProfessor(novoProfessor)
@@ -65,10 +66,10 @@ export class CadastroProfessorComponent implements OnDestroy {
           return EMPTY
         })
       )
-      .subscribe((professor: ProfessorI) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Professor cadastrado com sucesso`,
+          summary: `Professor cadastrado com sucesso`
         })
 
         this.roteador.navigate(['/professores'])

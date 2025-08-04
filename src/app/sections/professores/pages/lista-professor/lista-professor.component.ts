@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 
-import { catchError, concatMap, EMPTY, finalize, forkJoin, Observable, Subject, takeUntil, tap } from 'rxjs'
+import { catchError, concatMap, EMPTY, finalize, forkJoin, noop, Observable, Subject, takeUntil, tap } from 'rxjs'
 
 import { ConfirmationService, MenuItem } from 'primeng/api'
 import { ButtonModule } from 'primeng/button'
@@ -38,10 +38,10 @@ import { DebounceClickDirective } from '../../../../shared/directives/debounce-c
     SelectComponent,
     ReactiveFormsModule,
     InputTextComponent,
-    DebounceClickDirective,
+    DebounceClickDirective
   ],
   providers: [ConfirmationService],
-  templateUrl: './lista-professor.component.html',
+  templateUrl: './lista-professor.component.html'
 })
 export class ListaProfessorComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder)
@@ -64,7 +64,7 @@ export class ListaProfessorComponent implements OnInit, OnDestroy {
   colunas: Coluna[] = []
   filtros = this.fb.group({
     nome: this.fb.control(''),
-    departmentoId: this.fb.control(''),
+    departmentoId: this.fb.control('')
   })
 
   constructor() {
@@ -98,16 +98,16 @@ export class ListaProfessorComponent implements OnInit, OnDestroy {
       {
         campo: 'id',
         cabecalho: 'Código',
-        largura: '7rem',
+        largura: '7rem'
       },
       {
         campo: 'nome',
-        cabecalho: 'Nome',
+        cabecalho: 'Nome'
       },
       {
         campo: 'cpf',
-        cabecalho: 'CPF',
-      },
+        cabecalho: 'CPF'
+      }
     ]
   }
 
@@ -141,7 +141,7 @@ export class ListaProfessorComponent implements OnInit, OnDestroy {
   carregarPagina() {
     forkJoin({
       professores: this.obterProfessoresHttp$(),
-      departamentos: this.obterDepartamentosHttp$(),
+      departamentos: this.obterDepartamentosHttp$()
     })
       .pipe(finalize(() => (this.estaCarregandoPagina = false)))
       .subscribe(({ professores, departamentos }: { professores: ProfessorI[]; departamentos: DepartamentoI[] }) => {
@@ -154,7 +154,7 @@ export class ListaProfessorComponent implements OnInit, OnDestroy {
   atualizarLista(): void {
     const parametros = {
       nome: this.nome.value,
-      idDepartamento: +this.departmentoId.value,
+      idDepartamento: +this.departmentoId.value
     }
 
     this.obterProfessoresHttp$(parametros).subscribe((professores: ProfessorI[]) => {
@@ -190,7 +190,7 @@ export class ListaProfessorComponent implements OnInit, OnDestroy {
       accept: () => {
         this.excluirProfessor(professor.id)
       },
-      reject: () => {},
+      reject: noop
     })
   }
 

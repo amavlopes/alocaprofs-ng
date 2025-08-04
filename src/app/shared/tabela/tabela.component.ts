@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 
+import { LazyLoadEvent } from 'primeng/api'
 import { ButtonModule } from 'primeng/button'
 import { TableModule } from 'primeng/table'
 
@@ -10,29 +11,29 @@ import { Coluna } from './interfaces/coluna.interface'
   selector: 'pa-tabela',
   imports: [CommonModule, TableModule, ButtonModule],
   templateUrl: './tabela.component.html',
-  styleUrl: './tabela.component.css',
+  styleUrl: './tabela.component.css'
 })
 export class TabelaComponent {
   @Input({ required: true }) id!: string
-  @Input({ required: true }) items!: Array<any>
+  @Input({ required: true }) items!: unknown[]
   @Input({ required: true }) colunas!: Coluna[]
-  @Input() linhasExpansiveis: boolean = false
-  @Input() indiceRegistro = 0
-  @Input() registrosPorPagina = 10
+  @Input() linhasExpansiveis = false
+  @Input() indiceRegistro: undefined | number = 0
+  @Input() registrosPorPagina: undefined | number = 10
 
-  @Output() aoClicarEmEditar = new EventEmitter<any>()
-  @Output() aoClicarEmExcluir = new EventEmitter<any>()
+  @Output() aoClicarEmEditar = new EventEmitter<unknown>()
+  @Output() aoClicarEmExcluir = new EventEmitter<unknown>()
   @Output() indiceRegistroChange = new EventEmitter<number>()
 
-  editar(item: any): void {
+  editar(item: unknown): void {
     this.aoClicarEmEditar.emit(item)
   }
 
-  excluir(item: any): void {
+  excluir(item: unknown): void {
     this.aoClicarEmExcluir.emit(item)
   }
 
-  aoMudarDePagina(event: any) {
+  aoMudarDePagina(event: LazyLoadEvent) {
     this.indiceRegistro = event.first
     this.registrosPorPagina = event.rows
 

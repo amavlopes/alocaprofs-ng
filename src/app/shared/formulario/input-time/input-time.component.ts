@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common'
 import { Component, forwardRef, Input } from '@angular/core'
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 import { InputMaskModule } from 'primeng/inputmask'
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'
+import { noop } from 'rxjs'
 
 @Component({
   selector: 'pa-input-time',
@@ -11,44 +12,44 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputTimeComponent),
-      multi: true,
-    },
+      multi: true
+    }
   ],
-  templateUrl: './input-time.component.html',
+  templateUrl: './input-time.component.html'
 })
 export class InputTimeComponent implements ControlValueAccessor {
-  private _valor: any
+  private _valor: unknown
 
   estaDesabilitado!: boolean
-  OnChange: any = () => {}
-  OnTouched: any = () => {}
+  onChange: (_: unknown) => void = () => noop
+  onTouched: (_: unknown) => void = () => noop
 
   @Input({ required: true }) id!: string
   @Input({ required: true }) label!: string
-  @Input() placeholder: string = ''
-  @Input() obrigatorio: boolean = false
+  @Input() placeholder = ''
+  @Input() obrigatorio = false
 
-  get valor(): any {
+  get valor() {
     return this._valor
   }
 
-  set valor(v: any) {
+  set valor(v: unknown) {
     if (v !== this._valor) {
       this._valor = v
-      this.OnChange(v)
+      this.onChange(v)
     }
   }
 
-  writeValue(v: any): void {
+  writeValue(v: unknown): void {
     this.valor = v
   }
 
-  registerOnChange(fn: any): void {
-    this.OnChange = fn
+  registerOnChange(fn: () => void): void {
+    this.onChange = fn
   }
 
-  registerOnTouched(fn: any): void {
-    this.OnTouched = fn
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn
   }
 
   setDisabledState?(estaDesabilitado: boolean): void {

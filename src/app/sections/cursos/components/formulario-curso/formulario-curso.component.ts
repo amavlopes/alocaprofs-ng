@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, inject, Input, OnInit, Output, OnDestroy } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 
 import { debounceTime, filter, Subject, takeUntil, tap } from 'rxjs'
@@ -25,7 +25,7 @@ import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensag
   ],
   templateUrl: './formulario-curso.component.html',
 })
-export class FormularioCursoComponent implements OnInit {
+export class FormularioCursoComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder)
   private salvar$ = new Subject<void>()
   private destroy$ = new Subject<void>()
@@ -43,10 +43,10 @@ export class FormularioCursoComponent implements OnInit {
   })
 
   @Input({ required: true }) id!: string
-  @Input({ required: true }) operacaoPendente: boolean = false
+  @Input({ required: true }) operacaoPendente = false
   @Input() curso!: CursoI
-  @Output() evtSalvar: EventEmitter<CursoI> = new EventEmitter()
-  @Output() evtLimpar: EventEmitter<void> = new EventEmitter()
+  @Output() evtSalvar = new EventEmitter<CursoI>()
+  @Output() evtLimpar = new EventEmitter<void>()
 
   get idCurso(): FormControl {
     return this.formulario.get('idCurso') as FormControl

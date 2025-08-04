@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 
 import { catchError, EMPTY, finalize, Observable, Subject, switchMap, takeUntil } from 'rxjs'
@@ -16,9 +16,9 @@ import { AlocacaoI } from '../../interfaces/alocacao.interface'
 @Component({
   selector: 'pa-edicao-alocacao',
   imports: [CommonModule, BreadcrumbComponent, FormularioAlocacaoComponent, DialogComponent, LoaderComponent],
-  templateUrl: './edicao-alocacao.component.html',
+  templateUrl: './edicao-alocacao.component.html'
 })
-export class EdicaoAlocacaoComponent implements OnInit {
+export class EdicaoAlocacaoComponent implements OnInit, OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
   private roteador = inject(Router)
   private rotaAtiva = inject(ActivatedRoute)
@@ -50,7 +50,7 @@ export class EdicaoAlocacaoComponent implements OnInit {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Alocações', route: '/alocacoes' },
+      { icon: '', label: 'Alocações', route: '/alocacoes' }
     ]
   }
 
@@ -90,10 +90,10 @@ export class EdicaoAlocacaoComponent implements OnInit {
           return EMPTY
         })
       )
-      .subscribe((_) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Alocação atualizada com sucesso`,
+          summary: `Alocação atualizada com sucesso`
         })
 
         this.roteador.navigate(['/alocacoes'])

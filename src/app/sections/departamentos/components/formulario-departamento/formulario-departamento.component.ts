@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, inject, Input, OnInit, Output, OnDestroy } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 
 import { ButtonModule } from 'primeng/button'
@@ -24,7 +24,7 @@ import { MensagemValidacaoComponent } from '../../../../shared/formulario/mensag
   ],
   templateUrl: './formulario-departamento.component.html',
 })
-export class FormularioDepartamentoComponent implements OnInit {
+export class FormularioDepartamentoComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder)
   private salvar$ = new Subject<void>()
   private destroy$ = new Subject<void>()
@@ -42,10 +42,10 @@ export class FormularioDepartamentoComponent implements OnInit {
   })
 
   @Input({ required: true }) id!: string
-  @Input({ required: true }) operacaoPendente: boolean = false
+  @Input({ required: true }) operacaoPendente = false
   @Input() departamento!: DepartamentoI
-  @Output() evtSalvar: EventEmitter<DepartamentoI> = new EventEmitter()
-  @Output() evtLimpar: EventEmitter<void> = new EventEmitter()
+  @Output() evtSalvar = new EventEmitter<DepartamentoI>()
+  @Output() evtLimpar = new EventEmitter<void>()
 
   get idDepartamento(): FormControl {
     return this.formulario.get('idDepartamento') as FormControl

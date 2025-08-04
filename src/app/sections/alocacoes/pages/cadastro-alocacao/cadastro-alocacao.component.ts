@@ -1,3 +1,4 @@
+import { omitirPropriedade } from './../../../../shared/utilities/omitir-propriedade.utility'
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
@@ -14,7 +15,7 @@ import { AlocacaoI } from '../../interfaces/alocacao.interface'
 @Component({
   selector: 'pa-cadastro-alocacao',
   imports: [CommonModule, ReactiveFormsModule, BreadcrumbComponent, FormularioAlocacaoComponent, DialogComponent],
-  templateUrl: './cadastro-alocacao.component.html',
+  templateUrl: './cadastro-alocacao.component.html'
 })
 export class CadastroAlocacaoComponent implements OnDestroy {
   private servicoMensagem: MessageService = inject(MessageService)
@@ -40,7 +41,7 @@ export class CadastroAlocacaoComponent implements OnDestroy {
   definirBreadcrumb(): void {
     this.items = [
       { icon: 'pi pi-home', route: '/' },
-      { icon: '', label: 'Alocações', route: '/alocacoes' },
+      { icon: '', label: 'Alocações', route: '/alocacoes' }
     ]
   }
 
@@ -49,7 +50,7 @@ export class CadastroAlocacaoComponent implements OnDestroy {
 
     this.operacaoPendente = true
 
-    const { id, ...novoProfessor } = professor
+    const novoProfessor = omitirPropriedade(professor, 'id')
 
     this.servicoAlocacao
       .criarAlocacao(novoProfessor)
@@ -63,10 +64,10 @@ export class CadastroAlocacaoComponent implements OnDestroy {
           return EMPTY
         })
       )
-      .subscribe((_) => {
+      .subscribe(() => {
         this.servicoMensagem.add({
           severity: 'success',
-          summary: `Alocação cadastrada com sucesso`,
+          summary: `Alocação cadastrada com sucesso`
         })
 
         this.roteador.navigate(['/alocacoes'])

@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http'
 
-export const criarHttpParams = function (query: { [key: string]: any }): HttpParams {
+export const criarHttpParams = function (query: Record<string, unknown>): HttpParams {
   let params = new HttpParams()
 
   Object.entries(query).forEach(([key, value]) => {
