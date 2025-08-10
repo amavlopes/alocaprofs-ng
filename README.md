@@ -75,4 +75,27 @@ Antes de rodar esta aplicação Angular, siga os passos abaixo para executar a A
 
 ---
 
+## 🧪 Executando testes com Cypress
+
+#### 1. Com interface
+
+##### Após executar a API, execute o comando:
+
+```bash
+  npm run cy:open
+```
+
+##### Escolha o browser, depois "Start E2E Testing...' e escolha o spec da lista. (exemplo: curso-crud.cy.ts)
+
+#### 2. Em modo headless
+
+##### Execute o comado abaixo, com um dos arquivos em 'cypress/e2e':
+
+```bash
+  # Exemplo: npm run cy:run -- cypress/e2e/curso-crud.cy.ts
+  npm run cy:spec -- <CAMINHO_ARQUIVO_CYPRESS>
+```
+
+---
+
 ⌨️ com ❤️ por [Amanda Avelino](https://github.com/amavlopes) 😊
