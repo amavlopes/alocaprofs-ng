@@ -22,8 +22,6 @@ describe('Cadastro de Professor', () => {
   let departamentoNome: string
 
   beforeEach(() => {
-    cy.visit('/professores/cadastro')
-
     cy.request('POST', `${apiUrlEnv}/departments`, {
       name: 'Departamento Cypress'
     })
@@ -32,6 +30,8 @@ describe('Cadastro de Professor', () => {
         departamentoId = department.id
         departamentoNome = department.name
       })
+
+    cy.visit('/professores/cadastro')
   })
 
   afterEach(() => {
